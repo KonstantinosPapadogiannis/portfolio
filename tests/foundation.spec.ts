@@ -1,0 +1,180 @@
+import { test, expect, html, languageGroup } from "./fixtures";
+
+test("English renders at / with lang=en", async ({ page }) => {
+  await page.goto("/");
+  await expect(html(page)).toHaveAttribute("lang", "en");
+  await expect(
+    page.getByRole("link", { name: "K. Papadogiannis, home" }),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Backend systems, distributed software, and cloud infrastructure.",
+  );
+});
+
+test("Greek renders at /el with lang=el", async ({ page }) => {
+  await page.goto("/el");
+  await expect(html(page)).toHaveAttribute("lang", "el");
+  await expect(
+    page.getByRole("link", {
+      name: "K. Papadogiannis, αρχική σελίδα",
+    }),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Συστήματα backend, κατανεμημένο λογισμικό και υποδομές cloud.",
+  );
+});
+
+test("skip link is the first tab stop and moves focus to main", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.keyboard.press("Tab");
+  const skip = page.getByRole("link", { name: "Skip to content" });
+  await expect(skip).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/#main-content$/);
+});
+
+test("language switcher is a labelled group marking the current language", async ({
+  page,
+}) => {
+  await page.goto("/");
+  // One switcher in the header, one in the footer, built the same way.
+  const groups = page.getByRole("group", { name: "Language" });
+  await expect(groups).toHaveCount(2);
+
+  for (const group of await groups.all()) {
+    const english = group.getByRole("link", { name: "English" });
+    const greek = group.getByRole("link", { name: "Ελληνικά" });
+
+    await expect(english).toHaveAttribute("aria-current", "true");
+    await expect(english).toHaveAttribute("lang", "en");
+    await expect(greek).not.toHaveAttribute("aria-current");
+    await expect(greek).toHaveAttribute("lang", "el");
+    await expect(greek).toHaveAttribute("hreflang", "el");
+    await expect(greek).toHaveAttribute("href", "/el");
+    await expect(greek).toHaveText("ΕΛ");
+  }
+});
+
+test("language links point at the canonical URL of the same page", async ({
+  page,
+}) => {
+  const cases = [
+    ["/", "/", "/el"],
+    ["/el", "/", "/el"],
+    ["/resume", "/resume", "/el/resume"],
+    ["/el/resume", "/resume", "/el/resume"],
+    ["/work/thesis", "/work/thesis", "/el/work/thesis"],
+    ["/el/work/thesis", "/work/thesis", "/el/work/thesis"],
+  ];
+  for (const [path, en, el] of cases) {
+    await page.goto(path);
+    const group = languageGroup(page);
+    await expect(group.getByRole("link", { name: "English" })).toHaveAttribute("href", en);
+    await expect(group.getByRole("link", { name: "Ελληνικά" })).toHaveAttribute("href", el);
+  }
+});
+
+test("the URL alone decides the language", async ({ browser }) => {
+  const context = await browser.newContext({ locale: "el-GR" });
+  const page = await context.newPage();
+
+  // A Greek browser opening the English URL, after visiting the Greek site.
+  await page.goto("/el");
+  const response = await page.goto("/");
+  expect(response?.request().redirectedFrom()).toBeNull();
+  await expect(page).toHaveURL(/127\.0\.0\.1:3100\/$/);
+  await expect(html(page)).toHaveAttribute("lang", "en");
+  expect(await context.cookies()).toEqual([]);
+
+  await context.close();
+});
+
+test("resume page links the existing PDF in both languages", async ({
+  page,
+  request,
+}) => {
+  for (const [path, title] of [
+    ["/resume", "Résumé"],
+    ["/el/resume", "Βιογραφικό"],
+  ] as const) {
+    await page.goto(path);
+    await expect(page.getByRole("heading", { level: 1, name: title })).toBeVisible();
+    const pdfLinks = page.locator('main a[href$=".pdf"]');
+    await expect(pdfLinks).toHaveCount(2);
+    await expect(pdfLinks.last()).toHaveAttribute("download", "");
+  }
+
+  const pdf = await request.get("/downloads/konstantinos-papadogiannis-cv.pdf");
+  expect(pdf.status()).toBe(200);
+  expect(pdf.headers()["content-type"]).toBe("application/pdf");
+});
+
+test("theme toggle switches data-theme", async ({ page }) => {
+  await page.goto("/");
+  await expect(html(page)).toHaveAttribute("data-theme", "light");
+  await page.getByRole("button", { name: "Toggle theme" }).click();
+  await expect(html(page)).toHaveAttribute("data-theme", "dark");
+  await page.getByRole("button", { name: "Toggle theme" }).click();
+  await expect(html(page)).toHaveAttribute("data-theme", "light");
+});
+
+test("QA route is not indexed", async ({ page }) => {
+  await page.goto("/qa/typography");
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    "content",
+    "noindex, nofollow",
+  );
+});
+
+test("the thesis case study is indexable", async ({ page }) => {
+  for (const path of ["/work/thesis", "/el/work/thesis"]) {
+    await page.goto(path);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      "content",
+      "index, follow",
+    );
+  }
+});
+
+test("canonical and alternate URLs use the production domain", async ({ page }) => {
+  for (const path of ["/", "/el", "/resume", "/work/thesis", "/el/work/thesis"]) {
+    const response = await page.goto(path);
+    const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
+    expect(new URL(canonical!).origin).toBe("https://kpapadogiannis.dev");
+    const alternates = page.locator('link[rel="alternate"][hreflang]');
+    await expect(alternates).toHaveCount(3);
+    for (const alternate of await alternates.all()) {
+      expect(new URL((await alternate.getAttribute("href"))!).origin).toBe(
+        "https://kpapadogiannis.dev",
+      );
+    }
+    // No second list in the headers, on the host that happened to serve it.
+    expect(response!.headers().link ?? "").not.toContain('rel="alternate"');
+  }
+});
+
+test("sitemap lists each language version with the canonical URLs", async ({
+  page,
+  request,
+}) => {
+  const xml = await (await request.get("/sitemap.xml")).text();
+  const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
+  expect(locs).toEqual([
+    "/",
+    "/el",
+    "/resume",
+    "/el/resume",
+    "/work/thesis",
+    "/el/work/thesis",
+  ]);
+  expect(xml).not.toContain("/qa/");
+  expect(xml).not.toMatch(/href="[^"]*\/el\/"/);
+
+  for (const path of ["/el", "/el/resume", "/el/work/thesis"]) {
+    await page.goto(path);
+    const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
+    expect(new URL(canonical!).pathname).toBe(path);
+  }
+});

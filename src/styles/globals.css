@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+/* Contrast ratios for every pairing below are recorded in
+   docs/design-system-extracted.md §3. */
+
+:root {
+  --background: #f3f1eb;
+  --surface: #fbfaf6;
+  --ink: #15181d;
+  --muted: #696b69;
+  --border: #d7d3cb;
+  --steel: #52708a;
+  --navy: #263747;
+  --navy-hover: #324a60;
+  --navy-active: #1c2a36;
+  --on-navy: #f3f1eb;
+  --focus-ring: #52708a;
+
+  /* Strokes and nodes of the hero motif and the architecture diagram. */
+  --diagram: #263747;
+
+  /* Footer: the deep navy band that closes every page. */
+  --footer: #263747;
+  --footer-ink: #f3f1eb;
+  --footer-text: #e7e4dd;
+  --footer-soft: #c9cfd3;
+  --footer-muted: #a3aeb7;
+  --footer-rule: #485969;
+  --footer-focus: #c9cfd3;
+
+  /* Space kept above a section when it is reached through an in-page link. */
+  --anchor-offset: 1.5rem;
+
+  color-scheme: light;
+}
+
+/* Deep graphite rather than black, warm near-white text, and a lighter,
+   desaturated steel so links and focus rings hold up on the dark ground. */
+:root[data-theme="dark"] {
+  --background: #181a1d;
+  --surface: #1f2226;
+  --ink: #ebe8e1;
+  --muted: #a19f99;
+  --border: #2f3237;
+  --steel: #8fa9bf;
+  --navy: #435d76;
+  --navy-hover: #4b6882;
+  --navy-active: #3a5167;
+  --on-navy: #f3f1eb;
+  --focus-ring: #8fa9bf;
+
+  --diagram: #9fb1c1;
+
+  /* A deeper navy than the light footer, so the band still reads as navy
+     next to the graphite page rather than as a lighter slab. */
+  --footer: #1d2834;
+  --footer-ink: #f3f1eb;
+  --footer-text: #e7e4dd;
+  --footer-soft: #c9cfd3;
+  --footer-muted: #9aa6b0;
+  --footer-rule: #33414f;
+  --footer-focus: #c9cfd3;
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-steel: var(--steel);
+  --color-navy: var(--navy);
+  --color-navy-hover: var(--navy-hover);
+  --color-navy-active: var(--navy-active);
+  --color-on-navy: var(--on-navy);
+  --color-diagram: var(--diagram);
+  --color-footer: var(--footer);
+  --color-footer-ink: var(--footer-ink);
+  --color-footer-text: var(--footer-text);
+  --color-footer-soft: var(--footer-soft);
+  --color-footer-muted: var(--footer-muted);
+  --color-footer-rule: var(--footer-rule);
+
+  /* Body text and metadata labels follow the language of the element. */
+  --font-sans: var(--type-text);
+  --font-label: var(--type-label);
+  /* Code and technical identifiers: always IBM Plex Mono. */
+  --font-mono: var(--font-plex-mono);
+  /* The name in the header and footer keeps one typeface in both languages. */
+  --font-brand: var(--font-geist);
+}
+
+@layer base {
+  /* Typeface per language. Applied to every element carrying a lang
+     attribute, so a Greek fragment inside an English page (or the reverse)
+     is set in its own typeface. Greek must always be marked with lang="el". */
+  [lang|="en"] {
+    --type-text: var(--font-geist);
+    --type-label: var(--font-plex-mono);
+  }
+
+  [lang|="el"] {
+    --type-text: var(--font-inter);
+    --type-label: var(--font-inter);
+  }
+
+  [lang] {
+    font-family: var(--type-text), sans-serif;
+  }
+
+  /* The page canvas: #F3F1EB in light, as sampled from the references.
+     Set on the root too, so the whole viewport (overscroll included) takes
+     it directly rather than through the body background. Sections stay
+     transparent; only the architecture panel and the footer have fills. */
+  html {
+    background-color: var(--background);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--ink);
+    /* Long Greek compounds at display sizes must wrap rather than widen the
+       page on narrow screens. */
+    overflow-wrap: break-word;
+  }
+
+  section[id] {
+    scroll-margin-top: var(--anchor-offset);
+  }
+
+  ::selection {
+    background: var(--steel);
+    color: var(--surface);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Separators drawn as CSS generated content, each with the punctuation a
+   screen reader should read in its place: "About / Background" is read
+   "About, Background". A hidden ", " next to the glyph would be read
+   "About , Background", because the browser puts a space before any text
+   taken out of the flow. Browsers that do not support alternative text for
+   generated content show the glyph and read it as it is. */
+@layer components {
+  .separator-slash::before {
+    content: "/";
+  }
+
+  .separator-dot::before {
+    content: "·";
+  }
+
+  @supports (content: "x" / "y") {
+    .separator-slash::before {
+      content: "/" / ",";
+    }
+
+    .separator-dot::before {
+      content: "·" / ",";
+    }
+  }
+}
+
+/* Scroll reveal (components/ui/reveal.tsx). The state attribute is only set
+   by the script, so without it, with reduced motion or in print, everything
+   stays as the server rendered it. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  [data-reveal-state="pending"] {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  [data-reveal-state="shown"] {
+    transition:
+      opacity 520ms cubic-bezier(0.2, 0.6, 0.2, 1),
+      transform 520ms cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal-state] {
+    transition-delay: 0s !important;
+  }
+}

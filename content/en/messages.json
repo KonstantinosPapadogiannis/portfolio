@@ -1,0 +1,800 @@
+{
+  "site": {
+    "name": "Konstantinos Papadogiannis"
+  },
+  "nav": {
+    "primary": "Main",
+    "home": "K. Papadogiannis, home",
+    "menu": "Menu",
+    "work": "Work",
+    "about": "About",
+    "resume": "Résumé",
+    "contact": "Contact",
+    "skipToContent": "Skip to content"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "theme": {
+    "toggle": "Toggle theme"
+  },
+  "home": {
+    "title": "Backend, distributed systems and cloud",
+    "description": "Recent Informatics & Telematics graduate in Athens, focused on backend engineering, distributed systems and cloud infrastructure. Selected academic engineering work and the technical decisions behind it."
+  },
+  "hero": {
+    "name": "Konstantinos Papadogiannis",
+    "location": "Athens, GR",
+    "headline": "Backend systems,<br></br>distributed software,<br></br>and cloud infrastructure.",
+    "intro": "Recent Informatics & Telematics graduate focused on backend engineering, distributed systems and cloud infrastructure. This portfolio documents selected academic engineering work and the technical decisions behind it.",
+    "selectedWork": "Selected work",
+    "resume": "Résumé",
+    "resumeNote": " (PDF)",
+    "motifCaption": "Distributed ledger / system topology"
+  },
+  "work": {
+    "label": "Selected work"
+  },
+  "thesis": {
+    "kind": "Bachelor's Thesis",
+    "grade": "Grade",
+    "title": "Distributed subsidy management<br></br>on Hyperledger Fabric",
+    "body": "The application layer of a research prototype for EU agricultural subsidies in Greece, run by seven organisations on a permissioned Hyperledger Fabric network. Go chaincodes and services, React/TypeScript portals, farmers who hold their own keys and sign in the browser, and private data shared only with the organisations that need it.",
+    "tagsLabel": "Technologies",
+    "cta": "Read case study",
+    "facts": {
+      "privateData": {
+        "label": "Private data",
+        "value": "Five collections on one channel. Tax and land records reach only the relevant authority and OPEKEPE; the IBAN never enters the ledger."
+      },
+      "testing": {
+        "label": "Testing",
+        "value": "Tests assert exact amounts, authorised callers and legal state transitions, across unit, integration and <nb>end-to-end</nb> suites."
+      }
+    },
+    "architecture": {
+      "caption": "System architecture / simplified",
+      "organisationsLabel": "Organisations on the channel",
+      "organisations": {
+        "farmer": {
+          "name": "Farmer",
+          "role": "Applies and signs"
+        },
+        "opekepe": {
+          "name": "OPEKEPE",
+          "role": "Payment authority"
+        },
+        "aade": {
+          "name": "AADE",
+          "role": "Tax verification"
+        },
+        "region": {
+          "name": "Region",
+          "role": "Land records (LPIS)"
+        },
+        "ministry": {
+          "name": "Ministry",
+          "role": "National allocation"
+        },
+        "bank": {
+          "name": "Bank",
+          "role": "Payment execution"
+        },
+        "observer": {
+          "name": "EU Observer",
+          "role": "Read-only audit"
+        }
+      },
+      "ledger": "One permissioned ledger",
+      "chaincodesLabel": "Chaincodes",
+      "worldState": "World state per chaincode namespace",
+      "privateData": "{count, plural, one {# private data collection} other {# private data collections}}",
+      "legendLabel": "Legend",
+      "legendStaff": "Staff sign in through Keycloak",
+      "legendFarmer": "Self-held key, signed in the browser"
+    }
+  },
+  "thesisPage": {
+    "title": "Designing Trust Across Seven Organisations",
+    "subtitle": "A permissioned dApp for verifiable agricultural subsidy workflows",
+    "description": "B.Sc. thesis case study: a permissioned Hyperledger Fabric application for multi-organisation subsidy workflows, with farmers signing from their own browser wallet and a privacy-aware architecture.",
+    "back": "Selected work",
+    "kind": "B.Sc. thesis",
+    "grade": "Grade",
+    "departmentLabel": "Department",
+    "department": "Informatics and Telematics, Harokopio University of Athens",
+    "supervisorLabel": "Supervisor",
+    "supervisor": "Anargyros Tsadimas",
+    "collaborator": "Anastasia Zerva",
+    "contents": "Contents",
+    "sections": {
+      "overview": {
+        "nav": "Overview",
+        "title": "Overview"
+      },
+      "challenge": {
+        "nav": "Challenge",
+        "title": "The challenge"
+      },
+      "design": {
+        "nav": "Design response",
+        "title": "The design response"
+      },
+      "architecture": {
+        "nav": "Architecture",
+        "title": "Seven organisations, one channel"
+      },
+      "policy": {
+        "nav": "Policy as data",
+        "title": "Policy became data, not code"
+      },
+      "signing": {
+        "nav": "The farmer signs",
+        "title": "The farmer signs, not the platform"
+      },
+      "privacy": {
+        "nav": "Privacy",
+        "title": "Privacy, designed field by field"
+      },
+      "perspectives": {
+        "nav": "Seven perspectives",
+        "title": "One workflow, seven perspectives"
+      },
+      "testing": {
+        "nav": "Testing",
+        "title": "Engineering for the failure that still looks successful"
+      },
+      "performance": {
+        "nav": "Performance",
+        "title": "Signing was not the bottleneck"
+      },
+      "limitations": {
+        "nav": "Limitations",
+        "title": "Where the guarantees end"
+      },
+      "learned": {
+        "nav": "What I learned",
+        "title": "What I learned"
+      },
+      "outcome": {
+        "nav": "Outcome",
+        "title": "Outcome"
+      }
+    },
+    "overview": {
+      "question": "Most public-service software digitises a form. This project asked a harder question:",
+      "statement": "Can the decision behind a subsidy become independently verifiable, without giving one organisation complete control of the workflow or custody of the citizen’s signing key?",
+      "p1": "For my B.Sc. thesis I designed and built the application layer of a research platform for agricultural subsidies on Hyperledger Fabric. Seven participants share one workflow. Policy rules run as deterministic smart contracts, sensitive records reach only the organisations that need them, and farmers sign their own transactions from a browser wallet.",
+      "disclaimer": "It is a fully implemented research prototype. It is not an official OPEKEPE service, not an official implementation of the EU Common Agricultural Policy and not a production government service: the institutional registries are simulated, and no real funds move.",
+      "attribution": "The thesis was written in two parts. I built the application layer described on this page; Anastasia Zerva led the Hyperledger Fabric infrastructure, its orchestration and the network evaluation.",
+      "glance": {
+        "label": "At a glance",
+        "type": "Type",
+        "typeParts": [
+          "B.Sc. thesis",
+          "Applied research",
+          "Full-stack distributed system"
+        ],
+        "role": "My role",
+        "roleValue": "Application architect, blockchain and full-stack engineer, wallet developer, researcher",
+        "scope": "Scope I led",
+        "scopeValue": "Chaincodes and smart contracts, application services, external-system connectors, seven role-specific portals, the farmer wallet, end-to-end workflows and application-level testing",
+        "collaboration": "Collaboration",
+        "collaborationValue": "Two-part thesis with Anastasia Zerva, who led the Fabric infrastructure, orchestration and network evaluation",
+        "technologies": "Technologies"
+      }
+    },
+    "challenge": {
+      "lead": "Agricultural subsidy administration is not one transaction between a citizen and an application. It is a long-running process across several authorities, with private records, changing policy rules, eligibility checks, approvals and payment instructions.",
+      "problemsLabel": "Four design problems",
+      "problems": {
+        "history": {
+          "title": "Nobody rewrites history alone",
+          "body": "No single organisation should be able to silently rewrite the history of a case. The parties need a shared record, while their legal responsibilities stay distinct."
+        },
+        "signing": {
+          "title": "The farmer authorises",
+          "body": "A farmer should authorise their own application. A server signing on their behalf is convenient, but it weakens non-repudiation and turns the service provider into a key custodian."
+        },
+        "visibility": {
+          "title": "Verification without exposure",
+          "body": "Shared verification must not mean shared visibility. Tax, land and banking records cannot reach every participant just because they work on the same process."
+        },
+        "policy": {
+          "title": "Policy without a release",
+          "body": "Rates, thresholds, eligibility windows and penalty scales change. Hard-coding them would tie every regulatory change to a new deployment."
+        }
+      },
+      "goal": "The goal was not to put the process on a blockchain. It was to decide precisely which facts belong on a shared ledger, which must stay private, who may move a case forward, and what evidence should remain after every decision."
+    },
+    "design": {
+      "principle": "<line>Institutions keep control of their systems.</line> <line>The consortium shares only the proofs, decisions and state required to complete the process.</line>",
+      "p1": "The platform separates three planes. The systems each institution already owns, such as its tax, land, reserve and banking registries, form the external plane. The connector plane is the only layer allowed to talk both to an institution’s registry and to its Fabric peer. The consortium plane holds the shared ledger and the smart contracts.",
+      "rule": "Static architecture checks enforce the boundary: connectors cannot import a database driver, and external registries cannot depend on Fabric.",
+      "p2": "A consortium should integrate sovereign systems, not quietly absorb them into a new central database.",
+      "figure": {
+        "caption": "Three planes / one connector per organisation",
+        "external": {
+          "name": "External registries",
+          "note": "Simulated in the prototype"
+        },
+        "connectors": {
+          "name": "Organisation connectors",
+          "note": "One Go service per organisation"
+        },
+        "consortium": {
+          "name": "Fabric consortium",
+          "note": "Shared ledger and smart contracts"
+        },
+        "registries": {
+          "opekepe": "Farmer and parcel registry",
+          "aade": "Tax registry",
+          "region": "Land registry",
+          "ministry": "National reserve",
+          "bank": "Core banking",
+          "observer": "No registry"
+        },
+        "channel": "Three chaincodes, five private data collections"
+      }
+    },
+    "architecture": {
+      "p1": "Seven organisations take part in one channel, <code>subsidychannel</code>. Six of them run their own infrastructure, and their staff sign in through Keycloak. Farmers run nothing: each holds an X.509 identity under <code>FarmersMSP</code> and signs in a browser wallet.",
+      "p2": "Three chaincodes keep their world state in separate namespaces. Five private data collections narrow who can read sensitive values, and OPEKEPE is a member of every one of them.",
+      "figure": {
+        "caption": "System architecture / seven organisations on <name>subsidychannel</name>",
+        "farmerGroup": "Farmer’s browser",
+        "farmerGroupNote": "Self-custody X.509, no Keycloak",
+        "staffGroup": "Organisations",
+        "staffGroupNote": "Staff sign in through Keycloak SSO",
+        "roles": {
+          "farmer": "Applies and signs",
+          "opekepe": "Payment authority",
+          "aade": "Tax verification",
+          "region": "Parcel validation",
+          "ministry": "National allocation",
+          "bank": "Payment execution",
+          "observer": "Read-only audit"
+        },
+        "notes": {
+          "farmer": "No peer, no orderer",
+          "opekepe": "Orchestrator, consenter",
+          "ministry": "Co-approves high-value cases",
+          "bank": "No consenter",
+          "observer": "No consenter, cannot endorse or submit"
+        },
+        "ledger": "One permissioned ledger",
+        "chaincodesLabel": "Chaincodes on the channel",
+        "contracts": "{count, plural, one {# contract} other {# contracts}}",
+        "worldState": "World state",
+        "namespaceNote": "Each chaincode keeps its world state and its private data collections in its own namespace.",
+        "collectionsLabel": "Private data collections",
+        "members": "Members",
+        "legendLabel": "Legend",
+        "legendStaff": "Staff sign in through Keycloak",
+        "legendFarmer": "Self-held key, signed in the browser",
+        "legendBoundary": "Trust boundary: the farmer’s device"
+      }
+    },
+    "policy": {
+      "p1": "I split the on-chain domain into three chaincodes with separate responsibilities.",
+      "chaincodes": {
+        "policy": "Stores the active policy version, payment schemes, rates, thresholds and penalty parameters as ledger data.",
+        "entitlement": "Manages the request, verification, allocation and issuance of subsidy entitlements.",
+        "subsidy": "Manages the annual application, from submission and eligibility checks through approval and the payment order."
+      },
+      "testPolicy": "The ledger runs a test policy, <code>CAP-2026-v1</code>, inspired by the Common Agricultural Policy and explicitly not legislation. A new policy period becomes a new version in the ledger, not a set of hidden constants in a code release.",
+      "p2": "Across the three chaincodes, fifteen contracts implement state transitions, access rules, deadlines, duplicate-claim prevention and subsidy calculations.",
+      "guardsLabel": "A transition goes through only when",
+      "guards": {
+        "state": "the current state of the case allows it",
+        "caller": "the caller’s MSP is authorised for it",
+        "time": "its deadline or time window holds",
+        "duplicate": "it does not duplicate an existing claim",
+        "amount": "every amount follows from a deterministic calculation"
+      },
+      "timestamps": "Timestamps come from the Fabric transaction context, never from a local clock, so every endorsing peer computes the same result."
+    },
+    "signing": {
+      "p1": "The most distinctive part of the project is a Chrome-compatible wallet extension for citizen self-custody.",
+      "p2": "Each farmer has a real X.509 identity under a dedicated <code>FarmersMSP</code>. The wallet generates an ECDSA <nb>P-256</nb> key pair in the browser, encrypts the private key at rest with <nb>AES-256-GCM</nb> under a PBKDF2-derived key, and offers an encrypted backup that the farmer controls. The private key is never sent to the portal or the backend.",
+      "walletLabel": "The wallet",
+      "wallet": {
+        "identity": {
+          "label": "Identity",
+          "value": "X.509 under FarmersMSP"
+        },
+        "keys": {
+          "label": "Key pair",
+          "value": "ECDSA <nb>P-256</nb>, generated in the browser"
+        },
+        "storage": {
+          "label": "At rest",
+          "value": "<nb>AES-256-GCM</nb>, key derived with PBKDF2"
+        },
+        "backup": {
+          "label": "Backup",
+          "value": "Encrypted, kept by the farmer"
+        },
+        "leaves": {
+          "label": "Leaves the wallet",
+          "value": "Signatures, never the private key"
+        }
+      },
+      "quote": "<line>The backend may transport a transaction.</line> <line>The backend cannot authorise it on the farmer’s behalf.</line>",
+      "p3": "A browser cannot act as a native Fabric Gateway client, so I designed an offline-signing protocol. The wallet does not sign a byte array because a server sent it: it decodes the bytes and checks what they would authorise first.",
+      "flow": {
+        "caption": "Offline signing / two rounds, nine steps",
+        "description": "Nine steps in two rounds. Round 1, the proposal: the backend prepares an unsigned proposal, and the wallet decodes it, verifies it and signs it before the backend sends it for endorsement. Round 2, the transaction: the backend returns the transaction bytes, and the wallet verifies and signs the envelope before the backend submits it to ordering. The portal only relays bytes between wallet and backend.",
+        "lanesLabel": "Lanes",
+        "lanes": {
+          "wallet": {
+            "name": "Wallet",
+            "note": "Holds the key"
+          },
+          "portal": {
+            "name": "Portal",
+            "note": "Relays bytes, holds no key"
+          },
+          "backend": {
+            "name": "Backend",
+            "note": "Prepares and transports"
+          },
+          "fabric": {
+            "name": "Fabric",
+            "note": "Endorses and orders"
+          }
+        },
+        "rounds": {
+          "proposal": "Round 1 / proposal",
+          "transaction": "Round 2 / transaction"
+        },
+        "kinds": {
+          "verify": "Verify",
+          "sign": "Sign"
+        },
+        "boundary": "Trust boundary: the private key stays in the wallet",
+        "relay": "Relayed by the portal",
+        "legendLabel": "Legend",
+        "steps": {
+          "1": {
+            "title": "Prepare the proposal",
+            "detail": "Unsigned, built from the farmer’s public identity"
+          },
+          "2": {
+            "title": "Decode the protobuf",
+            "detail": "The actual proposal payload"
+          },
+          "3": {
+            "title": "Check what it authorises",
+            "detail": "Channel, chaincode function, MSP, certificate, farmer ID"
+          },
+          "4": {
+            "title": "Sign the proposal",
+            "detail": "ECDSA <nb>P-256</nb>, <nb>low-S</nb>, DER-encoded"
+          },
+          "5": {
+            "title": "Send for endorsement",
+            "detail": "The signed proposal goes to the peers"
+          },
+          "6": {
+            "title": "Return the transaction",
+            "detail": "Transaction bytes built from the endorsements"
+          },
+          "7": {
+            "title": "Verify the envelope",
+            "detail": "Decoded and checked before a second signature"
+          },
+          "8": {
+            "title": "Sign the transaction",
+            "detail": "Same key, same <nb>low-S</nb> DER form"
+          },
+          "9": {
+            "title": "Submit to ordering",
+            "detail": "Only now does the transaction reach the orderer"
+          }
+        },
+        "fabricNotes": {
+          "5": "Endorsing peers",
+          "9": "Ordering service"
+        }
+      },
+      "readsTitle": "Protected reads",
+      "readsIntro": "The same identity protects reads. Each step closes a specific gap:",
+      "reads": {
+        "challenge": {
+          "title": "One-time challenge",
+          "body": "A short-lived session starts from a single-use nonce."
+        },
+        "message": {
+          "title": "Domain-separated signature",
+          "body": "The wallet signs a message that cannot double as a signature on anything else."
+        },
+        "chain": {
+          "title": "Certificate chain",
+          "body": "The backend validates it against the FarmersMSP CA."
+        },
+        "identity": {
+          "title": "Farmer ID from the certificate",
+          "body": "Never from a query parameter, which closes an enumeration path against citizen records."
+        }
+      }
+    },
+    "privacy": {
+      "p1": "One shared channel gives every participant the same process history, while five private data collections keep sensitive values with the organisations that need them. Tax and land data are shared only with the relevant authority and OPEKEPE. The bank resolves the IBAN inside its own registry; the IBAN never enters the ledger.",
+      "p2": "Large or erasable documents take another path. A young farmer’s diploma is stored in a private two-node IPFS/Kubo swarm operated by separate organisations, and only its content identifier (CID) is committed to the workflow. That keeps an integrity reference without placing the PDF in immutable ledger state.",
+      "p3": "A person still reviews the document: a hash proves that the content has not changed, not that it belongs to the applicant.",
+      "statement": "<line>Immutability is useful for decisions and evidence.</line> <line>It is often the wrong property for personal documents.</line>",
+      "gallery": {
+        "label": "Where the data lives",
+        "storeLabel": "Stored in",
+        "legendLabel": "Legend",
+        "states": {
+          "holds": "Holds the value",
+          "reference": "Hash or CID only",
+          "none": "Nothing stored"
+        },
+        "slides": {
+          "workflow": {
+            "title": "Workflow state and decisions",
+            "store": "The channel ledger",
+            "body": "Every organisation’s peer keeps the same history of states and decisions. The EU Observer can read it, but cannot endorse or submit. Farmers have no peer and read their own case through signed requests.",
+            "cells": {
+              "farmer": "Own case, signed read",
+              "opekepe": "Ledger copy",
+              "aade": "Ledger copy",
+              "region": "Ledger copy",
+              "ministry": "Ledger copy",
+              "bank": "Ledger copy",
+              "observer": "Read-only copy"
+            }
+          },
+          "records": {
+            "title": "Tax and land facts",
+            "store": "Private data collections",
+            "body": "Tax facts are shared only between OPEKEPE and AADE, land facts only between OPEKEPE and the Region. The other peers see a hash of each private value, which is how Fabric records private data on the shared ledger.",
+            "cells": {
+              "farmer": "Not stored",
+              "opekepe": "Tax and land",
+              "aade": "Tax",
+              "region": "Land",
+              "ministry": "Hash only",
+              "bank": "Hash only",
+              "observer": "Hash only"
+            }
+          },
+          "iban": {
+            "title": "Bank account (IBAN)",
+            "store": "The bank’s own registry",
+            "body": "OPEKEPE issues the payment order. The bank resolves the farmer’s IBAN in its own system, so the IBAN never enters the ledger.",
+            "cells": {
+              "farmer": "Not stored",
+              "opekepe": "Not stored",
+              "aade": "Not stored",
+              "region": "Not stored",
+              "ministry": "Not stored",
+              "bank": "Own registry",
+              "observer": "Not stored"
+            }
+          },
+          "diploma": {
+            "title": "Young farmer’s diploma",
+            "store": "A private two-node IPFS swarm",
+            "body": "The PDF stays off the ledger, on two IPFS/Kubo nodes run by separate organisations. Only its CID is committed to the workflow, and a person still reviews the document.",
+            "cells": {
+              "farmer": "Not stored",
+              "opekepe": "Swarm node",
+              "aade": "CID only",
+              "region": "CID only",
+              "ministry": "Swarm node",
+              "bank": "CID only",
+              "observer": "CID only"
+            }
+          }
+        }
+      }
+    },
+    "perspectives": {
+      "p1": "The system includes seven role-specific React portals and a browser wallet. Each portal is a controlled window onto the same state machine, not a separate dashboard.",
+      "p2": "The backends react to chaincode events instead of relying on a central workflow engine. When a case reaches the relevant state, each organisation checks it against its own registry and records a signed result.",
+      "listLabel": "Portals",
+      "rows": {
+        "farmer": {
+          "name": "Farmers",
+          "body": "Enrol, review entitlements, prepare applications and sign transactions.",
+          "tag": "Portal and wallet"
+        },
+        "opekepe": {
+          "name": "OPEKEPE",
+          "body": "Manages campaigns, registrations, escalations and final decisions."
+        },
+        "aade": {
+          "name": "AADE",
+          "body": "Verifies tax-related conditions."
+        },
+        "region": {
+          "name": "Regional authorities",
+          "body": "Validate parcels and declared land."
+        },
+        "ministry": {
+          "name": "Ministry",
+          "body": "Decides on the National Reserve and co-approves high-value cases."
+        },
+        "bank": {
+          "name": "Bank",
+          "body": "Processes payment orders without disclosing banking data to the consortium."
+        },
+        "observer": {
+          "name": "EU Observer",
+          "body": "Receives an audit view of the ledger. It cannot endorse or submit state changes.",
+          "tag": "Read-only"
+        }
+      }
+    },
+    "testing": {
+      "statement": "<line>In a payment system, the most dangerous defect is not always a crash.</line> <line>It is a workflow that completes normally with the wrong amount.</line>",
+      "p1": "That shaped the verification strategy. Tests assert exact monetary outcomes, authorised callers, legal state transitions, privacy boundaries and end-to-end ledger state, not only HTTP status codes.",
+      "builtLabel": "What the repository contains",
+      "built": {
+        "chaincodes": "Chaincodes",
+        "contracts": "Smart contracts",
+        "collections": "Private data collections",
+        "channels": "Channel",
+        "connectors": "Institution-specific connectors",
+        "registries": "Simulated sovereign registries",
+        "portals": "Portals, plus a browser wallet"
+      },
+      "testedLabel": "How it is tested",
+      "tested": {
+        "chaincode": "Top-level chaincode test functions",
+        "frontend": "Frontend unit-test declarations",
+        "frontendValue": "More than 300"
+      },
+      "suites": "Unit, integration, end-to-end, security and conformance suites. Private data isolation is checked live, from the peers of different organisations."
+    },
+    "performance": {
+      "p1": "I benchmarked the self-custody signing path with a real proposal captured from the running system, timing decoding, verification, signing and DER encoding together.",
+      "resultsLabel": "Median time for the signing path",
+      "results": {
+        "recent": {
+          "label": "2022 hardware",
+          "value": "about 0.075 ms"
+        },
+        "old": {
+          "label": "2011 desktop",
+          "value": "about 0.21 ms"
+        }
+      },
+      "p2": "The cryptographic work was effectively imperceptible. Network endorsement and consensus, not client-side signing, dominated the wait. These are measurements on two machines, not a projection to other devices or loads.",
+      "deploymentTitle": "Deployment",
+      "deployment": "The platform also ran beyond a laptop: the consortium was deployed on six physical machines connected over WireGuard, with a cloud node serving the citizen-facing edge. That deployment belongs to Anastasia Zerva’s infrastructure half of the joint thesis; the application workflows described here ran on top of it."
+    },
+    "limitations": {
+      "items": {
+        "simulated": {
+          "title": "Simulated registries, no real funds",
+          "body": "The institutional registries are simulated, and the prototype cannot move real money."
+        },
+        "policy": {
+          "title": "A test policy, not law",
+          "body": "<nb>CAP-2026-v1</nb> is representative. It is not an authoritative codification of EU law."
+        },
+        "usability": {
+          "title": "Self-custody with real farmers is untested",
+          "body": "The signing flow was validated technically. Its usability with real farmers remains a future study."
+        },
+        "erasure": {
+          "title": "Erasure is reduced, not solved",
+          "body": "Keeping documents off-chain reduces the tension between an immutable ledger and the right to erasure, but some identifying fields still remain on-chain."
+        },
+        "inputs": {
+          "title": "Contracts only know their inputs",
+          "body": "A rule cannot be enforced if the domain model does not contain the fact it depends on. Smart-contract code cannot responsibly invent missing data."
+        }
+      },
+      "closing": "These constraints are not footnotes. They define where the system’s guarantees end."
+    },
+    "learned": {
+      "lead": "The strongest result was not that a blockchain can record subsidy decisions. A conventional database can record them too.",
+      "statement": "The meaningful result was that authority can be distributed without making responsibility ambiguous.",
+      "intro": "The project became an exercise in a broader kind of engineering: designing not only what a system does, but who is allowed to know, decide, sign and prove each part of it.",
+      "rows": {
+        "know": {
+          "title": "Who may know",
+          "body": "Tax and land facts reach only the relevant authority and OPEKEPE. Banking data stays at the bank."
+        },
+        "decide": {
+          "title": "Who may decide",
+          "body": "OPEKEPE remains the payment authority, the tax agency answers for tax facts, and every transition checks the caller’s MSP."
+        },
+        "sign": {
+          "title": "Who may sign",
+          "body": "The farmer holds the key that authorises the application. The platform carries the transaction but cannot sign it."
+        },
+        "prove": {
+          "title": "What can be proven",
+          "body": "The ledger keeps a shared sequence of signed decisions that no participant can rewrite alone. A hash proves a document is unchanged, not whose it is."
+        }
+      }
+    },
+    "outcome": {
+      "p1": "The thesis produced a working, measurable answer to its central question. A citizen can sign their own public-service transaction. Changing policy can be represented as governed, versioned data. Several institutions can coordinate on one ledger without exposing every underlying record. And verification can focus on whether decisions are correct, not only on whether the software is available.",
+      "back": "Back to selected work"
+    }
+  },
+  "gallery": {
+    "carousel": "carousel",
+    "slide": "slide",
+    "previous": "Previous slide",
+    "next": "Next slide",
+    "slideLabel": "{current} of {total}",
+    "goTo": "Show slide {number}: {title}",
+    "announcement": "Slide {current} of {total}: {title}"
+  },
+  "about": {
+    "label": "About",
+    "labelDetail": "Background",
+    "statement": "I like understanding how the pieces of a system fit together.",
+    "p1": "I recently completed a B.Sc. in Informatics and Telematics at Harokopio University of Athens. My technical work has increasingly drawn me toward backend engineering, distributed systems and cloud infrastructure.",
+    "p2": "What interests me most is how components communicate, where data and trust boundaries should live, and how software can be deployed, tested and operated reliably. My bachelor’s thesis gave me the opportunity to explore those questions across Go services, Hyperledger Fabric and browser-side cryptography.",
+    "p3": "I’m now looking for graduate and junior engineering roles where I can keep building on that foundation in production systems.",
+    "portraitAlt": "Portrait of Konstantinos Papadogiannis",
+    "portraitCaption": "Athens, Greece · B.Sc. Informatics & Telematics · 2026",
+    "education": {
+      "label": "Education",
+      "degree": "B.Sc. in Informatics and Telematics",
+      "university": "Harokopio University of Athens",
+      "average": "Average",
+      "thesis": "Thesis"
+    }
+  },
+  "story": {
+    "label": "My story",
+    "statement": "Curiosity came before code.",
+    "curiosity": {
+      "title": "Curiosity",
+      "p1": "I was born and raised in Peristeri, Athens, and my first real encounter with technology wasn’t a programming language. It was a PlayStation 2. I loved the games, but even while playing, another question kept coming back: how is all of this actually built, and what is happening behind the screen?",
+      "p2": "At around twelve, an old desktop PC and an internet connection opened up a much larger world. I bought computer magazines, read the computer science books we had at school, spent hours on W3Schools and made my first attempts at building web pages. I experimented constantly with PCs and laptops too, changing things, breaking them, fixing them and learning by trying.",
+      "p3": "Somewhere in those years, computing stopped being something I was simply interested in and became a deliberate direction. I chose the informatics track at school and sat the national university entrance exams with one clear goal: to study computer science."
+    },
+    "depth": {
+      "title": "Depth",
+      "p1": "University changed how I understood the field. The first two years were far more demanding than I had imagined, and that made computer science more compelling, not less. I enjoy difficult problems, particularly the point where something that first seems opaque begins to show its structure.",
+      "p2": "Two courses, DevOps and Computer Architecture, deepened that curiosity from opposite ends. DevOps showed me how source code becomes a system that is built, deployed, automated and operated. Computer Architecture went below the abstractions software relies on, closer to what the hardware itself is doing.",
+      "pull": "I want to understand before I implement.",
+      "p3": "I’m analytical and persistent, and I enjoy working as part of a team. When something doesn’t make sense to me yet, I find it hard to leave it unexamined. Knowing that something works is not enough: I want to know why it works, what it assumes, where its limits are and how it fits into the wider system.",
+      "p4": "Not everything I value from university shows up in a transcript. Anastasia Zerva and I have worked together since our first year, across assignments and projects. Over time, that grew into a long-term, research-oriented collaboration built on trust, complementary ways of thinking and a shared ambition to keep exploring difficult problems together."
+    },
+    "direction": {
+      "title": "Direction",
+      "p1": "Today I don’t want to define myself by a single technology or one corner of computer science. My interests range widely, but the aim stays the same: to contribute through my work, to apply what I understand to real problems people face, and to build things that are useful in practice.",
+      "p2": "Outside computer science, I make time for friends and family, and I read regularly about economics, investing and entrepreneurship — other ways of thinking about systems, decisions and how value is created.",
+      "callbackLead": "In a way, I’m still asking the question I first had in front of that PlayStation 2:",
+      "callback": "What is happening underneath — and what can I build once I understand it?"
+    }
+  },
+  "academic": {
+    "label": "Academic highlights",
+    "lead": "Selected courses from across the degree, grouped by field.",
+    "groups": {
+      "systems": "Systems and infrastructure",
+      "computing": "Software and computing",
+      "data": "AI, data and intelligent systems",
+      "networks": "Networks, security and digital systems"
+    },
+    "courses": {
+      "devops": "DevOps Concepts & Tools",
+      "parallel": "Modern Parallel Architectures & High-Performance Programming",
+      "cloud": "Cloud Computing Management",
+      "distributed": "Distributed Systems",
+      "numerical": "Numerical Analysis",
+      "programming2": "Programming II",
+      "oop1": "Object-Oriented Programming I",
+      "simulation": "Simulation",
+      "dataMining": "Data Mining",
+      "vision": "Computer Vision & Graphics",
+      "retrieval": "Information Retrieval & Natural Language Processing",
+      "economics": "Economics of Digital Technology",
+      "evaluation": "Systems & Interfaces Evaluation",
+      "telecom": "Telecommunication Systems",
+      "signals": "Signals & Systems",
+      "security": "Information Systems Security"
+    }
+  },
+  "interests": {
+    "label": "Interests",
+    "lead": "Areas I keep exploring.",
+    "intro": "My main project work currently centres on backend and distributed systems, but I keep exploring the wider systems around them: infrastructure, security, decentralised protocols, intelligent systems and financial technology.",
+    "open": "Across all of them, I tend to follow open-source projects, new protocols and research-led work.",
+    "themes": {
+      "systems": {
+        "name": "Systems and infrastructure",
+        "body": "Distributed architecture, databases, operating systems, networking and Linux, Kubernetes, DevOps and platform engineering, self-hosting and GPU programming with CUDA."
+      },
+      "protocols": {
+        "name": "Blockchain and financial protocols",
+        "body": "Bitcoin, Ethereum and Solana, smart contracts and Web3 applications, DeFi, stablecoins, and the incentive design behind tokens and protocols."
+      },
+      "security": {
+        "name": "Security, identity and trust",
+        "body": "Cybersecurity, applied cryptography, authentication and PKI, digital and decentralised identity, wallets and self-custody, and privacy."
+      },
+      "ai": {
+        "name": "AI and intelligent systems",
+        "body": "Machine learning and deep learning, computer vision, LLMs and AI agents, agent tooling such as MCP, data systems and AI-assisted software engineering."
+      },
+      "markets": {
+        "name": "Financial technology and markets",
+        "body": "Payments and banking infrastructure, digital-asset market structure and ETFs, institutional adoption, monetary systems, and where software meets financial markets."
+      }
+    }
+  },
+  "projects": {
+    "moreLabel": "More work",
+    "additionalLabel": "Additional work",
+    "ergohub": {
+      "name": "ErgoHub",
+      "kind": "Academic project · Team of two",
+      "title": "Freelance marketplace<br></br>on Azure Kubernetes",
+      "body": "Spring Boot 3, React/Redux, PostgreSQL, MinIO, Docker, AKS, NGINX Ingress, Ansible and six Jenkins pipelines."
+    },
+    "openstack": {
+      "name": "OpenStack",
+      "kind": "Individual academic project",
+      "title": "Private cloud deployment<br></br>on Google Cloud",
+      "body": "DevStack with nested virtualisation, Keystone, Glance, Neutron, Nova, <nb>floating-IP</nb> routing and systemd recovery."
+    },
+    "cuda": {
+      "name": "CUDA",
+      "kind": "Individual academic project",
+      "title": "GPU matrix multiplication<br></br>with CUDA",
+      "body": "<nb>4096 × 4096</nb> matrices on an <nb>NVIDIA T4</nb>, optimised with tiling and register blocking.",
+      "summary": "Runtime reduced from {before} to {after}, {speedup}",
+      "before": "0.306 s",
+      "after": "0.086 s",
+      "speedup": "about 3.6× faster"
+    },
+    "vision": {
+      "name": "Computer vision",
+      "kind": "Individual academic project",
+      "title": "Fine-tuning and comparing CNN and transformer models",
+      "body": "ResNet18 on <nb>Oxford-IIIT</nb> Pet: 90.32% validation accuracy. <nb>ViT-B/16</nb> against <nb>VGG16-BN</nb> on <nb>CIFAR-10</nb>: 95.85% and 93.18%. <nb>U-Net</nb> and <nb>Faster R-CNN</nb> trained in PyTorch."
+    },
+    "energy": {
+      "name": "Energy data mining",
+      "kind": "Academic project · Team of two",
+      "title": "Classifying and forecasting energy consumption",
+      "body": "Gradient Boosting identified high-consumption days at 89.4% test accuracy (<nb>ROC-AUC</nb> 96.3%). Random Forest and LSTM next-day forecasts reached RMSE 5.59 and <nb>5.61 kWh</nb>, against a <nb>6.84 kWh</nb> persistence baseline."
+    }
+  },
+  "technologies": {
+    "label": "Technologies",
+    "labelDetail": "Used in my projects",
+    "programming": "Programming",
+    "backend": "Backend",
+    "frontend": "Frontend",
+    "cloud": "Cloud & DevOps",
+    "data": "Data & ML",
+    "testing": "Testing"
+  },
+  "footer": {
+    "tagline": "Backend systems, distributed software,<br></br>and cloud infrastructure.",
+    "location": "Athens, Greece",
+    "navigate": "Navigate",
+    "elsewhere": "Elsewhere",
+    "contact": "Contact",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "orcid": "ORCID",
+    "orcidLabel": "ORCID profile — {id}",
+    "availability": "Open to graduate and junior roles.",
+    "builtWith": "Built with Next.js + TypeScript",
+    "deployedOn": "Deployed on Vercel",
+    "backToTop": "Back to top"
+  },
+  "resume": {
+    "title": "Résumé",
+    "body": "Temporary page. Replaced by the résumé layout.",
+    "view": "View PDF",
+    "download": "Download PDF"
+  }
+}
