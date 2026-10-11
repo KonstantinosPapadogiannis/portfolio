@@ -1,0 +1,115 @@
+% Curriculum vitae, public English version: the PDF the website serves at
+% /downloads/konstantinos-papadogiannis-cv.pdf. Build with ./build.sh.
+%
+% It carries only the contact details the website already shows (city, email,
+% LinkedIn, GitHub) and links no project repository. See README.md.
+\documentclass[english]{kpcv}
+
+% Keep the PDF free of build details: no TeX banner, no source file name and
+% no copy of the build information dictionary.
+\pdfvariable suppressoptionalinfo \numexpr 1 + 2 + 4 + 8 \relax
+% Plain objects instead of compressed object streams, so the link targets and
+% the document information can be checked in the file itself.
+\pdfvariable objcompresslevel 0
+
+\hypersetup{
+  pdftitle    = {Konstantinos Papadogiannis, Curriculum Vitae},
+  pdfauthor   = {Konstantinos Papadogiannis},
+  pdfsubject  = {Curriculum Vitae},
+  pdfkeywords = {Konstantinos Papadogiannis, CV, software engineer, backend,
+                 distributed systems, Hyperledger Fabric, Go, TypeScript, React,
+                 Kubernetes, DevOps, Harokopio University},
+  pdflang     = {en-GB},
+}
+
+\name{Konstantinos}{Papadogiannis}
+\headline{Informatics \& Telematics Graduate\sep Backend\sep Distributed Systems\sep Cloud \& DevOps}
+\contact{Athens, Greece\sep
+  \cvicon{envelope}\,\href{mailto:konstantinospapadogiannis.dev@gmail.com}{konstantinospapadogiannis.dev@gmail.com}\\[2pt]
+  \cvicon{linkedin-in}\,\href{https://www.linkedin.com/in/konstantinos-papadogiannis/}{in/konstantinos-papadogiannis}\sep
+  \cvicon{github}\,\href{https://github.com/KonstantinosPapadogiannis}{KonstantinosPapadogiannis}}
+
+\begin{document}
+\makecvheader
+
+\cvsummary{Informatics and Telematics graduate focused on backend engineering, distributed
+systems and cloud technologies. Hands-on experience through academic projects with Go,
+Java/Spring Boot, React, Kubernetes and Hyperledger Fabric, including a blockchain thesis
+project with secure browser-side transaction signing.}
+
+\cvsection{EDUCATION}
+\cventry{B.Sc.\ in Informatics and Telematics}{2022 -- 2026}
+  {Harokopio University of Athens}{Average 7.51 / 10}
+\begin{cvitems}
+  \item Bachelor's Thesis: 10 / 10
+  \item Relevant coursework: DevOps Concepts and Tools~(10/10), Computer Networks~(9/10),
+        Distributed Systems~(8/10)
+\end{cvitems}
+
+\cvsection{BACHELOR'S THESIS}
+% Translation of the official Greek title (the thesis has no official English title)
+\cventry{Development of a Decentralised Application (dApp) and Smart Contracts for the Digital
+  Submission and Management of Subsidies}{Apr 2026 -- Sep 2026}
+  {Written alongside a companion thesis on the network infrastructure; supervisor:
+  Asst.~Prof.~Anargyros Tsadimas}{}
+\begin{cvitems}
+  \item Built the application layer of a seven-organisation Hyperledger Fabric 3.0 network for
+        EU farm subsidies: Go chaincodes, backend services and React/TypeScript portals
+  \item Developed a Manifest V3 browser wallet that generates and encrypts each farmer's key and
+        signs transactions locally, with proposal checks that block blind signing
+  \item Modelled the subsidy policy as a versioned on-chain document, enforced roles and
+        application states in the chaincode, and isolated sensitive data in private collections
+  \item Covered the system with role, transition, unit and end-to-end tests across chaincode and
+        portals
+\end{cvitems}
+
+\cvsection{ACADEMIC PROJECTS}
+\cventry{ErgoHub: freelance marketplace on Azure Kubernetes}{Feb 2025 -- Jul 2025}
+  {DevOps Concepts and Tools, team of two}{}
+\begin{cvitems}
+  \item Built Jenkins pipelines and Ansible playbooks to test, containerise and deploy the app
+  \item Deployed Spring Boot and React/Redux to AKS behind NGINX Ingress with TLS, PostgreSQL
+        and MinIO
+\end{cvitems}
+
+\cventry{OpenStack private cloud on Google Cloud}{Jun 2026}
+  {Cloud Computing Management, individual}{}
+\begin{cvitems}
+  \item Installed DevStack on a GCP VM and hosted a three-tier app, working around GCP's
+        floating-IP and routing restrictions
+\end{cvitems}
+
+\cventry{GPU matrix multiplication in CUDA}{Jun 2026}
+  {Modern Parallel Architectures and High-Performance Programming, individual}{}
+\begin{cvitems}
+  \item Sped up a 4096~×~4096 matrix multiplication on an NVIDIA T4 by 3.6× with tiling and
+        register blocking
+\end{cvitems}
+
+\cventry{Deep learning for image classification, segmentation and detection}{Feb 2026}
+  {Computer Vision and Graphics, individual}{}
+\begin{cvitems}
+  \item Fine-tuned and compared CNN and transformer models (ResNet18, ViT, VGG16) and trained
+        U-Net and Faster R-CNN in PyTorch
+\end{cvitems}
+
+\cventry{Household energy data mining}{Jan 2026}
+  {Data Mining, team of two}{}
+\begin{cvitems}
+  \item Predicted high-consumption days and next-day energy use with Gradient Boosting, Random
+        Forest and LSTM models
+\end{cvitems}
+
+\cvsection{SKILLS}
+\cvskill{Programming}{Go, TypeScript, JavaScript, Java, Python, SQL, C, CUDA, Bash}
+\cvskill{Backend}{Hyperledger Fabric (chaincode, private data, Gateway), Spring Boot, REST,
+  gRPC, Keycloak (OIDC), JWT}
+\cvskill{Frontend}{React, Redux, Tailwind CSS, Vite, browser extensions (Manifest V3), Web
+  Crypto API}
+\cvskill{Cloud and DevOps}{Docker, Kubernetes (AKS), Jenkins, Ansible, OpenStack, Google Cloud,
+  Azure, Nginx, Linux, Git}
+\cvskill{Data and ML}{PostgreSQL, PyTorch, TensorFlow/Keras, scikit-learn, pandas}
+\cvskill{Testing}{Go testing, Vitest, Playwright, JUnit, Jest}
+\cvskill{Languages}{Greek (native), English (professional working proficiency)}
+
+\end{document}
