@@ -5,16 +5,18 @@ import { ArrowRightIcon, ArrowUpRightIcon } from "@/components/icons";
 type Arrow = "right" | "left" | "up-right" | "none";
 
 const arrowMotion: Record<Exclude<Arrow, "none">, string> = {
-  right: "group-hover:translate-x-0.5",
+  right: "group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5",
   // The right arrow turned round; rotate and translate compose.
-  left: "rotate-180 group-hover:-translate-x-0.5",
-  "up-right": "group-hover:translate-x-0.5 group-hover:-translate-y-0.5",
+  left: "rotate-180 group-hover:-translate-x-0.5 group-focus-visible:-translate-x-0.5",
+  "up-right":
+    "group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-focus-visible:translate-x-0.5 group-focus-visible:-translate-y-0.5",
 };
 
-// A label with an optional arrow. On hover the underline fades in and the
-// arrow moves 2px in its direction; nothing else animates.
+// A label with an optional arrow. On hover, and on keyboard focus beside the
+// focus ring, the underline fades in and the arrow moves 2px in its
+// direction; nothing else animates.
 export const textLinkClass =
-  "group inline-flex items-center gap-1.5 underline decoration-transparent decoration-1 underline-offset-[5px] transition-[color,text-decoration-color] duration-150 hover:decoration-current";
+  "group inline-flex items-center gap-1.5 underline decoration-transparent decoration-1 underline-offset-[5px] transition-[color,text-decoration-color] duration-150 hover:decoration-current focus-visible:decoration-current";
 
 export function LinkArrow({ arrow, size = 14 }: { arrow: Arrow; size?: number }) {
   if (arrow === "none") return null;

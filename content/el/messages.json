@@ -621,6 +621,406 @@
       "back": "Πίσω στα επιλεγμένα έργα"
     }
   },
+  "ergohubPage": {
+    "metaTitle": "ErgoHub: Από τον κώδικα της εφαρμογής σε ένα Kubernetes cluster",
+    "title": "Από τον κώδικα της εφαρμογής σε ένα Kubernetes cluster",
+    "subtitle": "Το ErgoHub, μια πλατφόρμα freelance: μια εφαρμογή Spring Boot και React και η διαδρομή με Docker, Jenkins και Ansible που την έκανε deploy στο Azure Kubernetes Service",
+    "description": "Το ErgoHub, ομαδικό ακαδημαϊκό έργο: πλατφόρμα freelance σε Spring Boot και React, με deployment στο Azure Kubernetes Service μέσω Docker, Jenkins pipelines και Ansible.",
+    "back": "Περισσότερα έργα",
+    "contents": "Περιεχόμενα",
+    "kind": "Ακαδημαϊκό έργο",
+    "periodLabel": "Περίοδος",
+    "period": "Φεβρουάριος–Ιούλιος 2025",
+    "teamLabel": "Ομάδα",
+    "team": "Ομάδα δύο ατόμων, με την Αναστασία Ζέρβα",
+    "contextLabel": "Πλαίσιο",
+    "context": "Χαροκόπειο Πανεπιστήμιο: Κατανεμημένα Συστήματα και έπειτα Βασικές Έννοιες και Εργαλεία DevOps",
+    "sections": {
+      "overview": {
+        "nav": "Επισκόπηση",
+        "title": "Επισκόπηση"
+      },
+      "application": {
+        "nav": "Η εφαρμογή",
+        "title": "Τρεις ρόλοι, μία ροή εργασίας"
+      },
+      "containers": {
+        "nav": "Containers",
+        "title": "Από τον κώδικα στο container"
+      },
+      "pipeline": {
+        "nav": "Pipelines",
+        "title": "Έξι ορισμοί pipeline, τρεις τρόποι για deployment"
+      },
+      "kubernetes": {
+        "nav": "Kubernetes",
+        "title": "Τι έτρεχε μέσα στο cluster"
+      },
+      "challenges": {
+        "nav": "Δυσκολίες",
+        "title": "Τι χάλασε όταν ενώθηκαν τα κομμάτια"
+      },
+      "learned": {
+        "nav": "Τι κράτησα",
+        "title": "Τι κράτησα από το έργο"
+      }
+    },
+    "overview": {
+      "statement": "Το να γραφτεί η εφαρμογή ήταν το μισό πρόβλημα. Το άλλο μισό ήταν η διαδρομή από ένα commit ως ένα cluster σε λειτουργία, και να γίνεται κάθε φορά με τον ίδιο τρόπο.",
+      "p1": "Το ErgoHub είναι μια πλατφόρμα freelance με τρεις ρόλους. Οι πελάτες αναρτούν έργα και ένας διαχειριστής εγκρίνει ή απορρίπτει το καθένα πριν το δουν οι freelancers. Οι freelancers κάνουν αίτηση, αν θέλουν με το βιογραφικό τους, και ο πελάτης δέχεται μία από τις αιτήσεις· από εκεί ξεκινά η δουλειά.",
+      "p2": "Ξεκίνησε ως εργασία για το μάθημα Κατανεμημένα Συστήματα στο Χαροκόπειο Πανεπιστήμιο. Στο μάθημα Βασικές Έννοιες και Εργαλεία DevOps το πήγαμε μέχρι το τέλος: container images, Jenkins pipelines, Ansible playbooks και deployment στο Azure Kubernetes Service.",
+      "attribution": "Ήμασταν ομάδα δύο ατόμων, η Αναστασία Ζέρβα κι εγώ, και δουλέψαμε και οι δύο σε όλα τα κομμάτια: στο API, στο frontend και στο deployment. Γι’ αυτό η σελίδα μιλά σε πρώτο πληθυντικό· ο απολογισμός στο τέλος είναι δικός μου.",
+      "disclaimer": "Ήταν ακαδημαϊκό έργο: έγινε deploy και παρουσιάστηκε στο πλαίσιο του μαθήματος, δεν λειτούργησε ως υπηρεσία. Γι’ αυτό δεν υπάρχουν αριθμοί για χρήστες, κίνηση ή διαθεσιμότητα.",
+      "glance": {
+        "label": "Με μια ματιά",
+        "roles": "Ρόλοι χρηστών",
+        "rolesValue": "Πελάτης, freelancer, διαχειριστής",
+        "groups": {
+          "application": "Εφαρμογή",
+          "data": "Δεδομένα",
+          "delivery": "Παράδοση",
+          "edge": "Είσοδος"
+        }
+      },
+      "paths": {
+        "caption": "Δύο διαδρομές μέσα στο έργο",
+        "application": {
+          "label": "Εφαρμογή",
+          "note": "Ένα αίτημα, από τον browser ως τα δεδομένα",
+          "steps": {
+            "user": {
+              "name": "Χρήστης",
+              "body": "Πελάτης, freelancer ή διαχειριστής, στον browser"
+            },
+            "frontend": {
+              "name": "Frontend",
+              "body": "React και Redux Toolkit, που τα σερβίρει το NGINX"
+            },
+            "api": {
+              "name": "API",
+              "body": "Spring Boot 3 σε Java 21, με JWT και έλεγχο ρόλων"
+            },
+            "data": {
+              "name": "Δεδομένα",
+              "body": "PostgreSQL για τις εγγραφές, MinIO για τα βιογραφικά"
+            }
+          }
+        },
+        "delivery": {
+          "label": "Παράδοση",
+          "note": "Μια αλλαγή, από το repository ως το cluster",
+          "steps": {
+            "source": {
+              "name": "Κώδικας",
+              "body": "Ένα Git repository για το API και το frontend"
+            },
+            "ci": {
+              "name": "CI",
+              "body": "Το Jenkins τρέχει τα tests και φτιάχνει image"
+            },
+            "registry": {
+              "name": "Registry",
+              "body": "Azure Container Registry, με tag τον αριθμό του build"
+            },
+            "cluster": {
+              "name": "Kubernetes",
+              "body": "AKS, με rollout μέσω kubectl ή Ansible"
+            },
+            "ingress": {
+              "name": "Ingress",
+              "body": "NGINX Ingress, HTTPS με Let’s Encrypt"
+            }
+          }
+        },
+        "meet": "Οι δύο διαδρομές συναντιούνται στο cluster: το frontend και το API που απαντούν σε κάθε αίτημα είναι τα images που έφτιαξε και έκανε rollout η διαδρομή της παράδοσης."
+      }
+    },
+    "application": {
+      "lead": "Το API είναι εφαρμογή Spring Boot 3 σε Java 21. Το frontend είναι εφαρμογή React με Redux Toolkit και ξεχωριστό dashboard για κάθε ρόλο, και μιλά με το API μέσω REST.",
+      "workflow": {
+        "caption": "Ένα έργο, από την ανάρτηση ως την ολοκλήρωση",
+        "or": "ή",
+        "steps": {
+          "pending": "Ο πελάτης αναρτά ένα έργο, που περιμένει τον διαχειριστή.",
+          "approved": "Ο διαχειριστής το εγκρίνει ή το απορρίπτει. Οι freelancers βλέπουν μόνο τα εγκεκριμένα έργα.",
+          "inProgress": "Οι freelancers κάνουν αίτηση, με βιογραφικό αν θέλουν. Ο πελάτης δέχεται μία αίτηση και οι υπόλοιπες απορρίπτονται.",
+          "completed": "Ο freelancer ή ο διαχειριστής σημειώνει τη δουλειά ως ολοκληρωμένη."
+        }
+      },
+      "items": {
+        "access": {
+          "title": "Πρόσβαση ανά ρόλο",
+          "body": "Με τη σύνδεση ο χρήστης παίρνει ένα JSON Web Token, υπογεγραμμένο με κοινό κλειδί HMAC και έγκυρο για 24 ώρες, που περιέχει τον ρόλο του και αν ο λογαριασμός έχει επαληθευτεί. Το API δεν κρατά session: το Spring Security ελέγχει το token σε κάθε αίτημα και εφαρμόζει κανόνες ρόλων ανά διαδρομή. Οι κωδικοί αποθηκεύονται ως hashes BCrypt."
+        },
+        "records": {
+          "title": "Εγγραφές και αρχεία",
+          "body": "Οι χρήστες, τα έργα και οι αιτήσεις αποθηκεύονται στην PostgreSQL μέσω Spring Data JPA. Το βιογραφικό που συνοδεύει μια αίτηση ανεβαίνει σε bucket του MinIO· η αίτηση κρατά μόνο τη διαδρομή του και το API το επιστρέφει μέσω ενός endpoint λήψης."
+        },
+        "mail": {
+          "title": "Email",
+          "body": "Οι διαχειριστές επαληθεύουν τους λογαριασμούς των freelancers και το API τούς ενημερώνει με email. Στο τοπικό περιβάλλον του Docker Compose τα μηνύματα κατέληγαν στο MailHog, έναν δοκιμαστικό mail server."
+        },
+        "tests": {
+          "title": "Tests",
+          "body": "Το API έχει JUnit tests για τα services του, που τρέχουν σε βάση H2 στη μνήμη. Το frontend έχει tests με Jest και Testing Library. Και τα δύο τρέχουν στα pipelines πριν φτιαχτεί το image."
+        }
+      }
+    },
+    "containers": {
+      "lead": "Το API και το frontend έχουν το καθένα δικό του image, χτισμένο σε δύο στάδια: το πρώτο περιέχει τα εργαλεία του build, το δεύτερο μόνο ό,τι χρειάζεται για να τρέξει.",
+      "items": {
+        "api": {
+          "title": "API",
+          "body": "Το πρώτο στάδιο εγκαθιστά το Maven σε image Java 21 και πακετάρει την εφαρμογή. Το δεύτερο αντιγράφει μόνο το jar σε ένα καθαρό slim image Java 21, που ακούει στη θύρα 8080. Το build του image παραλείπει τα tests, γιατί το pipeline τα έχει ήδη τρέξει."
+        },
+        "frontend": {
+          "title": "Frontend",
+          "body": "Το Node 21 κάνει build την εφαρμογή React· έπειτα το NGINX σε Alpine σερβίρει τα αρχεία του build, με δική του διαμόρφωση."
+        }
+      },
+      "compose": "Το Docker Compose έτρεχε όλο το σύστημα σε ένα μηχάνημα: PostgreSQL 15, το API, το frontend, MinIO, MailHog και το ίδιο το Jenkins.",
+      "tags": "Και οι δύο διαδρομές προς το AKS ανεβάζουν κάθε image με δύο tags: τον αριθμό του build, που το συνδέει με την εκτέλεση του pipeline που το έφτιαξε, και το <code>latest</code>, στο οποίο παραπέμπουν τα manifests του Kubernetes."
+    },
+    "pipeline": {
+      "lead": "Το repository έχει έξι Jenkinsfiles: ένα για το API και ένα για το frontend, για καθέναν από τρεις τρόπους deployment.",
+      "paths": {
+        "label": "Τρεις τρόποι για deployment",
+        "registry": "Registry",
+        "deployment": "Deployment",
+        "items": {
+          "kubectl": {
+            "title": "AKS με kubectl",
+            "registry": "Azure Container Registry",
+            "deployment": "<code>kubectl set image</code>, έπειτα αναμονή για το rollout και έλεγχος των pods"
+          },
+          "ansible": {
+            "title": "AKS με Ansible",
+            "registry": "Azure Container Registry",
+            "deployment": "Ένα Ansible playbook στήνει όλο το σύστημα με τη σειρά και έπειτα το ελέγχει"
+          },
+          "minikube": {
+            "title": "Minikube με Ansible",
+            "registry": "Docker Hub",
+            "deployment": "Ένα Ansible playbook κάνει deploy σε τοπικό cluster Minikube"
+          }
+        }
+      },
+      "stages": {
+        "caption": "Τα στάδια των δύο pipelines με kubectl, όπως ονομάζονται στα Jenkinsfiles",
+        "api": "API",
+        "frontend": "Frontend",
+        "phases": {
+          "build": "Build και tests",
+          "publish": "Δημοσίευση",
+          "deploy": "Deployment"
+        }
+      },
+      "p1": "Και τα δύο pipelines με kubectl συνδέονται στο Azure με service principal και στο registry με token, ανεβάζουν το image, στρέφουν σε αυτό το Deployment με <code>kubectl set image</code> και περιμένουν έως πέντε λεπτά για το rollout, πριν εμφανίσουν τα pods. Το pipeline του frontend τρέχει επίσης ESLint και npm audit, που αναφέρουν προβλήματα χωρίς να σταματούν το build.",
+      "p2": "Τα pipelines με Ansible αναθέτουν το deployment σε ένα playbook, που στήνει το σύστημα με τη σειρά: το namespace, τη διαμόρφωση και τα secrets· την PostgreSQL, το MailHog και το MinIO, με αναμονή ώσπου να είναι έτοιμα· το API και το frontend με το νέο image, μαζί με τα Services τους· και στο τέλος το Ingress, με ελέγχους για ό,τι τρέχει."
+    },
+    "kubernetes": {
+      "lead": "Όλα έτρεχαν σε ένα namespace, το <code>freelance</code>, από απλά manifests που εφαρμόζονταν με kubectl, είτε από ένα script εγκατάστασης είτε από ένα pipeline είτε από το Ansible. Δεν υπάρχει Helm chart.",
+      "figure": {
+        "caption": "Το namespace <name>freelance</name> στο Azure Kubernetes Service",
+        "namespace": "Namespace",
+        "ingress": "Ingress",
+        "ingressNotes": [
+          "NGINX ingress controller",
+          "TLS από το Let’s Encrypt, μέσω cert-manager",
+          "Ανακατεύθυνση από HTTP σε HTTPS"
+        ],
+        "routesLabel": "Διαδρομές",
+        "hosts": "Ξεχωριστά hostnames για το API, την κονσόλα του MinIO και το MailHog",
+        "workloadsLabel": "Deployments, με ένα replica το καθένα",
+        "deployment": "Deployment",
+        "service": "Service",
+        "storage": "Αποθήκευση",
+        "probes": "Probes",
+        "none": "Κανένα",
+        "nodePort": "NodePort",
+        "volume": "Volume claim {size}",
+        "probeKinds": {
+          "startup": "startup",
+          "liveness": "liveness",
+          "readiness": "readiness"
+        },
+        "workloads": {
+          "frontend": "Το NGINX με το build του React",
+          "backend": "Το API σε Spring Boot",
+          "postgres": "PostgreSQL 15",
+          "minio": "Object storage για τα βιογραφικά",
+          "mailhog": "Δοκιμαστικός mail server"
+        },
+        "config": "Διαμόρφωση",
+        "configNote": "Ένα ConfigMap, το <code>freelance-config</code>, και ένα Secret, που τα διαβάζουν τα workloads ως μεταβλητές περιβάλλοντος"
+      },
+      "p1": "Η PostgreSQL και το MinIO κρατούσαν τα δεδομένα τους σε persistent volume claims των 5 Gi και 10 Gi. Το καθένα έτρεχε ως Deployment με ένα replica και όχι ως StatefulSet: αρκετό για ένα deployment μαθήματος, όχι σχεδιασμός για failover.",
+      "p2": "Κάθε container είχε requests και limits για CPU και μνήμη. Τα probes του API καλούσαν το <code>/api/home</code>, μια διαδρομή που δεν θέλει σύνδεση, ώστε το Kubernetes να ξεχωρίζει μια εφαρμογή που ακόμη ξεκινά από μια που έχει αποτύχει.",
+      "p3": "Ένα script εγκατάστασης προετοίμασε το cluster μία φορά: εγκατέστησε τον NGINX ingress controller και το cert-manager, δημιούργησε τον issuer για το Let’s Encrypt και εφάρμοσε τα manifests. Από εκεί και πέρα, μια εκτέλεση των pipelines με kubectl χρειαζόταν μόνο να κάνει rollout ένα νέο image."
+    },
+    "challenges": {
+      "lead": "Η τελευταία εβδομάδα του Ιουνίου 2025 πήγε λιγότερο σε λειτουργίες και περισσότερο σε προβλήματα που φαίνονται μόνο όταν τα κομμάτια τρέχουν μαζί. Τέσσερα από αυτά, από το ιστορικό των commits:",
+      "rows": {
+        "reach": {
+          "title": "Το Jenkins δεν έβρισκε το cluster",
+          "body": "Το Jenkins έτρεχε σε container και το τοπικό cluster του Minikube βρισκόταν έξω από αυτό. Η διεύθυνση στο kubeconfig πέρασε από το <code>host.docker.internal</code>, την IP του Minikube, ένα kubectl proxy και το gateway της γέφυρας του Docker. Στα pipelines για το AKS το ζήτημα λύθηκε αλλιώς: παίρνουν kubeconfig από το Azure στην αρχή κάθε εκτέλεσης."
+        },
+        "probes": {
+          "title": "Έλεγχοι υγείας σε ένα προστατευμένο API",
+          "body": "Κάθε διαδρομή πίσω από το Spring Security θέλει token, και ένα probe του Kubernetes δεν έχει. Στρέψαμε τα probes στο <code>/api/home</code>, μια διαδρομή χωρίς σύνδεση, και προσθέσαμε startup probe με μεγαλύτερες καθυστερήσεις, ώστε μια αργή εκκίνηση να μη θεωρείται αποτυχία."
+        },
+        "memory": {
+          "title": "Το API έμενε χωρίς μνήμη",
+          "body": "Το container του API τερματιζόταν επειδή ξεπερνούσε τη μνήμη του. Αυξήσαμε τη μνήμη του και δώσαμε στο JVM ρητό όριο heap μέσω <code>JAVA_TOOL_OPTIONS</code>, ώστε να χωρά μέσα στο όριο του container."
+        },
+        "names": {
+          "title": "Ονόματα και tags που έπρεπε να ταιριάζουν",
+          "body": "Το ConfigMap ανέφερε ονόματα services που δεν ταίριαζαν με τα Services των manifests, και στα pipelines με Ansible έπρεπε να δηλωθεί ποιο tag θα γίνει deploy: ο αριθμός build του image που μόλις ανέβηκε ή το <code>latest</code> για το κομμάτι που δεν είχε αλλάξει."
+        }
+      }
+    },
+    "learned": {
+      "lead": "Το έργο μετακίνησε το σημείο όπου θεωρώ ότι τελειώνει μια εφαρμογή. Δεν τελειώνει όταν περνούν τα tests· τελειώνει όταν κάτι έξω από το πρόγραμμα μπορεί να την ξεκινήσει, να την ελέγξει και να τη φτάσει.",
+      "rows": {
+        "health": {
+          "title": "Ο έλεγχος υγείας είναι κι αυτός interface",
+          "body": "Το Kubernetes γνωρίζει μια εφαρμογή μόνο μέσα από τα probes της. Η διαδρομή που καλούν είναι μέρος του API όπως όλες οι άλλες, με δικούς της κανόνες πρόσβασης, κι αν είναι λάθος, μια υπηρεσία που δουλεύει κάνει restart."
+        },
+        "config": {
+          "title": "Η διαμόρφωση περνά από αρχείο σε αρχείο",
+          "body": "Ένα όνομα service σε ένα ConfigMap, ένα tag που περνά σε ένα playbook: ό,τι χάλασε ήταν τιμές γραμμένες σε ένα αρχείο και διαβασμένες σε άλλο. Θέλουν την ίδια προσοχή με τον κώδικα και ένα μόνο σημείο όπου ορίζονται."
+        },
+        "limits": {
+          "title": "Τα όρια αφορούν και το πρόγραμμα",
+          "body": "Ένα όριο μνήμης στο container είναι μισή ρύθμιση. Το πρόγραμμα μέσα του έχει τη δική του εικόνα για το πόση μνήμη μπορεί να χρησιμοποιήσει, και τα δύο πρέπει να επιλέγονται μαζί."
+        },
+        "written": {
+          "title": "Γραμμένο, όχι από μνήμης",
+          "body": "Στο τέλος, η σύνδεση στο registry, το rollout ενός image και η αναμονή του ήταν βήματα σε ένα pipeline ή ένα playbook, όχι εντολές που έπρεπε κάποιος να θυμάται. Αυτό έκανε το δεύτερο deployment ίδιο με το πρώτο."
+        }
+      },
+      "back": "Πίσω στα έργα"
+    }
+  },
+  "openstackPage": {
+    "metaTitle": "OpenStack: Ένα ιδιωτικό cloud μέσα σε ένα VM του Google Cloud",
+    "title": "Ένα ιδιωτικό cloud μέσα σε ένα VM του Google Cloud",
+    "subtitle": "Το OpenStack σε ένα μόνο VM στο Google Cloud, και η δικτύωση Linux που επέτρεψε στα instances του να βγουν προς τα έξω και να αντέχουν μια επανεκκίνηση",
+    "description": "Ατομικό ακαδημαϊκό έργο: OpenStack με DevStack σε VM του Google Cloud, και η δικτύωση Linux, το debugging και η αποκατάσταση με systemd που έκαναν τα instances του προσβάσιμα.",
+    "back": "Περισσότερα έργα",
+    "contents": "Περιεχόμενα",
+    "kind": "Ατομικό ακαδημαϊκό έργο",
+    "periodLabel": "Περίοδος",
+    "period": "Ιούνιος 2026",
+    "platformLabel": "Πλατφόρμα",
+    "platform": "DevStack σε Ubuntu 24.04, Google Cloud n2-standard-4",
+    "contextLabel": "Πλαίσιο",
+    "context": "Χαροκόπειο Πανεπιστήμιο: Διαχείριση Υπολογιστικού Νέφους",
+    "sections": {
+      "environment": {
+        "nav": "Περιβάλλον",
+        "title": "Ένα VM, δύο επίπεδα εικονικοποίησης"
+      },
+      "openstack": {
+        "nav": "Το OpenStack",
+        "title": "Ένας tenant, όπως θα τον παρέδιδε ένας διαχειριστής"
+      },
+      "network": {
+        "nav": "Δικτύωση",
+        "title": "Δύο δίκτυα που δεν γνώριζαν το ένα το άλλο"
+      },
+      "debugging": {
+        "nav": "Debugging",
+        "title": "Ακολουθώντας ένα πακέτο ως εκεί που χανόταν"
+      },
+      "application": {
+        "nav": "Εφαρμογή",
+        "title": "Ένα API και η βάση του στο δίκτυο του tenant"
+      },
+      "reflection": {
+        "nav": "Αποτίμηση",
+        "title": "Τι θα άλλαζα"
+      }
+    },
+    "environment": {
+      "p1": "Η εργασία ζητούσε να στηθεί OpenStack και να διαχειριστώ έναν tenant από την αρχή ως το τέλος: project και χρήστη, quotas, δίκτυο και instances, και στο τέλος μια εφαρμογή πάνω τους. Έτρεξα το DevStack σε ένα μόνο VM στο Google Cloud.",
+      "p2": "Έτσι, στην ίδια στοίβα υπάρχουν δύο hypervisors. Το VM είναι το πρώτο επίπεδο και τα instances που ξεκινά το Nova είναι εικονικές μηχανές μέσα σε αυτό. Το δημιούργησα με ενεργό nested virtualisation."
+    },
+    "openstack": {
+      "lead": "Το DevStack εγκατέστησε το OpenStack σε αυτόν τον έναν host, με τις υπηρεσίες του να τρέχουν ως 24 systemd units. Μέσα του έστησα έναν tenant:",
+      "services": {
+        "keystone": "ένα project, έναν χρήστη με τον ρόλο member και ένα αρχείο openrc για αυτόν τον χρήστη",
+        "glance": "ένα image Ubuntu 22.04 Minimal και για τα δύο instances",
+        "nova": "δικά μου flavors και quotas για το project",
+        "neutron": "ιδιωτικό δίκτυο και subnet, router προς το δημόσιο δίκτυο, ένα security group και floating IPs"
+      },
+      "scope": "Ο διαχωρισμός του tenant από τον admin έφερε τα περισσότερα προβλήματα. Από τα 18 που κατέγραψα, τα 8 προήλθαν από πόρους που δημιουργήθηκαν ή αναζητήθηκαν με τα credentials του admin: ένα security group που «δεν βρέθηκε», ένα key pair «μη έγκυρο», ένα instance χωρίς ιδιωτική διεύθυνση. Κάθε πόρος ανήκει στο project που τον δημιούργησε, άρα τα credentials που χρησιμοποιούνται καθορίζουν τι υπάρχει."
+    },
+    "network": {
+      "p1": "Η κίνηση ενός instance περνά από δύο δίκτυα. Μέσα στο OpenStack, ο router του Neutron της δίνει μια διεύθυνση από το floating range και τη στέλνει έξω από το <code>br-ex</code>, το Open vSwitch bridge του host για το εξωτερικό δίκτυο. Έξω, το Google Cloud γνωρίζει μία μόνο διεύθυνση για όλο το μηχάνημα: την εσωτερική διεύθυνση του VM στο <code>ens4</code>, τη μοναδική του κάρτα δικτύου.",
+      "p2": "Τίποτα δεν ένωνε τα δύο. Οι οδηγίες των εργαστηρίων είχαν γραφτεί για VirtualBox και δεν το κάλυπταν, οπότε ο host έπρεπε να δρομολογεί και να μεταφράζει μόνος του την κίνηση.",
+      "p3": "Η σύνδεση του <code>ens4</code> στο <code>br-ex</code> δεν ήταν επιλογή. Είχα τρέξει αυτή την εντολή <code>ovs-vsctl</code> μία φορά, σε ένα από τα πρώτα εργαστήρια: η μοναδική κάρτα δικτύου του VM βγήκε από τη στοίβα δικτύου του host, το SSH κόπηκε, η serial console δεν μπόρεσε να το επαναφέρει και έστησα το VM από την αρχή. Από τότε, το <code>ens4</code> έμεινε στον host και η κίνηση δρομολογείται προς αυτό, δεν γεφυρώνεται.",
+      "figure": {
+        "caption": "Τα επίπεδα που διασχίζει η κίνηση ενός instance, μέσα σε ένα VM του Google Cloud",
+        "google": "Δίκτυο του Google Cloud",
+        "googleNote": "Προωθεί κίνηση από το VM μόνο όταν η πηγή της είναι η διεύθυνση του ίδιου του VM",
+        "vm": "VM στο Google Cloud",
+        "vmNote": "Nested virtualisation με KVM",
+        "ens4": "Η μοναδική του κάρτα δικτύου",
+        "iptables": "MASQUERADE στο ens4, FORWARD μεταξύ br-ex και ens4, αποθηκευμένα με iptables-persistent",
+        "brex": "Open vSwitch bridge για το εξωτερικό δίκτυο του OpenStack",
+        "brexSetup": "Oneshot unit που επαναφέρει τη διεύθυνση του bridge και το route του floating range σε κάθε εκκίνηση",
+        "openstack": "OpenStack, εγκατεστημένο με DevStack",
+        "router": "Router του Neutron",
+        "routerNote": "Gateway στο δημόσιο δίκτυο, ένα floating IP ανά instance",
+        "tenant": "Ιδιωτικό δίκτυο του tenant",
+        "tenantNote": "Ένα security group: TCP 22, 80 και 5432, και ICMP",
+        "vmApp": "NGINX στη θύρα 80, Gunicorn, Flask",
+        "vmDb": "PostgreSQL 14 στη θύρα 5432",
+        "link": "με ιδιωτική διεύθυνση",
+        "added": "Προστέθηκαν στον host για να συνδεθούν τα επίπεδα",
+        "addedPrefix": "Προστέθηκε στον host:",
+        "outbound": "Έξοδος",
+        "testing": "Έλεγχος",
+        "testPath": "SSH tunnel μέσω του host προς το vm-app, θύρα 80",
+        "steps": {
+          "instance": "Instance",
+          "router": "Router του Neutron",
+          "google": "Google Cloud"
+        }
+      }
+    },
+    "debugging": {
+      "rows": {
+        "symptom": {
+          "label": "Σύμπτωμα",
+          "body": "Στο πρώτο instance, το ping δεν έπαιρνε απάντηση και το <code>apt update</code> κολλούσε στο «Connecting to archive.ubuntu.com». Κανένα μήνυμα λάθους, πουθενά."
+        },
+        "trace": {
+          "label": "Εντοπισμός",
+          "body": "<code>tcpdump</code> σε κάθε interface κατά μήκος της διαδρομής: τα πακέτα εμφανίζονταν στο tap interface του instance και στο <code>br-ex</code>, ποτέ στο <code>ens4</code>."
+        },
+        "cause": {
+          "label": "Αιτία",
+          "body": "Ο host δεν προωθούσε πακέτα μεταξύ <code>br-ex</code> και <code>ens4</code>, και ό,τι προωθούσε θα έφευγε με διεύθυνση πηγής από το floating range, την οποία το Google Cloud απορρίπτει χωρίς απάντηση."
+        },
+        "fix": {
+          "label": "Λύση",
+          "body": "Ενεργό IP forwarding, κανόνες FORWARD από το <code>br-ex</code> προς τα έξω και πίσω μόνο για εγκατεστημένες συνδέσεις, MASQUERADE στο <code>ens4</code>, όλα αποθηκευμένα με iptables-persistent."
+        }
+      },
+      "persistence": "Αυτό άντεξε ώσπου το VM σταμάτησε και ξεκίνησε ξανά. Οι κανόνες iptables επανήλθαν, αλλά το <code>br-ex</code> ξεκίνησε χωρίς τη διεύθυνση και το route του, και τα floating IPs έγιναν ξανά απρόσιτα. Στην αρχή κρατούσα μια λίστα εντολών για να τις ξανατρέχω. Μετά την αντικατέστησα με το <code>brex-setup.service</code>, ένα oneshot systemd unit που τρέχει μετά το δίκτυο και το DevStack και επαναφέρει το bridge σε κάθε εκκίνηση.",
+      "lesson": "Τι κράτησα: το πρόβλημα βρίσκεται ένα βήμα μετά το τελευταίο interface όπου το πακέτο φαίνεται ακόμα, και μια διόρθωση που χάνεται με μια επανεκκίνηση δεν έχει τελειώσει μέχρι να γίνει μέρος της εκκίνησης."
+    },
+    "application": {
+      "p1": "Για να ελέγξω τον tenant από άκρη σε άκρη, έστησα μια μικρή εφαρμογή δύο επιπέδων. Τα εργαστήρια έβαζαν PostgreSQL και Flask στο ίδιο VM. Εγώ τα χώρισα σε δύο instances, ώστε το API να φτάνει στη βάση του μέσα από το ιδιωτικό δίκτυο του OpenStack.",
+      "p2": "Το <code>vm-db</code> τρέχει PostgreSQL 14, ρυθμισμένη να δέχεται απομακρυσμένες συνδέσεις. Το <code>vm-app</code> τρέχει ένα Flask API με Gunicorn ως systemd service, πίσω από NGINX στη θύρα 80, και συνδέεται στο <code>vm-db</code> με την ιδιωτική του διεύθυνση. Ο τελικός έλεγχος έγινε μέσω SSH tunnel από τον host: το <code>/api/products</code> επέστρεψε τέσσερα προϊόντα σε JSON, διαβασμένα από το άλλο instance."
+    },
+    "reflection": {
+      "body": "Λειτούργησε, αλλά ήταν στημένο για εργαστήριο. Τα δύο instances μοιράζονται ένα security group, οπότε η θύρα της PostgreSQL είναι ανοιχτή και στο VM της εφαρμογής και η θύρα 80 στη βάση. Θα έδινα σε κάθε επίπεδο δικό του group, με τη 5432 ανοιχτή μόνο για το <code>vm-app</code>. Ο κωδικός της βάσης βρίσκεται μέσα στον κώδικα της εφαρμογής και η PostgreSQL ακούει σε όλα τα interfaces. Και η δικτύωση του host ανήκει στον τρόπο που στήνεται το VM, όχι σε διορθώσεις που προστέθηκαν στην πορεία.",
+      "back": "Πίσω στα έργα"
+    }
+  },
   "gallery": {
     "carousel": "καρουζέλ",
     "slide": "διαφάνεια",
@@ -735,13 +1135,21 @@
       "name": "ErgoHub",
       "kind": "Ακαδημαϊκό έργο · Ομάδα δύο ατόμων",
       "title": "Πλατφόρμα freelance<br></br>σε Azure Kubernetes",
-      "body": "Spring Boot 3, React/Redux, PostgreSQL, MinIO, Docker, AKS, NGINX Ingress, Ansible και έξι Jenkins pipelines."
+      "body": "Οι πελάτες αναρτούν έργα, ένας διαχειριστής τα εγκρίνει ή τα απορρίπτει και οι freelancers κάνουν αίτηση, αν θέλουν με βιογραφικό. Γράψαμε το API σε Spring Boot και το frontend σε React και έπειτα όλη τη διαδρομή ως το cluster: ελεγμένα container images, ιδιωτικό registry και deployment σε Kubernetes στο Azure, πίσω από NGINX Ingress με HTTPS.",
+      "pipelines": "<num>{count}</num> <label>ορισμοί Jenkins pipeline</label>",
+      "cta": "Διαβάστε τη μελέτη περίπτωσης"
     },
     "openstack": {
       "name": "OpenStack",
       "kind": "Ατομικό ακαδημαϊκό έργο",
       "title": "Ιδιωτικό cloud<br></br>στο Google Cloud",
-      "body": "DevStack με nested virtualisation, Keystone, Glance, Neutron, Nova, δρομολόγηση <nb>floating IP</nb> και αποκατάσταση μέσω systemd."
+      "body": "OpenStack σε ένα VM του Google Cloud, με DevStack και nested virtualisation. Το μεγαλύτερο μέρος της δουλειάς ήταν το δίκτυο ανάμεσα στα επίπεδα: floating IPs που υπήρχαν μόνο μέσα στον host, πακέτα που απέρριπτε το Google Cloud, ένα bridge που έχανε τη δρομολόγησή του σε κάθε επανεκκίνηση. Το αποτέλεσμα: ένα Flask API που διαβάζει PostgreSQL μέσα από το ιδιωτικό δίκτυο του tenant.",
+      "signals": [
+        "DevStack",
+        "Google Cloud",
+        "Δικτύωση Linux"
+      ],
+      "cta": "Διαβάστε τη μελέτη περίπτωσης"
     },
     "cuda": {
       "name": "CUDA",

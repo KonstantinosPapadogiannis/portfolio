@@ -148,7 +148,14 @@ for (const locale of locales) {
 
   test(`no horizontal overflow (${locale.home})`, async ({ page }) => {
     const prefix = locale.home === "/" ? "" : "/el";
-    const paths = [locale.home, `${prefix}/resume`, `${prefix}/work/thesis`, `${prefix}/qa/typography`];
+    const paths = [
+      locale.home,
+      `${prefix}/resume`,
+      `${prefix}/work/thesis`,
+      `${prefix}/work/ergohub`,
+      `${prefix}/work/openstack`,
+      `${prefix}/qa/typography`,
+    ];
     for (const width of [390, 768, 1440, 1728]) {
       await page.setViewportSize({ width, height: 900 });
       for (const path of paths) {

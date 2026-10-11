@@ -23,6 +23,18 @@ const locales = [
     cta: "Read case study",
     thesisTitle: "Distributed subsidy management on Hyperledger Fabric",
     caseTitle: "Designing Trust Across Seven Organisations",
+    ergohub: {
+      title: "Freelance marketplace on Azure Kubernetes",
+      team: "Team of two",
+      pipelines: "6 Jenkins pipeline definitions",
+      caseTitle: "From Application Code to a Kubernetes Cluster",
+    },
+    openstack: {
+      title: "Private cloud deployment on Google Cloud",
+      signals: ["DevStack", "Google Cloud", "Linux networking"],
+      caseTitle: "A Private Cloud Inside One Google Cloud VM",
+      maxWords: 70,
+    },
     figure: "System architecture / simplified",
     organisations: "Organisations on the channel",
     portrait: "Portrait of Konstantinos Papadogiannis",
@@ -110,6 +122,19 @@ const locales = [
     cta: "Διαβάστε τη μελέτη περίπτωσης",
     thesisTitle: "Κατανεμημένη διαχείριση επιδοτήσεων σε Hyperledger Fabric",
     caseTitle: "Σχεδιάζοντας εμπιστοσύνη ανάμεσα σε επτά οργανισμούς",
+    ergohub: {
+      title: "Πλατφόρμα freelance σε Azure Kubernetes",
+      team: "Ομάδα δύο ατόμων",
+      pipelines: "6 ορισμοί Jenkins pipeline",
+      caseTitle: "Από τον κώδικα της εφαρμογής σε ένα Kubernetes cluster",
+    },
+    openstack: {
+      title: "Ιδιωτικό cloud στο Google Cloud",
+      signals: ["DevStack", "Google Cloud", "Δικτύωση Linux"],
+      caseTitle: "Ένα ιδιωτικό cloud μέσα σε ένα VM του Google Cloud",
+      // Greek takes a few more words for the same sentences.
+      maxWords: 80,
+    },
     figure: "Αρχιτεκτονική συστήματος / απλοποιημένη",
     organisations: "Οργανισμοί στο κανάλι",
     portrait: "Πορτρέτο του Κωνσταντίνου Παπαδογιάννη",
@@ -255,6 +280,15 @@ const fold = (text: string) =>
 
 const hero = (page: Page) => page.locator('section[aria-labelledby="hero-heading"]');
 
+// The sections whose blocks fade in as they are reached, besides the story,
+// by the id of their heading. The hero has its own entrance on load.
+const revealedSections = ["work", "about", "academic", "interests", "more-work", "technologies"];
+
+type RevealWindow = typeof window & {
+  __revealObservers: { created: number; disconnected: number };
+  __layoutShift: { value: number };
+};
+
 for (const locale of locales) {
   test.describe(`homepage (${locale.home})`, () => {
     test("hero links to the work, the résumé PDF and both profiles", async ({ page }) => {
@@ -315,7 +349,12 @@ for (const locale of locales) {
         locale.name,
       );
 
-      for (const path of [locale.home, `${locale.prefix}/work/thesis`]) {
+      for (const path of [
+        locale.home,
+        `${locale.prefix}/work/thesis`,
+        `${locale.prefix}/work/ergohub`,
+        `${locale.prefix}/work/openstack`,
+      ]) {
         await page.goto(path);
         expect(await page.locator("body").innerText(), path).not.toMatch(/\bKP\b/);
       }
@@ -359,11 +398,80 @@ for (const locale of locales) {
 
     test("the thesis link opens the case study page", async ({ page }) => {
       await page.goto(locale.home);
-      const cta = page.getByRole("link", { name: locale.cta });
+      const cta = page
+        .getByRole("article", { name: locale.thesisTitle })
+        .getByRole("link", { name: locale.cta, exact: true });
       await expect(cta).toHaveAttribute("href", `${locale.prefix}/work/thesis`);
       await cta.click();
       await expect(page).toHaveURL(new RegExp(`${locale.prefix}/work/thesis$`));
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(locale.caseTitle);
+    });
+
+    // A major project with a case study: its title and meta, a description of
+    // two to four sentences, one or two concrete signals and the link to the
+    // case study (docs/CONTENT_AND_VOICE.md). Below the thesis, in More work.
+    test("ErgoHub: a short entry with its signals, linked to its case study", async ({ page }) => {
+      await page.goto(locale.home);
+      await expect(
+        page.locator("#work").getByRole("article", { name: locale.ergohub.title }),
+      ).toHaveCount(0);
+      const entry = page
+        .locator("#more-work")
+        .getByRole("article", { name: locale.ergohub.title });
+      await expect(entry).toContainText("2025");
+      await expect(entry).toContainText(locale.ergohub.team);
+      await expect(entry).toContainText(locale.ergohub.pipelines);
+      for (const item of ["Docker", "ACR", "AKS"]) await expect(entry).toContainText(item);
+
+      const words = (text: string) => text.match(/[\p{L}\p{N}][\p{L}\p{N}’'-]*/gu)?.length ?? 0;
+      const title = await entry.getByRole("heading", { level: 3 }).innerText();
+      const body = await entry.locator("h3 + p").innerText();
+      const signals = await entry.locator("h3 + p + p").innerText();
+      const sentences = body.split(/[.!?](?:\s|$)/).filter((part) => part.trim()).length;
+      expect(sentences).toBeGreaterThanOrEqual(2);
+      expect(sentences).toBeLessThanOrEqual(4);
+      const total = words(title) + words(body) + words(signals);
+      expect(total).toBeGreaterThanOrEqual(45);
+      expect(total).toBeLessThanOrEqual(80);
+
+      const cta = entry.getByRole("link", { name: `${locale.cta}: ErgoHub`, exact: true });
+      await expect(cta).toHaveAttribute("href", `${locale.prefix}/work/ergohub`);
+      await cta.click();
+      await expect(page).toHaveURL(new RegExp(`${locale.prefix}/work/ergohub$`));
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(locale.ergohub.caseTitle);
+    });
+
+    // A focused case study: what was built, where, the problem it was about
+    // and what worked at the end, in one short entry; three signals, no list
+    // of tools; the link to the case study.
+    test("OpenStack: a short entry with its signals, linked to its case study", async ({
+      page,
+    }) => {
+      await page.goto(locale.home);
+      const entry = page
+        .locator("#more-work")
+        .getByRole("article", { name: locale.openstack.title });
+      await expect(entry).toContainText("2026");
+      const signals = entry.locator("h3 + p + p");
+      for (const item of locale.openstack.signals) await expect(signals).toContainText(item);
+
+      const words = (text: string) => text.match(/[\p{L}\p{N}][\p{L}\p{N}’'-]*/gu)?.length ?? 0;
+      const title = await entry.getByRole("heading", { level: 3 }).innerText();
+      const body = await entry.locator("h3 + p").innerText();
+      const sentences = body.split(/[.!?](?:\s|$)/).filter((part) => part.trim()).length;
+      expect(sentences).toBeGreaterThanOrEqual(2);
+      expect(sentences).toBeLessThanOrEqual(4);
+      const total = words(title) + words(body) + words(await signals.innerText());
+      expect(total).toBeGreaterThanOrEqual(45);
+      expect(total).toBeLessThanOrEqual(locale.openstack.maxWords);
+
+      const cta = entry.getByRole("link", { name: `${locale.cta}: OpenStack`, exact: true });
+      await expect(cta).toHaveAttribute("href", `${locale.prefix}/work/openstack`);
+      await cta.click();
+      await expect(page).toHaveURL(new RegExp(`${locale.prefix}/work/openstack$`));
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+        locale.openstack.caseTitle,
+      );
     });
 
     test("footer links and back to top", async ({ page }) => {
@@ -613,7 +721,13 @@ for (const locale of locales) {
     });
 
     test("the year of birth and the age are not published", async ({ page }) => {
-      for (const path of [locale.home, `${locale.prefix}/work/thesis`, `${locale.prefix}/resume`]) {
+      for (const path of [
+        locale.home,
+        `${locale.prefix}/work/thesis`,
+        `${locale.prefix}/work/ergohub`,
+        `${locale.prefix}/work/openstack`,
+        `${locale.prefix}/resume`,
+      ]) {
         await page.goto(path);
         const text = await page.evaluate(() =>
           [
@@ -677,8 +791,134 @@ for (const locale of locales) {
       }
     });
 
+    test("hero: one short entrance on load, in CSS, that ends visible", async ({ page }) => {
+      await page.goto(locale.home);
+      const parts = hero(page).locator("[data-enter]");
+      expect(await parts.count()).toBeGreaterThan(0);
+      const animations = await parts.evaluateAll((els) =>
+        els.map((el) => {
+          const style = getComputedStyle(el);
+          return [style.animationName, style.animationDuration, style.animationIterationCount];
+        }),
+      );
+      for (const animation of animations) expect(animation).toEqual(["enter", "0.5s", "1"]);
+      await expect
+        .poll(() => parts.evaluateAll((els) => els.every((el) => getComputedStyle(el).opacity === "1")))
+        .toBe(true);
+    });
+
+    // Every section after the hero comes in as the story does, block by
+    // block and once, through one observer for the whole page that is
+    // dropped when nothing is left to show. Opacity and transform only, so
+    // nothing moves in the layout. The footer does not move at all.
+    test("sections: blocks below the fold come in once, without moving the layout", async ({
+      page,
+    }) => {
+      await page.addInitScript(() => {
+        const Native = window.IntersectionObserver;
+        const log = { created: 0, disconnected: 0 };
+        const reveal = new WeakSet<IntersectionObserver>();
+        // The reveal observer is the one with its margin (components/ui/reveal.tsx).
+        window.IntersectionObserver = class extends Native {
+          constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+            super(callback, options);
+            if (options?.rootMargin === "0px 0px -8% 0px") {
+              reveal.add(this);
+              log.created++;
+            }
+          }
+          disconnect() {
+            if (reveal.has(this)) log.disconnected++;
+            super.disconnect();
+          }
+        };
+        const shift = { value: 0 };
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries() as (PerformanceEntry & {
+            value: number;
+            hadRecentInput: boolean;
+          })[]) {
+            if (!entry.hadRecentInput) shift.value += entry.value;
+          }
+        }).observe({ type: "layout-shift", buffered: true });
+        Object.assign(window, { __revealObservers: log, __layoutShift: shift });
+      });
+      await page.goto(locale.home);
+
+      for (const id of revealedSections) {
+        await expect(
+          page.locator(`section[aria-labelledby="${id}-heading"] [data-reveal]`).first(),
+        ).toBeAttached();
+      }
+      await expect(
+        page.getByRole("contentinfo").locator("[data-reveal], [data-enter]"),
+      ).toHaveCount(0);
+
+      const items = page.locator("main [data-reveal]");
+      const states = () =>
+        items.evaluateAll((els) =>
+          els.map((el) => ({
+            state: (el as HTMLElement).dataset.revealState ?? "none",
+            opacity: getComputedStyle(el).opacity,
+            top: el.getBoundingClientRect().top,
+          })),
+        );
+      const observers = () => page.evaluate(() => (window as RevealWindow).__revealObservers);
+      await expect.poll(async () => (await states()).some((s) => s.state === "pending")).toBe(true);
+      expect(await observers()).toEqual({ created: 1, disconnected: 0 });
+      // Nothing that was on screen when the script ran is hidden.
+      const viewport = page.viewportSize()!.height;
+      for (const s of await states()) if (s.top < viewport) expect(s.state).not.toBe("pending");
+      const height = (await page.getByRole("main").boundingBox())!.height;
+
+      // Read down the page: each block is shown as it is reached.
+      for (const item of await items.all()) {
+        await item.evaluate((el) => el.scrollIntoView({ block: "center" }));
+        await expect(item).not.toHaveAttribute("data-reveal-state", "pending");
+      }
+      await expect.poll(async () => (await states()).every((s) => s.opacity === "1")).toBe(true);
+      expect((await page.getByRole("main").boundingBox())!.height).toBe(height);
+      expect(await observers()).toEqual({ created: 1, disconnected: 1 });
+      const shift = await page.evaluate(() => (window as RevealWindow).__layoutShift.value);
+      expect(shift).toBeLessThan(0.01);
+
+      // Back to the top and down again: nothing hides a second time.
+      await page.evaluate(() => window.scrollTo(0, 0));
+      expect((await states()).every((s) => s.state !== "pending" && s.opacity === "1")).toBe(true);
+    });
+
+    test("sections: with reduced motion everything is shown at once", async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.goto(locale.home);
+      await page.waitForLoadState("networkidle");
+      const styles = await page
+        .locator("main [data-reveal], main [data-enter]")
+        .evaluateAll((els) =>
+          els.map((el) => ({
+            state: (el as HTMLElement).dataset.revealState ?? "none",
+            opacity: getComputedStyle(el).opacity,
+            transform: getComputedStyle(el).transform,
+          })),
+        );
+      expect(styles.length).toBeGreaterThan(30);
+      for (const style of styles) {
+        expect(style).toEqual({ state: "none", opacity: "1", transform: "none" });
+      }
+    });
+
     test.describe("without JavaScript", () => {
       test.use({ javaScriptEnabled: false });
+
+      test("sections: every block and the hero are visible", async ({ page }) => {
+        await page.goto(locale.home);
+        const opacities = () =>
+          page
+            .locator("main [data-reveal], main [data-enter]")
+            .evaluateAll((els) => els.map((el) => getComputedStyle(el).opacity));
+        expect((await opacities()).length).toBeGreaterThan(30);
+        // The entrance is CSS only and ends on its own.
+        await expect.poll(async () => (await opacities()).every((o) => o === "1")).toBe(true);
+      });
 
       test("story: the whole story is there and visible", async ({ page }) => {
         await page.goto(locale.home);
@@ -830,6 +1070,8 @@ test("keyboard order follows the page and every stop shows a focus ring", async 
     "GitHub",
     "LinkedIn",
     "Read case study",
+    "Read case study: ErgoHub",
+    "Read case study: OpenStack",
     "Work",
     "About",
     "Résumé",

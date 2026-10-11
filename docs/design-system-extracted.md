@@ -640,6 +640,20 @@ their grade. Measured (English): 550px at 1440, 1001px at 390.
 hairlines between columns (horizontal rules on phones). Below them,
 "Additional work": Computer Vision and Energy Data Mining with smaller
 titles and no column rules. Six projects in all, the thesis first.
+ErgoHub has a case study, so its entry is the major-project teaser
+(docs/CONTENT_AND_VOICE.md): the same title and meta, two sentences, a
+line of two signals in 13px (`6 Jenkins pipeline definitions`, then
+`Docker · ACR · AKS` muted) and `Read case study` as a text link, in the
+column's own width; nothing about the row changes. The label and each
+project come in once as blocks as they are reached.
+
+**Motion across the homepage.** The hero comes in on load in three steps
+(CSS only). Below it, Selected work, About, Academic highlights,
+Interests, More work and Technologies fade in by blocks as they are
+reached (opacity and 12px, once); the story keeps its paragraph-by-
+paragraph reveal, the richest on the page. No parallax, scale, blur or
+scroll control; the footer never moves. Under reduced motion or without
+JavaScript everything is simply shown.
 
 **Technologies.** Typographic groups, no icons or levels.
 

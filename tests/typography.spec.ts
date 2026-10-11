@@ -5,6 +5,8 @@ type RenderedText = {
   lang: string;
   text: string;
   declared: string;
+  // Prose with inline code: the code is drawn in Plex Mono, inside the run.
+  hasCode: boolean;
   fonts: { familyName: string; isCustomFont: boolean }[];
 };
 
@@ -17,7 +19,7 @@ const BRAND = ["K. Papadogiannis", "Konstantinos Papadogiannis"];
 async function renderedFonts(page: Page): Promise<RenderedText[]> {
   await page.evaluate(() => document.fonts.ready);
   const meta = await page.evaluate(() => {
-    const rows: { lang: string; text: string; declared: string }[] = [];
+    const rows: { lang: string; text: string; declared: string; hasCode: boolean }[] = [];
     for (const el of document.querySelectorAll("body *")) {
       const ownText = [...el.childNodes]
         .filter((node) => node.nodeType === Node.TEXT_NODE)
@@ -30,6 +32,7 @@ async function renderedFonts(page: Page): Promise<RenderedText[]> {
         lang: el.closest("[lang]")?.getAttribute("lang") ?? "",
         text: ownText,
         declared: getComputedStyle(el).fontFamily.split(",")[0].replace(/"/g, "").trim(),
+        hasCode: el.querySelector("code") !== null,
       });
     }
     return rows;
@@ -61,12 +64,15 @@ function expectLanguageFonts(rows: RenderedText[]) {
     const where = `"${row.text.slice(0, 50)}" (lang=${row.lang})`;
     const families = row.fonts.map((font) => font.familyName);
 
-    // One web font per text run: no fallback glyphs, no mid-sentence switch.
-    expect(families, where).toEqual([row.declared]);
+    // One web font per text run: no fallback glyphs, no mid-sentence switch
+    // other than to Plex Mono for inline code.
+    const expected = row.hasCode ? [row.declared, "IBM Plex Mono"] : [row.declared];
+    expect([...families].sort(), where).toEqual([...new Set(expected)].sort());
     expect(row.fonts.every((font) => font.isCustomFont), where).toBe(true);
 
     if (GREEK.test(row.text)) {
-      expect(families, where).toEqual(["Inter"]);
+      const text = families.filter((family) => !(row.hasCode && family === "IBM Plex Mono"));
+      expect(text, where).toEqual(["Inter"]);
     }
     if (row.lang === "el") {
       // Greek prose is Inter; code tags stay in Plex Mono, the Latin name in
@@ -80,7 +86,16 @@ function expectLanguageFonts(rows: RenderedText[]) {
   }
 }
 
-for (const path of ["/qa/typography", "/el/qa/typography", "/", "/el"]) {
+for (const path of [
+  "/qa/typography",
+  "/el/qa/typography",
+  "/",
+  "/el",
+  "/work/ergohub",
+  "/el/work/ergohub",
+  "/work/openstack",
+  "/el/work/openstack",
+]) {
   test(`every text run on ${path} is drawn by its language's web font`, async ({
     page,
   }) => {

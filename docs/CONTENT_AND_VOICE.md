@@ -170,19 +170,148 @@ Go testing, Vitest, Playwright, JUnit, Jest
 
 Present these typographically, not as a logo cloud.
 
+## Project entries on the homepage
+
+The thesis is the flagship, in Selected work. ErgoHub, OpenStack and CUDA
+are the major projects, in the More work row; Computer Vision and Energy
+Data Mining are compact, under Additional work.
+
+A major project with a case study gets the major-project teaser, in its
+column of the row and nothing larger:
+- title and the meta line (number, name, year; kind and team);
+- a description of two to four sentences: what the system does, then what
+  was built, in plain terms;
+- one or two concrete signals, facts that can be checked in the project
+  (a count, the platform), not adjectives;
+- `Read case study` / `Διαβάστε τη μελέτη περίπτωσης`, a text link to the
+  case study in the reader's language, named with the project for
+  assistive technology ("Read case study: ErgoHub").
+
+45–80 words in English for the title, the description and the signals
+together (45–70 for OpenStack). The case study carries the detail; the teaser only has to say
+what the project is and why it is worth opening. A major project without a
+case study keeps title, meta and one or two sentences, as now.
+
 ## Other project facts
 
 ### ErgoHub
-Academic project · Team of two · Feb–Jul 2025
+Academic project · Team of two, with Anastasia Zerva · February–July 2025
+Harokopio University of Athens: Distributed Systems, then DevOps Concepts &
+Tools. Case study at `/work/ergohub` and `/el/work/ergohub`.
 
-Spring Boot 3, Java 21, React, Redux, PostgreSQL, MinIO, Docker, Azure Container Registry, AKS, NGINX Ingress, Let's Encrypt TLS, persistent storage, 6 Jenkins pipelines, JUnit, Jest, Ansible.
+Verified in the project repositories (read-only; nothing is copied from
+them):
+- A freelance marketplace: clients post projects, an administrator approves
+  or denies them, freelancers apply, optionally with a CV.
+- Spring Boot 3 on Java 21: Spring Security, stateless JWT (shared HMAC
+  key, 24 hours, with the role and whether the account is verified), BCrypt, Spring Data JPA on PostgreSQL, MinIO for CV files,
+  JUnit with H2 for tests. Mail: MailHog under Docker Compose (the `dev`
+  profile). The cluster ran the `prod` profile, whose mail sender is a
+  real SMTP relay, so never say the cluster's mail went to MailHog (its
+  Deployment existed, but it was not the application's mail path). Do not
+  name the relay or anything about its account.
+- Chat exists: a thread per project between the client and the
+  freelancer, which polls the API about every three seconds. Never call it
+  real-time; there are no WebSockets or server-sent events.
+- React with Redux Toolkit and React Router, tested with Jest and React
+  Testing Library, served by NGINX.
+- Docker images for the API and the front end, pushed to Azure Container
+  Registry with the build number and `latest`.
+- Six Jenkins pipeline definitions (six Jenkinsfiles): one for the API and
+  one for the front end, for each of three ways to deploy (AKS with
+  kubectl, AKS through an Ansible playbook, and a local Minikube cluster
+  through Ansible, with images on Docker Hub). The stage names on the page
+  are the ones in the files. Provenance is in Git: the kubectl and Minikube
+  pairs are in the full-history repository, and the `-ansible` pair was
+  created upstream in commit `3d4c214` (2025-07-03). There
+  are no build logs, so the claim is "definitions": never "six successful"
+  or "six production" pipelines. Teaser signal: `6 Jenkins pipeline
+  definitions` / `6 ορισμοί Jenkins pipeline`. Do not invent pipeline
+  names.
+- AKS: one namespace, five single-replica Deployments (frontend, backend,
+  postgres, minio, mailhog), persistent volume claims of 5 Gi and 10 Gi,
+  requests and limits, startup, liveness and readiness probes, a ConfigMap
+  and a Secret, NGINX Ingress with cert-manager and Let’s Encrypt, HTTPS
+  redirect.
 
-Do not imply solo authorship.
+Attribution: both of them worked across the API, the front end and the
+delivery, so the page says "we". "I" only where it is his own: the
+reflection at the end. Do not imply solo authorship.
+
+Accurate, not flattering: the Health Check stage only lists the pods; lint
+and `npm audit` do not fail the build; there is no password reset.
+
+Never claim: RS256, React 18, payments, ratings, real-time chat or
+messaging, that every pipeline ran successfully, a live demo, scores
+or grades for the project, users, traffic, uptime or an SLA, Helm,
+StatefulSets, SonarQube. Avoid production-ready, enterprise-grade, highly
+scalable, robust, seamless, cutting-edge, revolutionary.
+
+Not published: student numbers, the university email, the course
+deployment's hostnames, registry and Docker Hub account names, anything
+from kubeconfig, credential or environment files.
+
+The public repository is not linked yet: its README lists student numbers,
+features that were not built, RS256, React 18, a score and demo
+credentials. Link it only after the README is corrected.
 
 ### OpenStack Private Cloud on Google Cloud
-Individual academic project · Jun 2026
+Individual academic project · June 2026
+Harokopio University of Athens: Cloud Computing Management (Διαχείριση
+Υπολογιστικού Νέφους). Case study at `/work/openstack` and
+`/el/work/openstack`: a focused case study, 600–900 words in English
+(three to five minutes), with one diagram. Teaser: 45–70 words in English.
 
-DevStack, Google Cloud VM, nested virtualisation, Keystone, Glance, Neutron, Nova, security groups, Nginx, Flask, PostgreSQL 14, iptables masquerading, floating-IP routing, systemd restoration of br-ex routing.
+Its story is one: getting the layers to connect. OpenStack's network and
+Google Cloud's network did not know about each other, and the work was
+joining them on the host and keeping them joined across a restart.
+
+Verified in the project's report and notes (read-only; nothing is copied
+from them):
+- One Google Cloud n2-standard-4 VM with nested virtualisation, Ubuntu
+  24.04, DevStack all-in-one; its services run as 24 systemd units.
+- One tenant: a Keystone project, a user with the member role and its own
+  openrc file; a Glance Ubuntu 22.04 Minimal image; Nova flavors and
+  project quotas; a Neutron private network and subnet, a router to the
+  public network, floating IPs and one security group (TCP 22, 80, 5432
+  and ICMP).
+- Of 18 problems logged, 8 came from using the admin credentials for the
+  tenant's resources.
+- The trace: `tcpdump` saw the packets on the tap interface and on
+  `br-ex`, never on `ens4`. The fix: IP forwarding, FORWARD rules between
+  `br-ex` and `ens4`, MASQUERADE on `ens4`, saved with iptables-persistent.
+  Google Cloud drops traffic whose source is not the VM's address.
+- After a stop and start, `br-ex` lost its address and the route to the
+  floating range; a checklist, then `brex-setup.service`, a oneshot unit
+  after the network and DevStack.
+- An early `ovs-vsctl add-port br-ex ens4` cut the VM off; the serial
+  console did not bring it back, and the VM was rebuilt.
+- The lab exercises were written for VirtualBox and put PostgreSQL and
+  Flask on one VM; he split them into `vm-db` (PostgreSQL 14, remote
+  connections) and `vm-app` (Flask, Gunicorn as a systemd service, NGINX
+  on port 80). The final test went through an SSH tunnel:
+  `/api/products` returned four products.
+- Weak points, said on the page: one security group for both tiers, the
+  database password in the application code, PostgreSQL listening on
+  every interface.
+
+Voice: first person singular; it was his alone. "Individual academic
+project", never work for a company.
+
+Never claim: production, enterprise, a company or client, public access to
+the application, high availability, multi-node, Kubernetes, storage or
+load-balancing services that were not deployed, figures that were not
+measured. Do not explain OpenStack from general knowledge: only what the
+project's sources show. The source of the SNAT on the router (OVN) is
+supported, not verified: say it carefully or not at all. That nested
+virtualisation was enabled is verified; why (KVM rather than software
+emulation) comes only from the course guide, so the page does not say it.
+
+Not published: any address (including the floating range), project IDs,
+passwords and credentials, the names of the Google Cloud projects, the VM
+and the local machine, the course code, the professor's address, the
+fictional company in the assignment brief, and resource names that contain
+the student number.
 
 ### CUDA
 Individual academic project · Jun 2026

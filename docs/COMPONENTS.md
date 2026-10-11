@@ -188,12 +188,29 @@ Requirements:
   last line answers the question the story opens with. Type only: no images,
   icons, cards or timeline.
 - `Reveal` (`src/components/ui/reveal.tsx`): the one scroll motion on the
-  site, used only by Story. Fades each `[data-reveal]` child in (opacity,
-  translateY 12px, 520ms, 80ms apart, at most four steps) when it reaches
-  the viewport, once. The server renders everything visible; the script only
-  hides items still below the viewport when it runs, and does nothing under
-  reduced motion or without IntersectionObserver. One observer per Reveal,
-  disconnected once every item is shown. Styles at the end of `globals.css`.
+  site. Fades each `[data-reveal]` child in (opacity, translateY 12px,
+  520ms, 80ms apart, at most four steps) when it reaches the viewport, once.
+  The server renders everything visible; the script only hides items still
+  below the viewport when it runs, and does nothing under reduced motion or
+  without IntersectionObserver. One observer for the whole page, shared by
+  every Reveal, created when the first item waits and disconnected once
+  every item is shown. Styles at the end of `globals.css`.
+  Where it is used, from the most movement to the least:
+  - Story: each paragraph, the richest motion on the site;
+  - Selected work, About, Academic highlights, Interests, More work and
+    Technologies: a few blocks each, the section label first (then, for
+    example, the thesis meta, title, text and figure; the About text and
+    the portrait; each group of courses; each project);
+  - the ErgoHub and OpenStack case studies: each section as one block,
+    nothing inside it (the OpenStack diagram comes in with its section).
+  The header and the footer never move. A block is put around a link or a
+  button, never on the control itself, so its hover and focus transitions
+  are left alone.
+- Entrance on load (`[data-enter]`, `globals.css`): the hero of the
+  homepage and of the ErgoHub and OpenStack case studies come in once as the page is
+  painted, in up to three steps 80ms apart (opacity and translateY 10px,
+  500ms). CSS only: no script, nothing waits for hydration, and under
+  reduced motion it is over at once.
 - Academic highlights (`src/components/home/academic-highlights.tsx`): a
   section of its own after Story. A one-line note in the first grid column;
   four groups by field across the other two, in two columns of eight
@@ -217,3 +234,22 @@ Requirements:
   the contents list (from 1280px). The diagrams (three planes, the channel,
   the signing flow, data placement) are HTML and CSS drawn from the thesis,
   not images.
+- ErgoHub case study (`src/components/ergohub/`): laid out as the thesis
+  one, with seven sections in the order of `outline.ts` and the shared
+  section text styles of `thesis/case-section.tsx`. Facts drawn on the page
+  (pipeline stages, the three ways to deploy, the Deployments, the Ingress
+  routes) are in `facts.ts`, named as in the project's code. The figures
+  (the two paths through the project, the project workflow, the pipeline
+  stages, the cluster) are HTML and CSS, each named by its caption; `Track`
+  draws an ordered list of steps on a line, across from 52rem of container
+  width and down below that.
+- OpenStack case study (`src/components/openstack/`): a focused case study,
+  laid out as the ErgoHub one, with six sections in the order of
+  `outline.ts`. One diagram (`network-figure.tsx`), HTML and CSS: the
+  layers inside the Google Cloud VM as boxes inside boxes, each hop on the
+  way out marked by a steel square on a line down the left edge, the two
+  things added on the host in dashed boxes (said in words to assistive
+  technology too), then the outbound path and the test path as text. It is
+  named by its caption and described by the paths; one column inside its
+  container below 36rem, the host's additions beside each interface from
+  44rem. No addresses on it.

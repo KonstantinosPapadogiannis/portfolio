@@ -12,7 +12,9 @@ import { br } from "@/lib/rich-text";
 // The 1440 reference on a 12-column grid: copy in columns 1–7, the motif
 // centred in columns 8–11 and vertically on the headline. The copy flows at
 // its natural height, so a longer Greek headline pushes the paragraph down
-// instead of running into it.
+// instead of running into it. The first screen comes in once as it is
+// painted: the label and the headline, then the text and the links, then
+// the motif (data-enter in globals.css).
 export function Hero() {
   const t = useTranslations("hero");
 
@@ -25,7 +27,10 @@ export function Hero() {
       {/* Set tighter than the other labels, as in the reference. The gap
           is 8px on each side of the slash, 12px from md; the padding on the
           right makes up the rest of the space after it. */}
-      <p className="font-label text-[10px] leading-4 tracking-[0.02em] text-muted uppercase md:text-[11px] lg:col-span-12">
+      <p
+        data-enter="1"
+        className="font-label text-[10px] leading-4 tracking-[0.02em] text-muted uppercase md:text-[11px] lg:col-span-12"
+      >
         {t("name")}
         <Separator className="pr-[1.8px] pl-2 md:pr-[5.2px] md:pl-3" />
         {t("location")}
@@ -33,16 +38,23 @@ export function Hero() {
 
       <h1
         id="hero-heading"
+        data-enter="1"
         className="mt-[30px] text-[40px] leading-[43px] font-semibold tracking-[-0.025em] text-ink sm:text-[52px] sm:leading-[56px] md:mt-10 lg:col-span-7 lg:row-start-2 lg:mt-[39px] lg:max-w-[730px] lg:text-[68px] lg:leading-[72px]"
       >
         {t.rich("headline", { br })}
       </h1>
 
-      <p className="mt-5 max-w-[660px] text-[15px] leading-[23px] text-muted md:mt-6 md:text-[18px] md:leading-[30px] lg:col-span-7 lg:row-start-3">
+      <p
+        data-enter="2"
+        className="mt-5 max-w-[660px] text-[15px] leading-[23px] text-muted md:mt-6 md:text-[18px] md:leading-[30px] lg:col-span-7 lg:row-start-3"
+      >
         {t("intro")}
       </p>
 
-      <div className="mt-8 flex flex-wrap items-center gap-x-[26px] gap-y-5 md:mt-10 lg:col-span-7 lg:row-start-4">
+      <div
+        data-enter="2"
+        className="mt-8 flex flex-wrap items-center gap-x-[26px] gap-y-5 md:mt-10 lg:col-span-7 lg:row-start-4"
+      >
         <Button href={`#${sectionIds.work}`} className="min-w-[142px] md:min-w-[154px]">
           {t("selectedWork")}
         </Button>
@@ -78,6 +90,7 @@ export function Hero() {
       {/* Decorative: an abstract topology, not a diagram of a real system. */}
       <div
         aria-hidden="true"
+        data-enter="3"
         className="relative mt-11 lg:col-span-4 lg:col-start-8 lg:row-start-2 lg:mt-[39px] lg:self-center"
       >
         <SystemsMotif className="mx-auto block w-[178px] lg:w-[300px]" />

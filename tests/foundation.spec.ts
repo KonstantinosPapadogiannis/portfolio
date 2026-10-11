@@ -67,6 +67,10 @@ test("language links point at the canonical URL of the same page", async ({
     ["/el/resume", "/resume", "/el/resume"],
     ["/work/thesis", "/work/thesis", "/el/work/thesis"],
     ["/el/work/thesis", "/work/thesis", "/el/work/thesis"],
+    ["/work/ergohub", "/work/ergohub", "/el/work/ergohub"],
+    ["/el/work/ergohub", "/work/ergohub", "/el/work/ergohub"],
+    ["/work/openstack", "/work/openstack", "/el/work/openstack"],
+    ["/el/work/openstack", "/work/openstack", "/el/work/openstack"],
   ];
   for (const [path, en, el] of cases) {
     await page.goto(path);
@@ -128,8 +132,15 @@ test("QA route is not indexed", async ({ page }) => {
   );
 });
 
-test("the thesis case study is indexable", async ({ page }) => {
-  for (const path of ["/work/thesis", "/el/work/thesis"]) {
+test("the case studies are indexable", async ({ page }) => {
+  for (const path of [
+    "/work/thesis",
+    "/el/work/thesis",
+    "/work/ergohub",
+    "/el/work/ergohub",
+    "/work/openstack",
+    "/el/work/openstack",
+  ]) {
     await page.goto(path);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
       "content",
@@ -139,7 +150,17 @@ test("the thesis case study is indexable", async ({ page }) => {
 });
 
 test("canonical and alternate URLs use the production domain", async ({ page }) => {
-  for (const path of ["/", "/el", "/resume", "/work/thesis", "/el/work/thesis"]) {
+  for (const path of [
+    "/",
+    "/el",
+    "/resume",
+    "/work/thesis",
+    "/el/work/thesis",
+    "/work/ergohub",
+    "/el/work/ergohub",
+    "/work/openstack",
+    "/el/work/openstack",
+  ]) {
     const response = await page.goto(path);
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
     expect(new URL(canonical!).origin).toBe("https://kpapadogiannis.dev");
@@ -168,11 +189,21 @@ test("sitemap lists each language version with the canonical URLs", async ({
     "/el/resume",
     "/work/thesis",
     "/el/work/thesis",
+    "/work/ergohub",
+    "/el/work/ergohub",
+    "/work/openstack",
+    "/el/work/openstack",
   ]);
   expect(xml).not.toContain("/qa/");
   expect(xml).not.toMatch(/href="[^"]*\/el\/"/);
 
-  for (const path of ["/el", "/el/resume", "/el/work/thesis"]) {
+  for (const path of [
+    "/el",
+    "/el/resume",
+    "/el/work/thesis",
+    "/el/work/ergohub",
+    "/el/work/openstack",
+  ]) {
     await page.goto(path);
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
     expect(new URL(canonical!).pathname).toBe(path);

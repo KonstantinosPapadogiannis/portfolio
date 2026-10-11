@@ -621,6 +621,406 @@
       "back": "Back to selected work"
     }
   },
+  "ergohubPage": {
+    "metaTitle": "ErgoHub: From Application Code to a Kubernetes Cluster",
+    "title": "From Application Code to a Kubernetes Cluster",
+    "subtitle": "ErgoHub, a freelance marketplace: a Spring Boot and React application, and the Docker, Jenkins and Ansible path that deployed it to Azure Kubernetes Service",
+    "description": "ErgoHub, a team academic project: a Spring Boot and React freelance marketplace, deployed to Azure Kubernetes Service with Docker, Jenkins pipelines and Ansible.",
+    "back": "More work",
+    "contents": "Contents",
+    "kind": "Academic project",
+    "periodLabel": "Period",
+    "period": "February–July 2025",
+    "teamLabel": "Team",
+    "team": "Team of two, with Anastasia Zerva",
+    "contextLabel": "Context",
+    "context": "Harokopio University of Athens: Distributed Systems, then DevOps Concepts & Tools",
+    "sections": {
+      "overview": {
+        "nav": "Overview",
+        "title": "Overview"
+      },
+      "application": {
+        "nav": "Application",
+        "title": "Three roles, one workflow"
+      },
+      "containers": {
+        "nav": "Containers",
+        "title": "From source to container"
+      },
+      "pipeline": {
+        "nav": "Delivery pipeline",
+        "title": "Six pipeline definitions, three ways to deploy"
+      },
+      "kubernetes": {
+        "nav": "Kubernetes",
+        "title": "What ran in the cluster"
+      },
+      "challenges": {
+        "nav": "Challenges",
+        "title": "What broke when the pieces met"
+      },
+      "learned": {
+        "nav": "What I took from it",
+        "title": "What I took from it"
+      }
+    },
+    "overview": {
+      "statement": "Building the application was only half the problem. The other half was the path from a commit to a running cluster, and making that path repeatable.",
+      "p1": "ErgoHub is a freelance marketplace with three roles. Clients post projects, and an administrator approves or denies each one before freelancers can see it. Freelancers apply, with a CV if they choose, and the client accepts one application, which starts the work.",
+      "p2": "It began as the project for the Distributed Systems course at Harokopio University of Athens. In DevOps Concepts & Tools we took it the rest of the way: container images, Jenkins pipelines, Ansible playbooks and a deployment on Azure Kubernetes Service.",
+      "attribution": "We were a team of two, Anastasia Zerva and I, and we both worked across the API, the front end and the delivery. So this page says “we”; the reflection at the end is mine.",
+      "disclaimer": "It was an academic project, deployed and presented for the course rather than run as a service, so there are no users, traffic or uptime figures to report.",
+      "glance": {
+        "label": "At a glance",
+        "roles": "User roles",
+        "rolesValue": "Client, freelancer, administrator",
+        "groups": {
+          "application": "Application",
+          "data": "Data",
+          "delivery": "Delivery",
+          "edge": "Edge"
+        }
+      },
+      "paths": {
+        "caption": "Two paths through the project",
+        "application": {
+          "label": "Application",
+          "note": "A request, from the browser to the data",
+          "steps": {
+            "user": {
+              "name": "User",
+              "body": "Client, freelancer or administrator, in a browser"
+            },
+            "frontend": {
+              "name": "Front end",
+              "body": "React and Redux Toolkit, served by NGINX"
+            },
+            "api": {
+              "name": "API",
+              "body": "Spring Boot 3 on Java 21, with JWT and role checks"
+            },
+            "data": {
+              "name": "Data",
+              "body": "PostgreSQL for records, MinIO for CV files"
+            }
+          }
+        },
+        "delivery": {
+          "label": "Delivery",
+          "note": "A change, from the repository to the cluster",
+          "steps": {
+            "source": {
+              "name": "Source",
+              "body": "One Git repository for the API and the front end"
+            },
+            "ci": {
+              "name": "CI",
+              "body": "Jenkins runs the tests and builds an image"
+            },
+            "registry": {
+              "name": "Registry",
+              "body": "Azure Container Registry, tagged with the build number"
+            },
+            "cluster": {
+              "name": "Kubernetes",
+              "body": "AKS, rolled out with kubectl or Ansible"
+            },
+            "ingress": {
+              "name": "Ingress",
+              "body": "NGINX Ingress, HTTPS with Let’s Encrypt"
+            }
+          }
+        },
+        "meet": "The two paths meet in the cluster: the front end and the API that answer each request are the images the delivery path built and rolled out."
+      }
+    },
+    "application": {
+      "lead": "The API is a Spring Boot 3 application on Java 21. The front end is a React application with Redux Toolkit and a dashboard for each role, and it talks to the API over REST.",
+      "workflow": {
+        "caption": "A project, from posting to completion",
+        "or": "or",
+        "steps": {
+          "pending": "A client posts a project. It waits for an administrator.",
+          "approved": "An administrator approves it or denies it. Freelancers see only approved projects.",
+          "inProgress": "Freelancers apply, with a CV if they choose. The client accepts one application; the others are rejected.",
+          "completed": "The freelancer or an administrator marks the work complete."
+        }
+      },
+      "items": {
+        "access": {
+          "title": "Access by role",
+          "body": "Signing in returns a JSON Web Token, signed with a shared HMAC key and valid for 24 hours, which carries the user’s role and whether the account has been verified. The API keeps no session: Spring Security checks the token on each request and applies role rules per route. Passwords are stored as BCrypt hashes."
+        },
+        "records": {
+          "title": "Records and files",
+          "body": "Users, projects and applications live in PostgreSQL, through Spring Data JPA. A CV sent with an application goes to a MinIO bucket; the application keeps only its path, and the API serves the file back through a download endpoint."
+        },
+        "mail": {
+          "title": "Mail",
+          "body": "Administrators verify freelancer accounts, and the API emails the freelancer when that happens. In the local Docker Compose setup, that mail went to MailHog, a test mail server."
+        },
+        "tests": {
+          "title": "Tests",
+          "body": "The API has JUnit tests for its services, run against an in-memory H2 database. The front end has Jest tests with Testing Library. Both run in the pipelines before an image is built."
+        }
+      }
+    },
+    "containers": {
+      "lead": "The API and the front end each have their own image, built in two stages: the first holds the build tools, the second only what runs.",
+      "items": {
+        "api": {
+          "title": "API",
+          "body": "The first stage installs Maven on a Java 21 image and packages the application. The second copies only the jar onto a fresh Java 21 slim image, listening on port 8080. The image build skips the tests, because the pipeline has already run them."
+        },
+        "frontend": {
+          "title": "Front end",
+          "body": "Node 21 builds the React application; NGINX on Alpine then serves the built files, with a configuration of its own."
+        }
+      },
+      "compose": "Docker Compose ran the whole system on one machine: PostgreSQL 15, the API, the front end, MinIO, MailHog and Jenkins itself.",
+      "tags": "Both AKS paths push each image with two tags: the build number, which ties the image to the pipeline run that made it, and <code>latest</code>, which the Kubernetes manifests refer to."
+    },
+    "pipeline": {
+      "lead": "The repository has six Jenkinsfiles: one for the API and one for the front end, for each of three ways to deploy.",
+      "paths": {
+        "label": "Three ways to deploy",
+        "registry": "Registry",
+        "deployment": "Deployment",
+        "items": {
+          "kubectl": {
+            "title": "AKS with kubectl",
+            "registry": "Azure Container Registry",
+            "deployment": "<code>kubectl set image</code>, then a wait for the rollout and a check on the pods"
+          },
+          "ansible": {
+            "title": "AKS with Ansible",
+            "registry": "Azure Container Registry",
+            "deployment": "An Ansible playbook applies the whole system in order, then checks it"
+          },
+          "minikube": {
+            "title": "Minikube with Ansible",
+            "registry": "Docker Hub",
+            "deployment": "An Ansible playbook deploys to a local Minikube cluster"
+          }
+        }
+      },
+      "stages": {
+        "caption": "Stages of the two kubectl pipelines, as named in their Jenkinsfiles",
+        "api": "API",
+        "frontend": "Front end",
+        "phases": {
+          "build": "Build and test",
+          "publish": "Publish",
+          "deploy": "Deploy"
+        }
+      },
+      "p1": "Both kubectl pipelines sign in to Azure with a service principal and to the registry with a token, push the image, point the Deployment at it with <code>kubectl set image</code>, and wait up to five minutes for the rollout before listing the pods. The front-end pipeline also runs ESLint and npm audit, which report problems without failing the build.",
+      "p2": "The Ansible pipelines hand the deployment to a playbook, which applies the system in order: the namespace, configuration and secrets; PostgreSQL, MailHog and MinIO, then a wait until they are ready; the API and the front end with the new image, and their Services; finally the Ingress, and checks on what is running."
+    },
+    "kubernetes": {
+      "lead": "Everything ran in one namespace, <code>freelance</code>, from plain manifests applied with kubectl, whether by a setup script, a pipeline or Ansible. There is no Helm chart.",
+      "figure": {
+        "caption": "The <name>freelance</name> namespace on Azure Kubernetes Service",
+        "namespace": "Namespace",
+        "ingress": "Ingress",
+        "ingressNotes": [
+          "NGINX ingress controller",
+          "TLS from Let’s Encrypt, through cert-manager",
+          "HTTP redirected to HTTPS"
+        ],
+        "routesLabel": "Routes",
+        "hosts": "Separate host names for the API, the MinIO console and MailHog",
+        "workloadsLabel": "Deployments, one replica each",
+        "deployment": "Deployment",
+        "service": "Service",
+        "storage": "Storage",
+        "probes": "Probes",
+        "none": "None",
+        "nodePort": "NodePort",
+        "volume": "{size} volume claim",
+        "probeKinds": {
+          "startup": "startup",
+          "liveness": "liveness",
+          "readiness": "readiness"
+        },
+        "workloads": {
+          "frontend": "NGINX serving the React build",
+          "backend": "The Spring Boot API",
+          "postgres": "PostgreSQL 15",
+          "minio": "Object storage for CV files",
+          "mailhog": "Test mail server"
+        },
+        "config": "Configuration",
+        "configNote": "A ConfigMap, <code>freelance-config</code>, and a Secret, read by the workloads as environment variables"
+      },
+      "p1": "PostgreSQL and MinIO kept their data on persistent volume claims of 5 Gi and 10 Gi. Each ran as a single-replica Deployment rather than a StatefulSet: enough for a course deployment, not a design for failover.",
+      "p2": "Every container had CPU and memory requests and limits. The API’s probes called <code>/api/home</code>, a path that needs no sign-in, so that Kubernetes could tell an application that was still starting from one that had failed.",
+      "p3": "A setup script prepared the cluster once: it installed the NGINX ingress controller and cert-manager, created the Let’s Encrypt issuer and applied the manifests. After that, a run of a kubectl pipeline only had to roll out a new image."
+    },
+    "challenges": {
+      "lead": "The last week of June 2025 went less into features than into problems that only appear once the pieces run together. Four of them, from the commit history:",
+      "rows": {
+        "reach": {
+          "title": "Jenkins could not reach the cluster",
+          "body": "Jenkins ran in a container, and the local Minikube cluster was outside it. The address in its kubeconfig went through <code>host.docker.internal</code>, the Minikube IP, a kubectl proxy and the Docker bridge gateway. The AKS pipelines settled it differently: they fetch a kubeconfig from Azure at the start of each run."
+        },
+        "probes": {
+          "title": "Health checks against a secured API",
+          "body": "Every path behind Spring Security needs a token, and a Kubernetes probe has none. We pointed the probes at <code>/api/home</code>, a path that needs no sign-in, and added a startup probe with longer delays, so that a slow start was not taken for a failure."
+        },
+        "memory": {
+          "title": "The API ran out of memory",
+          "body": "The API container was killed for going over its memory. We raised its memory and gave the JVM an explicit heap limit through <code>JAVA_TOOL_OPTIONS</code>, so that it stayed inside the container’s limit."
+        },
+        "names": {
+          "title": "Names and tags that had to match",
+          "body": "The ConfigMap named services that did not match the Services in the manifests, and the Ansible pipelines had to be told which tag to deploy: the build number of the image just pushed, or <code>latest</code> for the part that had not changed."
+        }
+      }
+    },
+    "learned": {
+      "lead": "The project moved where I think an application ends. It does not end when the tests pass; it ends when something outside the program can start it, check it and reach it.",
+      "rows": {
+        "health": {
+          "title": "Health is an interface",
+          "body": "Kubernetes knows an application only through its probes. The path they call is part of the API like any other, with access rules of its own, and if it is wrong, a working service gets restarted."
+        },
+        "config": {
+          "title": "Configuration crosses boundaries",
+          "body": "A service name in a ConfigMap, an image tag passed to a playbook: what broke were values written in one file and read in another. They need the same care as code, and one place where they are defined."
+        },
+        "limits": {
+          "title": "Limits belong to the program",
+          "body": "A memory limit on a container is half a setting. The program inside has its own view of how much memory it may use, and the two have to be chosen together."
+        },
+        "written": {
+          "title": "Written down, not remembered",
+          "body": "By the end, signing in to the registry, rolling out an image and waiting for it were steps in a pipeline or a playbook, not commands someone had to remember. That is what made the second deployment the same as the first."
+        }
+      },
+      "back": "Back to the projects"
+    }
+  },
+  "openstackPage": {
+    "metaTitle": "OpenStack: A Private Cloud Inside One Google Cloud VM",
+    "title": "A Private Cloud Inside One Google Cloud VM",
+    "subtitle": "OpenStack on a single Google Cloud VM, and the Linux networking that let its instances reach the outside and survive a restart",
+    "description": "An individual academic project: OpenStack deployed with DevStack on a Google Cloud VM, and the Linux networking, debugging and systemd recovery that made its instances reachable.",
+    "back": "More work",
+    "contents": "Contents",
+    "kind": "Individual academic project",
+    "periodLabel": "Period",
+    "period": "June 2026",
+    "platformLabel": "Platform",
+    "platform": "DevStack on Ubuntu 24.04, Google Cloud n2-standard-4",
+    "contextLabel": "Context",
+    "context": "Harokopio University of Athens: Cloud Computing Management",
+    "sections": {
+      "environment": {
+        "nav": "Environment",
+        "title": "One VM, two layers of virtualisation"
+      },
+      "openstack": {
+        "nav": "OpenStack layer",
+        "title": "One tenant, as an administrator would hand it over"
+      },
+      "network": {
+        "nav": "Networking",
+        "title": "Two networks that did not know about each other"
+      },
+      "debugging": {
+        "nav": "Debugging",
+        "title": "Following a packet to where it disappeared"
+      },
+      "application": {
+        "nav": "Application",
+        "title": "An API and its database on the tenant network"
+      },
+      "reflection": {
+        "nav": "Reflection",
+        "title": "What I would change"
+      }
+    },
+    "environment": {
+      "p1": "The assignment was to run OpenStack and administer one tenant end to end: its project and user, quotas, network and instances, and an application on them. I ran DevStack on a single Google Cloud VM.",
+      "p2": "That puts two hypervisors in one stack. The VM is the first layer; the instances Nova starts are virtual machines inside it. I created it with nested virtualisation enabled."
+    },
+    "openstack": {
+      "lead": "DevStack installed OpenStack on that one host, its services running as 24 systemd units. Inside it I built a single tenant:",
+      "services": {
+        "keystone": "a project, a user with the member role and an openrc file for that user",
+        "glance": "an Ubuntu 22.04 Minimal image for both instances",
+        "nova": "custom flavors and project quotas",
+        "neutron": "a private network and subnet, a router to the public network, a security group and floating IPs"
+      },
+      "scope": "Keeping the tenant apart from admin caused the most trouble. Of the 18 problems I logged, 8 came from creating or looking up a resource with the admin credentials: a security group “not found”, an “invalid” key pair, an instance with no private address. A resource belongs to the project that created it, so the credentials in use decide what exists."
+    },
+    "network": {
+      "p1": "An instance’s traffic crosses two networks. Inside OpenStack, the Neutron router gives it an address from the floating range and sends it out through <code>br-ex</code>, the host’s Open vSwitch bridge for the external network. Outside, Google Cloud knows one address for the whole machine: the VM’s internal address on <code>ens4</code>, its only network interface.",
+      "p2": "Nothing joined the two: the lab instructions, written for VirtualBox, did not cover it, so the host had to route and translate the traffic itself.",
+      "p3": "Bridging <code>ens4</code> into <code>br-ex</code> was not an option. I had run that one <code>ovs-vsctl</code> command in an early lab: it took the VM’s only interface out of the host’s network stack, SSH dropped, the serial console could not recover it, and I rebuilt the VM from scratch. From then on, <code>ens4</code> stayed the host’s, and traffic was routed to it, not bridged.",
+      "figure": {
+        "caption": "The layers an instance’s traffic crosses, inside one Google Cloud VM",
+        "google": "Google Cloud network",
+        "googleNote": "Forwards traffic from the VM only when its source is the VM’s own address",
+        "vm": "Google Cloud VM",
+        "vmNote": "Nested virtualisation with KVM",
+        "ens4": "Its only network interface",
+        "iptables": "MASQUERADE on ens4, FORWARD between br-ex and ens4, saved with iptables-persistent",
+        "brex": "Open vSwitch bridge for OpenStack’s external network",
+        "brexSetup": "A oneshot unit that restores the bridge’s address and the floating-range route at boot",
+        "openstack": "OpenStack, installed with DevStack",
+        "router": "Neutron router",
+        "routerNote": "Gateway on the public network, one floating IP per instance",
+        "tenant": "Private tenant network",
+        "tenantNote": "One security group: TCP 22, 80 and 5432, and ICMP",
+        "vmApp": "NGINX on port 80, Gunicorn, Flask",
+        "vmDb": "PostgreSQL 14 on port 5432",
+        "link": "by private address",
+        "added": "Added on the host to connect the layers",
+        "addedPrefix": "Added on the host:",
+        "outbound": "Outbound",
+        "testing": "Test",
+        "testPath": "SSH tunnel through the host to vm-app, port 80",
+        "steps": {
+          "instance": "Instance",
+          "router": "Neutron router",
+          "google": "Google Cloud"
+        }
+      }
+    },
+    "debugging": {
+      "rows": {
+        "symptom": {
+          "label": "Symptom",
+          "body": "In the first instance, ping got no reply and <code>apt update</code> hung at “Connecting to archive.ubuntu.com”. No error, anywhere."
+        },
+        "trace": {
+          "label": "Trace",
+          "body": "<code>tcpdump</code> on each interface along the path: the packets showed up on the instance’s tap interface and on <code>br-ex</code>, never on <code>ens4</code>."
+        },
+        "cause": {
+          "label": "Cause",
+          "body": "The host was not forwarding between <code>br-ex</code> and <code>ens4</code>, and anything it did forward would leave with a floating-range source address, which Google Cloud drops without a reply."
+        },
+        "fix": {
+          "label": "Fix",
+          "body": "IP forwarding on; FORWARD rules out from <code>br-ex</code> and back for established connections only; MASQUERADE on <code>ens4</code>; all saved with iptables-persistent."
+        }
+      },
+      "persistence": "That held until the VM was stopped and started again. The iptables rules came back, but <code>br-ex</code> came up without its address and route, and the floating IPs were unreachable again. I kept a checklist of commands to rerun, then replaced it with <code>brex-setup.service</code>, a oneshot systemd unit ordered after the network and DevStack that restores the bridge at boot.",
+      "lesson": "The lessons I kept: the fault lies one step past the last interface where the packet is still visible, and a fix that a restart undoes is not finished until it is part of the boot."
+    },
+    "application": {
+      "p1": "To test the tenant end to end, I deployed a small two-tier application. The lab exercises put PostgreSQL and Flask on one VM; I split them across two instances, so that the API had to reach its database over OpenStack’s private network.",
+      "p2": "<code>vm-db</code> runs PostgreSQL 14, set to accept remote connections. <code>vm-app</code> runs a Flask API under Gunicorn as a systemd service, behind NGINX on port 80, and reaches <code>vm-db</code> by its private address. The final check went through an SSH tunnel via the host: <code>/api/products</code> returned four products as JSON, read from the other instance."
+    },
+    "reflection": {
+      "body": "It worked, and it was built for a lab. Both instances share one security group, so PostgreSQL’s port is open on the application VM and port 80 on the database; I would give each tier its own group, with 5432 open only to <code>vm-app</code>. The database password sits in the application code, and PostgreSQL listens on every interface. And the host’s networking belongs in how the VM is provisioned, not in fixes added along the way.",
+      "back": "Back to the projects"
+    }
+  },
   "gallery": {
     "carousel": "carousel",
     "slide": "slide",
@@ -735,13 +1135,21 @@
       "name": "ErgoHub",
       "kind": "Academic project · Team of two",
       "title": "Freelance marketplace<br></br>on Azure Kubernetes",
-      "body": "Spring Boot 3, React/Redux, PostgreSQL, MinIO, Docker, AKS, NGINX Ingress, Ansible and six Jenkins pipelines."
+      "body": "Clients post projects, an administrator approves or denies them, and freelancers apply, with a CV if they choose. We built the Spring Boot API and the React front end, then the path that delivers them: tested container images, a private registry, and a Kubernetes deployment on Azure behind NGINX Ingress and HTTPS.",
+      "pipelines": "<num>{count}</num> <label>Jenkins pipeline definitions</label>",
+      "cta": "Read case study"
     },
     "openstack": {
       "name": "OpenStack",
       "kind": "Individual academic project",
       "title": "Private cloud deployment<br></br>on Google Cloud",
-      "body": "DevStack with nested virtualisation, Keystone, Glance, Neutron, Nova, <nb>floating-IP</nb> routing and systemd recovery."
+      "body": "OpenStack on one Google Cloud VM, deployed with DevStack and nested virtualisation. Most of the work was the network between the layers: floating IPs that existed only inside the host, packets Google Cloud dropped, a bridge that lost its routing on every restart. The result: a Flask API reading PostgreSQL over the tenant’s private network.",
+      "signals": [
+        "DevStack",
+        "Google Cloud",
+        "Linux networking"
+      ],
+      "cta": "Read case study"
     },
     "cuda": {
       "name": "CUDA",
