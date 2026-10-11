@@ -87,6 +87,10 @@ Below the rule:
 The full name appears once in the footer, as the signature. No `KP`. The
 address is shown once.
 
+On a page shorter than the window (the résumé, a 404) the footer ends at
+the bottom edge: the body is a column at least as tall as the window and
+`main` takes the free space.
+
 Use brand-faithful icons (official SVG or reputable icon source).
 
 All links must be accessible and functional.
@@ -127,7 +131,7 @@ Requirements:
 - `TextLink` (`src/components/ui/text-link.tsx`): underline on hover, arrow
   moves 2px, 150ms. External links use the diagonal arrow, in-page links
   the right arrow.
-- `IconButton`: 44 × 44px hit area for the theme toggle and the menu.
+- `IconButton`: 44 × 44px hit area for the theme toggle and the menu. The theme toggle is a toggle button named "Dark theme" / "Σκούρο θέμα"; `aria-pressed` is set once hydrated.
 - Focus: every focusable element shows a 2px outline, offset 2px, in
   `--focus-ring`; the footer switches it to `--footer-focus` so it reads on
   navy.

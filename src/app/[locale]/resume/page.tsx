@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPathname } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
+import { openGraphLocales, routing } from "@/i18n/routing";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
@@ -14,12 +15,18 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    return {};
+  }
   const t = await getTranslations({ locale, namespace: "resume" });
+  const tSite = await getTranslations({ locale, namespace: "site" });
+  const path = getPathname({ href: "/resume", locale });
 
   return {
     title: t("title"),
+    description: t("description"),
     alternates: {
-      canonical: getPathname({ href: "/resume", locale }),
+      canonical: path,
       languages: {
         ...Object.fromEntries(
           routing.locales.map((target) => [
@@ -33,11 +40,17 @@ export async function generateMetadata({
         }),
       },
     },
+    openGraph: {
+      type: "website",
+      locale: openGraphLocales[locale],
+      url: path,
+      siteName: tSite("name"),
+    },
   };
 }
 
-// Temporary page. It keeps the header's Résumé link working and exposes the
-// existing PDF until the résumé layout is built.
+// The CV exists as a one-page PDF in English. This page describes it and
+// offers it to view or download, in both locales.
 export default async function ResumePage({
   params,
 }: {

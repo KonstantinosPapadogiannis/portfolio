@@ -16,7 +16,7 @@
     "label": "Language"
   },
   "theme": {
-    "toggle": "Toggle theme"
+    "toggle": "Dark theme"
   },
   "home": {
     "title": "Backend, distributed systems and cloud",
@@ -36,7 +36,7 @@
     "label": "Selected work"
   },
   "thesis": {
-    "kind": "Bachelor's Thesis",
+    "kind": "Bachelor’s Thesis",
     "grade": "Grade",
     "title": "Distributed subsidy management<br></br>on Hyperledger Fabric",
     "body": "The application layer of a research prototype for EU agricultural subsidies in Greece, run by seven organisations on a permissioned Hyperledger Fabric network. Go chaincodes and services, React/TypeScript portals, farmers who hold their own keys and sign in the browser, and private data shared only with the organisations that need it.",
@@ -99,7 +99,7 @@
     "subtitle": "A permissioned dApp for verifiable agricultural subsidy workflows",
     "description": "B.Sc. thesis case study: a permissioned Hyperledger Fabric application for multi-organisation subsidy workflows, with farmers signing from their own browser wallet and a privacy-aware architecture.",
     "back": "Selected work",
-    "kind": "B.Sc. thesis",
+    "kind": "Bachelor’s thesis",
     "grade": "Grade",
     "departmentLabel": "Department",
     "department": "Informatics and Telematics, Harokopio University of Athens",
@@ -628,7 +628,7 @@
     "description": "ErgoHub, a team academic project: a Spring Boot and React freelance marketplace, deployed to Azure Kubernetes Service with Docker, Jenkins pipelines and Ansible.",
     "back": "More work",
     "contents": "Contents",
-    "kind": "Academic project",
+    "kind": "Team academic project",
     "periodLabel": "Period",
     "period": "February–July 2025",
     "teamLabel": "Team",
@@ -1244,7 +1244,7 @@
     "label": "About",
     "labelDetail": "Background",
     "statement": "I like understanding how the pieces of a system fit together.",
-    "p1": "I recently completed a B.Sc. in Informatics and Telematics at Harokopio University of Athens. My technical work has increasingly drawn me toward backend engineering, distributed systems and cloud infrastructure.",
+    "p1": "I recently completed a B.Sc. in Informatics and Telematics at Harokopio University of Athens. Over the degree, my work moved steadily toward the server side and the infrastructure underneath it.",
     "p2": "What interests me most is how components communicate, where data and trust boundaries should live, and how software can be deployed, tested and operated reliably. My bachelor’s thesis gave me the opportunity to explore those questions across Go services, Hyperledger Fabric and browser-side cryptography.",
     "p3": "I’m now looking for graduate and junior engineering roles where I can keep building on that foundation in production systems.",
     "portraitAlt": "Portrait of Konstantinos Papadogiannis",
@@ -1382,7 +1382,7 @@
       "name": "Energy data mining",
       "kind": "Academic project · Team of two",
       "title": "Classifying and forecasting energy consumption",
-      "body": "A team project on almost four years of one household’s electricity readings, aggregated to 1,418 days. We used the same daily data for two tasks: labelling high-consumption days, and forecasting the next day’s total against a persistence baseline. Each task has its own metrics, scored on test days held out until the end.",
+      "body": "Almost four years of one household’s electricity readings, aggregated to 1,418 days. We used the same daily data for two tasks: labelling high-consumption days, and forecasting the next day’s total against a persistence baseline. Each task has its own metrics, scored on test days held out until the end.",
       "signals": {
         "accuracy": "test accuracy",
         "rmse": "test RMSE",
@@ -1418,8 +1418,14 @@
   },
   "resume": {
     "title": "Résumé",
-    "body": "Temporary page. Replaced by the résumé layout.",
+    "description": "Résumé of Konstantinos Papadogiannis, Informatics and Telematics graduate in Athens: education, bachelor’s thesis, academic projects and skills, as a one-page PDF.",
+    "body": "A one-page PDF in English: education, bachelor’s thesis, academic projects and skills.",
     "view": "View PDF",
     "download": "Download PDF"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "There is no page at this address. It may have moved, or the link may be mistyped.",
+    "home": "Go to the homepage"
   }
 }

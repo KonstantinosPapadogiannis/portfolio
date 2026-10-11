@@ -58,7 +58,9 @@ export function Hero() {
         <Button href={`#${sectionIds.work}`} className="min-w-[142px] md:min-w-[154px]">
           {t("selectedWork")}
         </Button>
-        <div className="flex items-center gap-x-6 text-[15px] text-ink md:gap-x-8">
+        {/* Wraps rather than overflows: at 320px the Greek row is within a
+            pixel of the width in Firefox and WebKit. */}
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[15px] text-ink min-[360px]:gap-x-6 md:gap-x-8">
           <TextLink
             href={siteConfig.resumePdf}
             arrow="up-right"

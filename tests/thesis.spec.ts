@@ -57,7 +57,7 @@ const locales = [
       announcement: "Slide 2 of 4: Tax and land facts",
       goTo: "Show slide 4: Young farmer’s diploma",
     },
-    themeToggle: "Toggle theme",
+    themeToggle: "Dark theme",
   },
   {
     path: "/el/work/thesis",
@@ -99,7 +99,7 @@ const locales = [
       announcement: "Διαφάνεια 2 από 4: Φορολογικά και κτηματικά στοιχεία",
       goTo: "Εμφάνιση διαφάνειας 4: Πτυχίο νέου αγρότη",
     },
-    themeToggle: "Εναλλαγή θέματος",
+    themeToggle: "Σκούρο θέμα",
   },
 ] as const;
 

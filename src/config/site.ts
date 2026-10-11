@@ -10,7 +10,8 @@ export const siteConfig = {
   // record holder's own signed-in view.
   orcid: `https://orcid.org/${orcidId}`,
   orcidId,
-  // English only. Copied unchanged from assets/resume/.
+  // English only. Built from the LaTeX CV kept outside this repository and
+  // not tracked by Git.
   resumePdf: "/downloads/konstantinos-papadogiannis-cv.pdf",
   // Canonical origin for metadata, the sitemap and robots.txt. The Vercel
   // deployment (kpapadogiannis.vercel.app) is only an alias of it.

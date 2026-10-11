@@ -1250,7 +1250,7 @@ test("keyboard order follows the page and every stop shows a focus ring", async 
     "Contact",
     "English",
     "Ελληνικά",
-    "Toggle theme",
+    "Dark theme",
     "Selected work",
     "Résumé (PDF)",
     "GitHub",

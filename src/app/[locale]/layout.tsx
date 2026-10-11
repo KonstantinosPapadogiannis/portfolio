@@ -90,8 +90,10 @@ export default async function LocaleLayout({
       className={fontVariables}
       suppressHydrationWarning
     >
-      {/* The footer's "Back to top" link targets the body. */}
-      <body id="top">
+      {/* The footer's "Back to top" link targets the body. On a page shorter
+          than the window (the résumé, a 404) the footer still ends at the
+          bottom edge. */}
+      <body id="top" className="flex min-h-svh flex-col">
         <ThemeProvider
           attribute="data-theme"
           defaultTheme="light"
@@ -101,7 +103,7 @@ export default async function LocaleLayout({
           <NextIntlClientProvider>
             <SkipLink label={t("skipToContent")} />
             <Header />
-            <main id="main-content">{children}</main>
+            <main id="main-content" className="flex-1">{children}</main>
             <Footer />
           </NextIntlClientProvider>
         </ThemeProvider>

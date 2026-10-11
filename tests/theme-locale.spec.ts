@@ -34,13 +34,13 @@ test("EN light → dark → EL → EN keeps the theme and updates lang and fonts
   await expect(html(page)).toHaveAttribute("data-theme", "light");
   expect(await firstFamily(page, "h1")).toBe("Geist");
 
-  await toggleTheme(page, "Toggle theme", "dark");
+  await toggleTheme(page, "Dark theme", "dark");
 
   await switchLanguage(page, "Ελληνικά");
   await expect(page).toHaveURL(/\/el$/);
   await expect(html(page)).toHaveAttribute("lang", "el");
   await expect(html(page)).toHaveAttribute("data-theme", "dark");
-  await expect(page.getByRole("button", { name: "Εναλλαγή θέματος" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Σκούρο θέμα" })).toBeVisible();
   expect(await firstFamily(page, "h1")).toBe("Inter");
 
   await switchLanguage(page, "English");
@@ -55,7 +55,7 @@ test("EN light → dark → EL → EN keeps the theme and updates lang and fonts
 test("EL dark → EN keeps the theme", async ({ page }) => {
   const themeLog = await recordThemeChanges(page);
   await page.goto("/el");
-  await toggleTheme(page, "Εναλλαγή θέματος", "dark");
+  await toggleTheme(page, "Σκούρο θέμα", "dark");
 
   await switchLanguage(page, "English");
   await expect(page).toHaveURL(/127\.0\.0\.1:3100\/$/);
@@ -70,18 +70,18 @@ test("EL dark → EN keeps the theme", async ({ page }) => {
 test("EN dark → EL light → EN keeps the theme chosen last", async ({ page }) => {
   const themeLog = await recordThemeChanges(page);
   await page.goto("/");
-  await toggleTheme(page, "Toggle theme", "dark");
+  await toggleTheme(page, "Dark theme", "dark");
 
   await switchLanguage(page, "Ελληνικά");
   await expect(page).toHaveURL(/\/el$/);
-  await toggleTheme(page, "Εναλλαγή θέματος", "light");
+  await toggleTheme(page, "Σκούρο θέμα", "light");
 
   await switchLanguage(page, "English");
   await expect(page).toHaveURL(/127\.0\.0\.1:3100\/$/);
   await expect(html(page)).toHaveAttribute("lang", "en");
   await expect(html(page)).toHaveAttribute("data-theme", "light");
   // next-themes agrees: the next toggle goes to dark.
-  await toggleTheme(page, "Toggle theme", "dark");
+  await toggleTheme(page, "Dark theme", "dark");
 
   // One painted change per toggle, and no frame in between.
   expect(await themeLog()).toEqual(["light", "dark", "light", "dark"]);
@@ -92,7 +92,7 @@ test("dark theme survives a reload without a light first frame", async ({
 }) => {
   const themeLog = await recordThemeChanges(page);
   await page.goto("/el");
-  await toggleTheme(page, "Εναλλαγή θέματος", "dark");
+  await toggleTheme(page, "Σκούρο θέμα", "dark");
   await page.reload();
   await expect(html(page)).toHaveAttribute("data-theme", "dark");
   expectNoLightAfterDark(await themeLog());
@@ -114,7 +114,7 @@ test("language switch preserves the route", async ({ page }) => {
 test("language switch in dark mode on a mobile viewport", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  await toggleTheme(page, "Toggle theme", "dark");
+  await toggleTheme(page, "Dark theme", "dark");
   await switchLanguage(page, "Ελληνικά");
   await expect(page).toHaveURL(/\/el$/);
   await expect(html(page)).toHaveAttribute("data-theme", "dark");
@@ -152,7 +152,7 @@ for (const theme of ["light", "dark"] as const) {
     }) => {
       await page.goto(path);
       if (theme === "dark") {
-        await toggleTheme(page, path === "/" ? "Toggle theme" : "Εναλλαγή θέματος", "dark");
+        await toggleTheme(page, path === "/" ? "Dark theme" : "Σκούρο θέμα", "dark");
         await page.reload();
         await expect(html(page)).toHaveAttribute("data-theme", "dark");
       }

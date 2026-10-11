@@ -121,13 +121,127 @@ test("resume page links the existing PDF in both languages", async ({
   expect(pdf.headers()["content-type"]).toBe("application/pdf");
 });
 
-test("theme toggle switches data-theme", async ({ page }) => {
+test("resume page describes the PDF and has its own Open Graph URL", async ({ page }) => {
+  for (const [path, body] of [
+    ["/resume", /^A one-page PDF in English/],
+    ["/el/resume", /μόνο στα αγγλικά\.$/],
+  ] as const) {
+    await page.goto(path);
+    await expect(page.locator("main p").first()).toHaveText(body);
+    await expect(page.locator("main")).not.toContainText(/temporary|προσωριν/i);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /.{80,}/);
+    await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+      "content",
+      `https://kpapadogiannis.dev${path}`,
+    );
+  }
+});
+
+test("homepage describes its subject as a Person, with no job title", async ({ page }) => {
+  for (const [path, name, university] of [
+    ["/", "Konstantinos Papadogiannis", "Harokopio University of Athens"],
+    ["/el", "Κωνσταντίνος Παπαδογιάννης", "Χαροκόπειο Πανεπιστήμιο"],
+  ] as const) {
+    await page.goto(path);
+    const scripts = page.locator('script[type="application/ld+json"]');
+    await expect(scripts).toHaveCount(1);
+    const person = JSON.parse((await scripts.textContent()) ?? "{}");
+    expect(person["@type"]).toBe("Person");
+    expect(person.name).toBe(name);
+    expect(person.url).toBe("https://kpapadogiannis.dev");
+    expect(person.alumniOf.name).toBe(university);
+    expect(person.sameAs).toEqual([
+      "https://github.com/KonstantinosPapadogiannis",
+      "https://www.linkedin.com/in/konstantinos-papadogiannis/",
+      "https://orcid.org/0009-0008-9445-2484",
+    ]);
+    expect(person).not.toHaveProperty("jobTitle");
+    expect(person).not.toHaveProperty("worksFor");
+  }
+});
+
+test("theme toggle switches data-theme and reports its state", async ({ page }) => {
   await page.goto("/");
+  const toggle = page.getByRole("button", { name: "Dark theme" });
   await expect(html(page)).toHaveAttribute("data-theme", "light");
-  await page.getByRole("button", { name: "Toggle theme" }).click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await toggle.click();
   await expect(html(page)).toHaveAttribute("data-theme", "dark");
-  await page.getByRole("button", { name: "Toggle theme" }).click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  await toggle.click();
   await expect(html(page)).toHaveAttribute("data-theme", "light");
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+});
+
+test("an unknown address answers 404 with the not-found page in its language", async ({
+  page,
+  pageIssues,
+  request,
+}) => {
+  // Paths with a dot skip the proxy and reach the routes with their first
+  // segment as the locale. They too are answered 404 from the first request.
+  for (const path of ["/old.pdf", "/downloads/missing.pdf"]) {
+    expect((await request.get(path)).status()).toBe(404);
+  }
+
+  const cases = [
+    ["/does-not-exist", "en", "Page not found", "/"],
+    ["/el/work/does-not-exist", "el", "Η σελίδα δεν βρέθηκε", "/el"],
+  ] as const;
+  for (const [path, lang, heading, home] of cases) {
+    const response = await page.goto(path);
+    expect(response?.status()).toBe(404);
+    await expect(html(page)).toHaveAttribute("lang", lang);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(heading);
+    await expect(page.locator("main a")).toHaveAttribute("href", home);
+    await expect(page.locator('meta[name="robots"][content="noindex"]').first()).toBeAttached();
+  }
+
+  // The two 404 responses, and the browser reporting each once, are what this
+  // test asks for. Anything else still fails it.
+  for (const [path] of cases) {
+    const http = pageIssues.indexOf(`HTTP 404: http://127.0.0.1:3100${path}`);
+    expect(http).toBeGreaterThanOrEqual(0);
+    pageIssues.splice(http, 1);
+    const logged = pageIssues.findIndex((issue) =>
+      issue.startsWith("console.error: Failed to load resource: the server responded with a status of 404"),
+    );
+    if (logged >= 0) pageIssues.splice(logged, 1);
+  }
+});
+
+test("on a page shorter than the window the footer ends at the bottom edge", async ({
+  page,
+  pageIssues,
+}) => {
+  for (const size of [
+    { width: 1440, height: 900 },
+    { width: 2560, height: 1440 },
+  ]) {
+    await page.setViewportSize(size);
+    for (const path of ["/resume", "/el/resume", "/does-not-exist"]) {
+      await page.goto(path);
+      const bottom = await page
+        .getByRole("contentinfo")
+        .evaluate((footer) => footer.getBoundingClientRect().bottom + window.scrollY);
+      expect(bottom).toBe(size.height);
+      expect(
+        await page.evaluate(() => document.documentElement.scrollHeight),
+      ).toBe(size.height);
+    }
+  }
+
+  // The 404 page answers 404 by design (see the test above).
+  for (let i = pageIssues.length - 1; i >= 0; i--) {
+    if (
+      pageIssues[i] === "HTTP 404: http://127.0.0.1:3100/does-not-exist" ||
+      pageIssues[i].startsWith(
+        "console.error: Failed to load resource: the server responded with a status of 404",
+      )
+    ) {
+      pageIssues.splice(i, 1);
+    }
+  }
 });
 
 test("QA route is not indexed", async ({ page }) => {

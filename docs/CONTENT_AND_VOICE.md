@@ -6,7 +6,7 @@ Konstantinos is a recent B.Sc. graduate, not someone claiming company experience
 
 Use:
 - academic project
-- B.Sc. thesis
+- bachelor’s thesis (B.Sc. thesis)
 - individual academic project
 - team academic project
 - research prototype
