@@ -8,11 +8,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:clean": "node scripts/clean-next.mjs && next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
-    "test:e2e:browsers": "PLAYWRIGHT_ALL_BROWSERS=1 playwright test"
+    "test:e2e:browsers": "PLAYWRIGHT_ALL_BROWSERS=1 playwright test",
+    "test:e2e:release": "PLAYWRIGHT_RELEASE=1 playwright test"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",

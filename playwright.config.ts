@@ -4,6 +4,8 @@ import { defineConfig, devices } from "@playwright/test";
 // (pnpm test:e2e:browsers); tests that read Chromium-only data, such as the
 // fonts that drew a text run or layout-shift entries, skip on them.
 const otherBrowsers = process.env.PLAYWRIGHT_ALL_BROWSERS === "1";
+const releaseValidation =
+  process.env.PLAYWRIGHT_RELEASE === "1" || Boolean(process.env.CI);
 
 export default defineConfig({
   testDir: "./tests",
@@ -28,9 +30,11 @@ export default defineConfig({
       : []),
   ],
   webServer: {
-    command: "pnpm build && npx next start -p 3100",
+    command: `${releaseValidation ? "pnpm build:clean" : "pnpm build"} && npx next start -H 127.0.0.1 -p 3100`,
     url: "http://127.0.0.1:3100",
-    reuseExistingServer: !process.env.CI,
+    // Local runs may reuse a developer server for speed. Release and CI runs
+    // always own a clean production build and a newly started server.
+    reuseExistingServer: !releaseValidation,
     timeout: 180_000,
     // Builds the internal /qa/typography route used by typography.spec.ts.
     env: { ENABLE_QA_ROUTES: "1" },

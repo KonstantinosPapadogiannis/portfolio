@@ -101,12 +101,11 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [],
-      // Addresses the proxy skips (a dot in them, like /old.pdf, or an /api
-      // prefix) and no file in public/ answers would reach /[locale] with
-      // their first segment as the locale, and its notFound() sends an empty
-      // page. Under the default locale they match no route and get the
-      // server-rendered global 404 instead.
+      // The proxy handles locale prefixes and canonicalization. These are the
+      // sole internal mappings for canonical, unprefixed English addresses;
+      // afterFiles keeps real public/static files ahead of the application.
       afterFiles: [
+        { source: "/", destination: `/${routing.defaultLocale}` },
         {
           source: `/:first((?!(?:${routing.locales.join("|")})(?:/|$))[^/]+)/:rest*`,
           destination: `/${routing.defaultLocale}/:first/:rest*`,
