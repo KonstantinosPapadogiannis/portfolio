@@ -57,11 +57,9 @@ AGENTS.md
 # the retired KP mark, no longer referenced; kept locally only
 /assets/brand/kp.png
 
-# the CV stays out of history until its updated version is ready; the site
-# links public/downloads/konstantinos-papadogiannis-cv.pdf, so remove that
-# line when committing the new file
+# the earlier CV, which has a phone number, stays out of history; the site
+# serves public/downloads/konstantinos-papadogiannis-cv.pdf, built from cv/
 /assets/resume/konstantinos-papadogiannis-cv.pdf
-/public/downloads/konstantinos-papadogiannis-cv.pdf
 
 # QA screenshots and scratch output
 /qa/screenshots/

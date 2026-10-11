@@ -86,6 +86,8 @@ src/
 
 tests/            Playwright specs and shared fixtures
 
+cv/               LaTeX source of the public CV PDF and its build script
+
 content/
   en/             English UI strings and case study content
   el/             Greek UI strings and case study content
