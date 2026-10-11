@@ -22,7 +22,7 @@ function GlanceRow({ label, children }: { label: string; children: React.ReactNo
   return (
     <div className="border-t border-border py-3">
       <dt className={`${eyebrowClass} text-muted`}>{label}</dt>
-      <dd className="mt-1.5 text-[14px] leading-[22px] text-pretty text-ink">{children}</dd>
+      <dd className="mt-1.5 text-[0.875rem] leading-[1.375rem] text-pretty text-ink">{children}</dd>
     </div>
   );
 }
@@ -33,7 +33,7 @@ export function Overview() {
 
   return (
     <CaseSection id="overview">
-      <p className="max-w-[760px] text-[17px] leading-[27px] text-muted md:text-[19px] md:leading-[29px]">
+      <p className="max-w-[760px] text-[1.0625rem] leading-[1.6875rem] text-muted md:text-[1.1875rem] md:leading-[1.8125rem]">
         {t("question")}
       </p>
       <p className={`${statement} mt-4`}>{t("statement")}</p>
@@ -63,7 +63,7 @@ export function Overview() {
               {t("glance.collaborationValue")}
             </GlanceRow>
             <GlanceRow label={t("glance.technologies")}>
-              <span lang="en" className="font-mono text-[12px] leading-5">
+              <span lang="en" className="font-mono text-[0.75rem] leading-5">
                 {technologies.join(", ")}
               </span>
             </GlanceRow>

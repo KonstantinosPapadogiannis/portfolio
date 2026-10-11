@@ -83,32 +83,35 @@ function PlacementView({ view }: { view: View }) {
     <div className="@container border border-border bg-surface px-[18px] py-6 md:p-7">
       <div className="grid gap-y-4 @min-[48rem]:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] @min-[48rem]:gap-x-10">
         <div>
-          <h4 className="text-[18px] leading-[26px] font-medium text-ink">
+          <h4 className="text-[1.125rem] leading-[1.625rem] font-medium text-ink">
             {t(`slides.${view}.title`)}
           </h4>
           <p className="mt-3">
             <span className={`${eyebrowClass} block text-muted`}>{t("storeLabel")}</span>
-            <span className="mt-1 block text-[14px] leading-[22px] text-ink">
+            <span className="mt-1 block text-[0.875rem] leading-[1.375rem] text-ink">
               {t(`slides.${view}.store`)}
             </span>
           </p>
         </div>
-        <p className="text-[15px] leading-6 text-ink/80">{t(`slides.${view}.body`)}</p>
+        <p className="text-[0.9375rem] leading-6 text-ink/80">{t(`slides.${view}.body`)}</p>
       </div>
 
+      {/* Name and placement side by side while the longest Greek word fits
+          beside the name; on the narrowest panels, or with larger text, the
+          placement goes under the name. */}
       <dl className="mt-6 border-t border-border @min-[48rem]:grid @min-[48rem]:grid-cols-7 @min-[48rem]:gap-x-4 @min-[48rem]:pt-4">
         {organisations.map((org) => {
           const state = placement[view][org];
           return (
             <div
               key={org}
-              className="grid grid-cols-[7rem_minmax(0,1fr)] gap-x-3 border-b border-border py-2 @min-[48rem]:block @min-[48rem]:border-b-0 @min-[48rem]:py-0"
+              className="grid gap-x-3 border-b border-border py-2 @min-[15.5rem]:grid-cols-[7rem_minmax(0,1fr)] @min-[48rem]:block @min-[48rem]:border-b-0 @min-[48rem]:py-0"
             >
-              <dt className="text-[13px] leading-5 font-medium text-ink">
+              <dt className="text-[0.8125rem] leading-5 font-medium text-ink">
                 {tOrg(`${org}.name`)}
               </dt>
               <dd
-                className={`flex gap-2 text-[13px] leading-5 @min-[48rem]:mt-1.5 ${
+                className={`flex gap-2 text-[0.8125rem] leading-5 @min-[48rem]:mt-1.5 ${
                   state === "holds" ? "text-ink" : "text-muted"
                 }`}
               >
@@ -139,7 +142,7 @@ export function DataPlacement() {
       />
       <ul
         aria-label={t("legendLabel")}
-        className="mt-4 flex flex-col gap-y-1.5 text-[12px] leading-4 text-muted sm:flex-row sm:flex-wrap sm:gap-x-7"
+        className="mt-4 flex flex-col gap-y-1.5 text-[0.75rem] leading-4 text-muted sm:flex-row sm:flex-wrap sm:gap-x-7"
       >
         {(["holds", "reference", "none"] as const).map((state) => (
           <li key={state} className="flex gap-2.5">

@@ -41,8 +41,8 @@ export function Track({
             aria-hidden="true"
             className="absolute top-[7px] left-0 size-[7px] bg-steel @min-[52rem]:top-0"
           />
-          <p className="text-[14px] leading-5 font-medium text-ink">{name}</p>
-          <p className="mt-1 text-[13px] leading-5 text-pretty text-muted">{body}</p>
+          <p className="text-[0.875rem] leading-5 font-medium text-ink">{name}</p>
+          <p className="mt-1 text-[0.8125rem] leading-5 text-pretty text-muted">{body}</p>
         </li>
       ))}
     </ol>

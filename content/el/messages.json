@@ -1,6 +1,7 @@
 {
   "site": {
-    "name": "Κωνσταντίνος Παπαδογιάννης"
+    "name": "Κωνσταντίνος Παπαδογιάννης",
+    "ogImageAlt": "Κωνσταντίνος Παπαδογιάννης, Αθήνα: συστήματα backend, κατανεμημένο λογισμικό και υποδομές cloud."
   },
   "nav": {
     "primary": "Κύρια πλοήγηση",
@@ -20,7 +21,7 @@
   },
   "home": {
     "title": "Backend, κατανεμημένα συστήματα και cloud",
-    "description": "Πρόσφατος απόφοιτος Πληροφορικής και Τηλεματικής στην Αθήνα, με εστίαση σε backend engineering, κατανεμημένα συστήματα και υποδομές cloud. Επιλεγμένα ακαδημαϊκά έργα και οι τεχνικές αποφάσεις πίσω από αυτά."
+    "description": "Πρόσφατος απόφοιτος Πληροφορικής και Τηλεματικής στην Αθήνα, με εστίαση σε backend, κατανεμημένα συστήματα και cloud. Ακαδημαϊκά έργα και οι αποφάσεις τους."
   },
   "hero": {
     "name": "Κωνσταντίνος Παπαδογιάννης",
@@ -97,7 +98,7 @@
   "thesisPage": {
     "title": "Σχεδιάζοντας εμπιστοσύνη ανάμεσα σε επτά οργανισμούς",
     "subtitle": "Ένα permissioned dApp για επαληθεύσιμες διαδικασίες αγροτικών επιδοτήσεων",
-    "description": "Μελέτη περίπτωσης πτυχιακής εργασίας: εφαρμογή σε permissioned δίκτυο Hyperledger Fabric για διαδικασίες επιδοτήσεων με πολλούς οργανισμούς, όπου οι αγρότες υπογράφουν από το δικό τους πορτοφόλι στον browser, με αρχιτεκτονική σχεδιασμένη για την ιδιωτικότητα.",
+    "description": "Πτυχιακή εργασία: εφαρμογή σε permissioned δίκτυο Hyperledger Fabric για επιδοτήσεις με πολλούς οργανισμούς, όπου οι αγρότες υπογράφουν από το πορτοφόλι τους.",
     "back": "Επιλεγμένα έργα",
     "kind": "Πτυχιακή εργασία",
     "grade": "Βαθμός",
@@ -625,7 +626,7 @@
     "metaTitle": "ErgoHub: Από τον κώδικα της εφαρμογής σε ένα Kubernetes cluster",
     "title": "Από τον κώδικα της εφαρμογής σε ένα Kubernetes cluster",
     "subtitle": "Το ErgoHub, μια πλατφόρμα freelance: μια εφαρμογή Spring Boot και React και η διαδρομή με Docker, Jenkins και Ansible που την έκανε deploy στο Azure Kubernetes Service",
-    "description": "Το ErgoHub, ομαδικό ακαδημαϊκό έργο: πλατφόρμα freelance σε Spring Boot και React, με deployment στο Azure Kubernetes Service μέσω Docker, Jenkins pipelines και Ansible.",
+    "description": "Το ErgoHub, ομαδικό ακαδημαϊκό έργο: πλατφόρμα freelance σε Spring Boot και React, με deployment στο Azure Kubernetes Service μέσω Docker, Jenkins και Ansible.",
     "back": "Περισσότερα έργα",
     "contents": "Περιεχόμενα",
     "kind": "Ομαδικό ακαδημαϊκό έργο",
@@ -906,7 +907,7 @@
     "metaTitle": "OpenStack: Ένα ιδιωτικό cloud μέσα σε ένα VM του Google Cloud",
     "title": "Ένα ιδιωτικό cloud μέσα σε ένα VM του Google Cloud",
     "subtitle": "Το OpenStack σε ένα μόνο VM στο Google Cloud, και η δικτύωση Linux που επέτρεψε στα instances του να βγουν προς τα έξω και να αντέχουν μια επανεκκίνηση",
-    "description": "Ατομικό ακαδημαϊκό έργο: OpenStack με DevStack σε VM του Google Cloud, και η δικτύωση Linux, το debugging και η αποκατάσταση με systemd που έκαναν τα instances του προσβάσιμα.",
+    "description": "Ατομικό ακαδημαϊκό έργο: OpenStack με DevStack σε VM του Google Cloud, και η δικτύωση Linux και το debugging που έκαναν τα instances του προσβάσιμα.",
     "back": "Περισσότερα έργα",
     "contents": "Περιεχόμενα",
     "kind": "Ατομικό ακαδημαϊκό έργο",
@@ -1025,7 +1026,7 @@
     "metaTitle": "CUDA: Πολλαπλασιασμός πινάκων από 306 ms σε 86 ms",
     "title": "Από 306 ms σε 86 ms",
     "subtitle": "Πολλαπλασιασμός πινάκων σε CUDA σε μια NVIDIA T4, που ξαναγράφτηκε δύο φορές ώστε να διαβάζει τα δεδομένα του από ταχύτερη μνήμη, με μέτρηση μετά από κάθε βήμα",
-    "description": "Ατομικό ακαδημαϊκό έργο: πολλαπλασιασμός πινάκων σε CUDA σε μια NVIDIA T4, από ένα naive kernel σε tiling με shared memory και register blocking, με μέτρηση σε κάθε βήμα.",
+    "description": "Ατομικό ακαδημαϊκό έργο: πολλαπλασιασμός πινάκων σε CUDA σε NVIDIA T4, από naive kernel σε tiling με shared memory και register blocking, με μέτρηση ανά βήμα.",
     "back": "Περισσότερα έργα",
     "contents": "Περιεχόμενα",
     "kind": "Ατομικό ακαδημαϊκό έργο",
@@ -1112,7 +1113,7 @@
     "metaTitle": "Όραση υπολογιστών: Classification, segmentation και detection σε PyTorch",
     "title": "Classification, segmentation και detection σε PyTorch",
     "subtitle": "Πέντε ασκήσεις με δίκτυα εκπαιδευμένα από την αρχή ή με fine-tuning από προεκπαιδευμένα βάρη, που καταλήγουν σε σύγκριση ενός Vision Transformer με ένα CNN",
-    "description": "Ατομικό ακαδημαϊκό έργο: πέντε ασκήσεις όρασης υπολογιστών σε PyTorch, από image classification με ResNet18 και σύγκριση ViT-B/16 και VGG16-BN στο CIFAR-10 έως segmentation με U-Net και detection με Faster R-CNN.",
+    "description": "Ατομικό ακαδημαϊκό έργο: πέντε ασκήσεις όρασης υπολογιστών σε PyTorch, από classification με ResNet18 και σύγκριση ViT/VGG έως U-Net και Faster R-CNN.",
     "back": "Περισσότερα έργα",
     "contents": "Περιεχόμενα",
     "kind": "Ατομικό ακαδημαϊκό έργο",
@@ -1181,7 +1182,7 @@
     "metaTitle": "Εξόρυξη δεδομένων ενέργειας: classification και forecasting οικιακής κατανάλωσης",
     "title": "Classification και forecasting της κατανάλωσης ενός νοικοκυριού",
     "subtitle": "Ένα δημόσιο dataset του UCI με μετρήσεις ανά λεπτό από ένα νοικοκυριό για σχεδόν τέσσερα χρόνια, συγκεντρωμένες σε 1.418 ημέρες για δύο εργασίες: τον εντοπισμό ημερών υψηλής κατανάλωσης και την πρόβλεψη της συνολικής κατανάλωσης της επόμενης ημέρας",
-    "description": "Ομαδικό ακαδημαϊκό έργο: classification ημερών υψηλής κατανάλωσης με Gradient Boosting (89,4% test accuracy, ROC-AUC 96,3%) και forecasting της κατανάλωσης της επόμενης ημέρας με Random Forest και LSTM, σε σύγκριση με ένα persistence baseline.",
+    "description": "Ομαδικό ακαδημαϊκό έργο: classification ημερών υψηλής κατανάλωσης με Gradient Boosting (89,4% test accuracy) και forecasting με Random Forest και LSTM.",
     "back": "Περισσότερα έργα",
     "kind": "Ομαδικό ακαδημαϊκό έργο",
     "periodLabel": "Περίοδος",
@@ -1418,7 +1419,7 @@
   },
   "resume": {
     "title": "Βιογραφικό",
-    "description": "Βιογραφικό του Κωνσταντίνου Παπαδογιάννη, αποφοίτου Πληροφορικής και Τηλεματικής στην Αθήνα: σπουδές, πτυχιακή εργασία, ακαδημαϊκές εργασίες και δεξιότητες, σε PDF μίας σελίδας στα αγγλικά.",
+    "description": "Βιογραφικό του Κωνσταντίνου Παπαδογιάννη, αποφοίτου Πληροφορικής και Τηλεματικής: σπουδές, πτυχιακή, ακαδημαϊκά έργα και δεξιότητες, σε PDF μίας σελίδας.",
     "body": "Ένα PDF μίας σελίδας: σπουδές, πτυχιακή εργασία, ακαδημαϊκές εργασίες και δεξιότητες. Το βιογραφικό είναι διαθέσιμο μόνο στα αγγλικά.",
     "view": "Προβολή PDF",
     "download": "Λήψη PDF"

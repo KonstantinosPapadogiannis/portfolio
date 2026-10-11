@@ -38,11 +38,11 @@ export function ForecastFigure() {
             const rmse = energy.forecasting[key];
             return (
               <li key={key}>
-                <p className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 text-[14px] leading-5 text-ink">
+                <p className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 text-[0.875rem] leading-5 text-ink">
                   <span lang="en" className="font-medium">
                     {name}
                   </span>{" "}
-                  <span className="font-mono text-[13px]">{kwh(rmse)}</span>
+                  <span className="font-mono text-[0.8125rem]">{kwh(rmse)}</span>
                 </p>
                 <div aria-hidden="true" className="mt-2 h-2.5 bg-border/45">
                   <div
@@ -50,7 +50,7 @@ export function ForecastFigure() {
                     style={{ width: `${(rmse / persistence) * 100}%` }}
                   />
                 </div>
-                <p className="mt-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 text-[13px] leading-5">
+                <p className="mt-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 text-[0.8125rem] leading-5">
                   <span className="text-pretty text-muted">{t(`models.${key}`)}</span>{" "}
                   <span className="text-ink">
                     {key === "persistence"
@@ -69,7 +69,7 @@ export function ForecastFigure() {
 
         <p
           id="forecast-note"
-          className="mt-6 border-t border-border pt-4 text-[13px] leading-5 text-pretty text-muted md:mt-7"
+          className="mt-6 border-t border-border pt-4 text-[0.8125rem] leading-5 text-pretty text-muted md:mt-7"
         >
           {t("note", {
             features: testDays.features,

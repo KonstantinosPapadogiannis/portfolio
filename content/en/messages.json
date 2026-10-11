@@ -1,6 +1,7 @@
 {
   "site": {
-    "name": "Konstantinos Papadogiannis"
+    "name": "Konstantinos Papadogiannis",
+    "ogImageAlt": "Konstantinos Papadogiannis, Athens: backend systems, distributed software and cloud infrastructure."
   },
   "nav": {
     "primary": "Main",
@@ -20,7 +21,7 @@
   },
   "home": {
     "title": "Backend, distributed systems and cloud",
-    "description": "Recent Informatics & Telematics graduate in Athens, focused on backend engineering, distributed systems and cloud infrastructure. Selected academic engineering work and the technical decisions behind it."
+    "description": "Recent Informatics & Telematics graduate in Athens, focused on backend engineering, distributed systems and cloud. Academic work and the decisions behind it."
   },
   "hero": {
     "name": "Konstantinos Papadogiannis",
@@ -97,7 +98,7 @@
   "thesisPage": {
     "title": "Designing Trust Across Seven Organisations",
     "subtitle": "A permissioned dApp for verifiable agricultural subsidy workflows",
-    "description": "B.Sc. thesis case study: a permissioned Hyperledger Fabric application for multi-organisation subsidy workflows, with farmers signing from their own browser wallet and a privacy-aware architecture.",
+    "description": "B.Sc. thesis case study: a permissioned Hyperledger Fabric application for multi-organisation subsidy workflows, where farmers sign in their own browser wallet.",
     "back": "Selected work",
     "kind": "Bachelor’s thesis",
     "grade": "Grade",
@@ -625,7 +626,7 @@
     "metaTitle": "ErgoHub: From Application Code to a Kubernetes Cluster",
     "title": "From Application Code to a Kubernetes Cluster",
     "subtitle": "ErgoHub, a freelance marketplace: a Spring Boot and React application, and the Docker, Jenkins and Ansible path that deployed it to Azure Kubernetes Service",
-    "description": "ErgoHub, a team academic project: a Spring Boot and React freelance marketplace, deployed to Azure Kubernetes Service with Docker, Jenkins pipelines and Ansible.",
+    "description": "ErgoHub, a team academic project: a Spring Boot and React freelance marketplace, deployed to Azure Kubernetes Service with Docker, Jenkins and Ansible.",
     "back": "More work",
     "contents": "Contents",
     "kind": "Team academic project",
@@ -906,7 +907,7 @@
     "metaTitle": "OpenStack: A Private Cloud Inside One Google Cloud VM",
     "title": "A Private Cloud Inside One Google Cloud VM",
     "subtitle": "OpenStack on a single Google Cloud VM, and the Linux networking that let its instances reach the outside and survive a restart",
-    "description": "An individual academic project: OpenStack deployed with DevStack on a Google Cloud VM, and the Linux networking, debugging and systemd recovery that made its instances reachable.",
+    "description": "Individual academic project: OpenStack deployed with DevStack on a Google Cloud VM, and the Linux networking and debugging that made its instances reachable.",
     "back": "More work",
     "contents": "Contents",
     "kind": "Individual academic project",
@@ -1025,7 +1026,7 @@
     "metaTitle": "CUDA: Matrix Multiplication from 306 ms to 86 ms",
     "title": "From 306 ms to 86 ms",
     "subtitle": "A CUDA matrix multiplication on an NVIDIA T4, rewritten twice to reuse data from faster memory, and measured after each step",
-    "description": "Individual academic project: a CUDA matrix multiplication on an NVIDIA T4, from a naive kernel to shared-memory tiling and register blocking, measured at each step.",
+    "description": "Individual academic project: matrix multiplication in CUDA on an NVIDIA T4, from a naive kernel to shared-memory tiling and register blocking, timed per step.",
     "back": "More work",
     "contents": "Contents",
     "kind": "Individual academic project",
@@ -1112,7 +1113,7 @@
     "metaTitle": "Computer Vision: Classification, Segmentation and Detection in PyTorch",
     "title": "Classification, segmentation and detection in PyTorch",
     "subtitle": "Five exercises with networks trained from scratch or fine-tuned from pretrained weights, ending in a Vision Transformer compared with a CNN",
-    "description": "Individual academic project: five computer vision exercises in PyTorch, from image classification with ResNet18 and a ViT-B/16 and VGG16-BN comparison on CIFAR-10 to U-Net segmentation and Faster R-CNN detection.",
+    "description": "Individual academic project: five computer vision exercises in PyTorch, from ResNet18 classification and a ViT/VGG comparison to U-Net and Faster R-CNN.",
     "back": "More work",
     "contents": "Contents",
     "kind": "Individual academic project",
@@ -1181,7 +1182,7 @@
     "metaTitle": "Energy Data Mining: Classifying and Forecasting Household Consumption",
     "title": "Classifying and forecasting household energy use",
     "subtitle": "A public UCI dataset of one household’s minute readings over almost four years, aggregated to 1,418 days and used for two tasks: labelling high-consumption days and forecasting the next day’s total",
-    "description": "Team academic project: high-consumption days classified with Gradient Boosting (89.4% test accuracy, ROC-AUC 96.3%) and next-day consumption forecast with Random Forest and an LSTM, measured against a persistence baseline.",
+    "description": "Team academic project: high-consumption days classified with Gradient Boosting (89.4% test accuracy), next-day consumption forecast with Random Forest and LSTM.",
     "back": "More work",
     "kind": "Team academic project",
     "periodLabel": "Period",
@@ -1418,7 +1419,7 @@
   },
   "resume": {
     "title": "Résumé",
-    "description": "Résumé of Konstantinos Papadogiannis, Informatics and Telematics graduate in Athens: education, bachelor’s thesis, academic projects and skills, as a one-page PDF.",
+    "description": "Résumé of Konstantinos Papadogiannis, Informatics and Telematics graduate in Athens: education, thesis, academic projects and skills, as a one-page PDF.",
     "body": "A one-page PDF in English: education, bachelor’s thesis, academic projects and skills.",
     "view": "View PDF",
     "download": "Download PDF"

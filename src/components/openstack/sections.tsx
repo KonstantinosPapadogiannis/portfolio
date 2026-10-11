@@ -15,9 +15,9 @@ import { code } from "@/lib/rich-text";
 // above the text below that.
 const row =
   "grid gap-y-1 border-b border-border py-4 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-x-10";
-const rowLabel = "text-[15px] leading-6 font-medium text-ink md:text-[16px] md:leading-[25px]";
+const rowLabel = "text-[0.9375rem] leading-6 font-medium text-ink md:text-[1rem] md:leading-[1.5625rem]";
 const rowBody =
-  "max-w-[620px] text-[15px] leading-6 text-pretty text-ink/80 md:text-[16px] md:leading-[25px]";
+  "max-w-[620px] text-[0.9375rem] leading-6 text-pretty text-ink/80 md:text-[1rem] md:leading-[1.5625rem]";
 
 export function Environment() {
   const t = useTranslations("openstackPage.environment");
@@ -114,7 +114,7 @@ export function Reflection() {
         href={`${getPathname({ href: "/", locale })}#${sectionIds.moreWork}`}
         internal
         arrow="left"
-        className="mt-12 text-[15px] text-ink hover:text-steel md:mt-14"
+        className="mt-12 text-[0.9375rem] text-ink hover:text-steel md:mt-14"
       >
         {t("back")}
       </TextLink>

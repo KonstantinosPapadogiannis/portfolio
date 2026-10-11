@@ -23,7 +23,7 @@ export function Story() {
         <Reveal>
           <p
             data-reveal
-            className="mt-[30px] max-w-[820px] text-[30px] leading-[35px] font-semibold tracking-[-0.02em] text-balance text-ink md:text-[36px] md:leading-[43px] lg:mt-[37px] lg:text-[42px] lg:leading-[49px]"
+            className="mt-[30px] max-w-[820px] text-[1.875rem] leading-[2.1875rem] font-semibold tracking-[-0.02em] text-balance text-ink md:text-[2.25rem] md:leading-[2.6875rem] lg:mt-[37px] lg:text-[2.625rem] lg:leading-[3.0625rem]"
           >
             {t("statement")}
           </p>
@@ -52,7 +52,7 @@ export function Story() {
                   rule, no box. It is his own line, not a quotation. */}
               <p
                 data-reveal
-                className="mt-8 mb-8 max-w-[520px] text-[23px] leading-[29px] font-semibold tracking-[-0.015em] text-balance text-ink md:mt-10 md:mb-10 md:text-[27px] md:leading-[34px]"
+                className="mt-8 mb-8 max-w-[520px] text-[1.4375rem] leading-[1.8125rem] font-semibold tracking-[-0.015em] text-balance text-ink md:mt-10 md:mb-10 md:text-[1.6875rem] md:leading-[2.125rem]"
               >
                 {t("depth.pull")}
               </p>
@@ -71,7 +71,7 @@ export function Story() {
               </p>
               <div data-reveal className="mt-8 md:mt-10">
                 <p>{t("direction.callbackLead")}</p>
-                <p className="mt-2 max-w-[560px] text-[19px] leading-[27px] font-medium tracking-[-0.01em] text-balance text-ink md:text-[21px] md:leading-[30px]">
+                <p className="mt-2 max-w-[560px] text-[1.1875rem] leading-[1.6875rem] font-medium tracking-[-0.01em] text-balance text-ink md:text-[1.3125rem] md:leading-[1.875rem]">
                   {t("direction.callback")}
                 </p>
               </div>
@@ -98,16 +98,16 @@ function Chapter({
     <div className="border-t border-border pt-5 pb-10 last:pb-0 md:grid md:grid-cols-[176px_minmax(0,1fr)] md:gap-x-10 md:pt-6 md:pb-12 lg:grid-cols-3 lg:gap-x-0 lg:pb-14">
       <h3
         data-reveal
-        className="text-[19px] leading-[26px] font-medium tracking-[-0.01em] text-ink lg:pr-14 lg:text-[20px] lg:leading-7"
+        className="text-[1.1875rem] leading-[1.625rem] font-medium tracking-[-0.01em] text-ink lg:pr-14 lg:text-[1.25rem] lg:leading-7"
       >
-        <span className="me-3 font-label text-[12px] leading-4 tracking-[0.04em] text-muted md:mb-2 md:block">
+        <span className="me-3 font-label text-[0.75rem] leading-4 tracking-[0.04em] text-muted md:mb-2 md:block">
           {number}
         </span>{" "}
         {/* A run of its own, so the number's face never counts as part of
             the title's text. */}
         <span>{title}</span>
       </h3>
-      <div className="mt-4 max-w-[640px] text-[16px] leading-[26px] text-muted md:mt-0 md:text-[17px] md:leading-[28px] lg:col-span-2">
+      <div className="mt-4 max-w-[640px] text-[1rem] leading-[1.625rem] text-muted md:mt-0 md:text-[1.0625rem] md:leading-[1.75rem] lg:col-span-2">
         {children}
       </div>
     </div>

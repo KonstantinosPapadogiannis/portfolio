@@ -56,15 +56,18 @@ export function ThesisArchitecture() {
               const isFarmer = key === "farmer";
               const stroke = `${line} ${isFarmer ? "border-dashed" : ""}`;
               return (
-                <li key={key} className="flex min-h-7 items-center">
+                <li key={key} className="flex min-h-7 items-center @max-[14rem]:flex-wrap">
                   <span
                     aria-hidden="true"
                     className={`mr-2 w-3 shrink-0 border-t ${stroke} @min-[34rem]:hidden`}
                   />
-                  <span className="w-[7.75rem] shrink-0 text-[14px] leading-5 font-medium text-ink">
+                  <span className="w-[7.75rem] shrink-0 text-[0.875rem] leading-5 font-medium text-ink">
                     {t(`organisations.${key}.name`)}
                   </span>
-                  <span className="text-[13px] leading-5 text-muted">
+                  {/* Under the name when the figure is narrower than 14rem,
+                      which only a larger default text size makes: at 16px
+                      the narrowest phone leaves it 14.9rem. */}
+                  <span className="text-[0.8125rem] leading-5 text-muted @max-[14rem]:basis-full @max-[14rem]:pl-5">
                     {t(`organisations.${key}.role`)}
                   </span>
                   <span
@@ -80,22 +83,22 @@ export function ThesisArchitecture() {
           <div
             className="relative self-center border border-diagram/80 px-4 py-3.5 before:absolute before:top-1/2 before:right-full before:hidden before:w-6 before:border-t before:border-steel/55 @min-[34rem]:before:block"
           >
-            <p className="font-mono text-[13px] leading-[18px] text-ink">subsidychannel</p>
-            <p className="text-[12px] leading-4 text-muted">{t("ledger")}</p>
+            <p className="font-mono text-[0.8125rem] leading-[1.125rem] text-ink">subsidychannel</p>
+            <p className="text-[0.75rem] leading-4 text-muted">{t("ledger")}</p>
 
             <ul aria-label={t("chaincodesLabel")} className="mt-3 border-t border-border">
               {chaincodes.map((name) => (
                 <li
                   key={name}
-                  className="border-b border-border py-[5px] font-mono text-[12px] leading-4 text-ink"
+                  className="border-b border-border py-[5px] font-mono text-[0.75rem] leading-4 text-ink"
                 >
                   {name}
                 </li>
               ))}
             </ul>
-            <p className="mt-2 text-[12px] leading-4 text-muted">{t("worldState")}</p>
+            <p className="mt-2 text-[0.75rem] leading-4 text-muted">{t("worldState")}</p>
 
-            <p className="mt-3 flex items-center gap-2 text-[12px] leading-4 text-muted">
+            <p className="mt-3 flex items-center gap-2 text-[0.75rem] leading-4 text-muted">
               <span aria-hidden="true" className="flex gap-[3px]">
                 {Array.from({ length: collections }, (_, i) => (
                   <span key={i} className="size-[7px] bg-steel/80" />
@@ -108,7 +111,7 @@ export function ThesisArchitecture() {
 
         <ul
           aria-label={t("legendLabel")}
-          className="mt-6 flex flex-col gap-y-1.5 border-t border-border pt-4 text-[12px] leading-4 text-muted @min-[34rem]:flex-row @min-[34rem]:gap-x-7"
+          className="mt-6 flex flex-col gap-y-1.5 border-t border-border pt-4 text-[0.75rem] leading-4 text-muted @min-[34rem]:flex-row @min-[34rem]:gap-x-7"
         >
           <li className="flex items-center gap-2.5">
             <span aria-hidden="true" className={`w-6 shrink-0 border-t ${line}`} />

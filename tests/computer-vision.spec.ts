@@ -1,4 +1,4 @@
-import { test, expect, html } from "./fixtures";
+import { test, expect, html, siteOrigin } from "./fixtures";
 
 const sections = ["classification", "comparison", "segmentation-detection", "lessons"];
 
@@ -116,7 +116,7 @@ for (const locale of locales) {
 
       await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
         "href",
-        `https://kpapadogiannis.dev${locale.path}`,
+        `${siteOrigin}${locale.path}`,
       );
       for (const [hreflang, path] of [
         ["en", "/work/computer-vision"],
@@ -125,7 +125,7 @@ for (const locale of locales) {
       ]) {
         await expect(
           page.locator(`link[rel="alternate"][hreflang="${hreflang}"]`),
-        ).toHaveAttribute("href", `https://kpapadogiannis.dev${path}`);
+        ).toHaveAttribute("href", `${siteOrigin}${path}`);
       }
       await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /.{80,}/);
       await expect(page.locator('meta[name="description"]')).toHaveAttribute(
@@ -144,7 +144,7 @@ for (const locale of locales) {
       expect(ld).toMatchObject({
         "@type": "CreativeWork",
         name: locale.metaTitle,
-        url: `https://kpapadogiannis.dev${locale.path}`,
+        url: `${siteOrigin}${locale.path}`,
         inLanguage: locale.lang,
         author: { "@type": "Person", name: locale.author },
       });
@@ -402,14 +402,19 @@ for (const locale of locales) {
             .flatMap((el) => [...el.querySelectorAll("p, span, th, td, figcaption")])
             .filter((el) => el.textContent!.trim())
             .map((el) => parseFloat(getComputedStyle(el).fontSize));
+          // The results table stays inside its frame, every column with it.
+          const table = document.querySelector("main figure table")!;
+          const frame = table.closest("figure > div")!;
           return {
             page: document.documentElement.scrollWidth - viewport,
             right: Math.max(...rights) - viewport,
+            table: table.getBoundingClientRect().right - frame.getBoundingClientRect().right,
             smallest: Math.min(...sizes),
           };
         });
         expect(layout.page).toBeLessThanOrEqual(0);
         expect(layout.right).toBeLessThanOrEqual(0);
+        expect(layout.table).toBeLessThanOrEqual(0);
         // The figures and their labels are never shrunk to fit.
         expect(layout.smallest).toBeGreaterThanOrEqual(11);
       });

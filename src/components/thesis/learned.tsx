@@ -15,7 +15,7 @@ export function Learned() {
       <ul className="mt-10 grid gap-y-10 md:mt-12 md:grid-cols-2 md:gap-x-12">
         {questions.map((key) => (
           <li key={key} className="border-t border-border pt-4">
-            <h3 className="text-[20px] leading-7 font-semibold tracking-[-0.01em] text-ink md:text-[22px] md:leading-[30px]">
+            <h3 className="text-[1.25rem] leading-7 font-semibold tracking-[-0.01em] text-ink md:text-[1.375rem] md:leading-[1.875rem]">
               {t(`rows.${key}.title`)}
             </h3>
             <p className={`${itemBody} mt-2 max-w-[520px]`}>{t(`rows.${key}.body`)}</p>

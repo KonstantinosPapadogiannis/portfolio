@@ -18,8 +18,8 @@ const built = [
 function CountRow({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex items-baseline justify-between gap-6 border-b border-border py-2.5">
-      <dt className="text-[14px] leading-[22px] text-ink">{label}</dt>
-      <dd className="shrink-0 text-right text-[14px] leading-[22px] text-ink">{children}</dd>
+      <dt className="min-w-0 text-[0.875rem] leading-[1.375rem] wrap-break-word text-ink">{label}</dt>
+      <dd className="shrink-0 text-right text-[0.875rem] leading-[1.375rem] text-ink">{children}</dd>
     </div>
   );
 }

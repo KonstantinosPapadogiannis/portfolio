@@ -873,9 +873,14 @@ for (const locale of locales) {
         expect(backgrounds.all).not.toContain("rgb(255, 255, 255)");
       }
       // The architecture panel is the one lighter surface, as in the reference.
-      await expect(
-        page.getByRole("figure", { name: locale.figure }).locator(":scope > div"),
-      ).toHaveCSS("background-color", "rgb(251, 250, 246)");
+      const panelBackground = await page.evaluate((label) => {
+        const figure = [...document.querySelectorAll("figure")].find((candidate) =>
+          candidate.querySelector("figcaption")?.textContent?.includes(label),
+        );
+        const panel = figure?.querySelector(":scope > div");
+        return panel ? getComputedStyle(panel).backgroundColor : undefined;
+      }, locale.figure);
+      expect(panelBackground).toBe("rgb(251, 250, 246)");
     });
 
     test("story: a section of its own, after About, with the verified facts", async ({ page }) => {
@@ -991,6 +996,24 @@ for (const locale of locales) {
       await expect
         .poll(() => parts.evaluateAll((els) => els.every((el) => getComputedStyle(el).opacity === "1")))
         .toBe(true);
+
+      // In the first frame the label and the headline are already opaque
+      // (they only move); the parts after them fade in.
+      const firstFrame = await parts.evaluateAll((els) =>
+        els.map((el) => {
+          const element = el as HTMLElement;
+          element.style.animation = "none";
+          void element.offsetWidth;
+          element.style.animation = "";
+          const [animation] = element.getAnimations();
+          animation.pause();
+          animation.currentTime = 0;
+          const opacity = getComputedStyle(element).opacity;
+          animation.finish();
+          return [element.dataset.enter, opacity];
+        }),
+      );
+      for (const [step, opacity] of firstFrame) expect(opacity).toBe(step === "1" ? "1" : "0");
     });
 
     // Every section after the hero comes in as the story does, block by
@@ -1018,15 +1041,18 @@ for (const locale of locales) {
             super.disconnect();
           }
         };
+        // Layout shifts are reported by Chromium only.
         const shift = { value: 0 };
-        new PerformanceObserver((list) => {
-          for (const entry of list.getEntries() as (PerformanceEntry & {
-            value: number;
-            hadRecentInput: boolean;
-          })[]) {
-            if (!entry.hadRecentInput) shift.value += entry.value;
-          }
-        }).observe({ type: "layout-shift", buffered: true });
+        if (PerformanceObserver.supportedEntryTypes.includes("layout-shift")) {
+          new PerformanceObserver((list) => {
+            for (const entry of list.getEntries() as (PerformanceEntry & {
+              value: number;
+              hadRecentInput: boolean;
+            })[]) {
+              if (!entry.hadRecentInput) shift.value += entry.value;
+            }
+          }).observe({ type: "layout-shift", buffered: true });
+        }
         Object.assign(window, { __revealObservers: log, __layoutShift: shift });
       });
       await page.goto(locale.home);
@@ -1065,6 +1091,8 @@ for (const locale of locales) {
       await expect.poll(async () => (await states()).every((s) => s.opacity === "1")).toBe(true);
       expect((await page.getByRole("main").boundingBox())!.height).toBe(height);
       expect(await observers()).toEqual({ created: 1, disconnected: 1 });
+      // Zero where layout shifts are not reported; the height of main, above,
+      // is checked in every browser.
       const shift = await page.evaluate(() => (window as RevealWindow).__layoutShift.value);
       expect(shift).toBeLessThan(0.01);
 

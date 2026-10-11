@@ -10,7 +10,7 @@ type EyebrowProps<T extends ElementType> = {
 // Inter in Greek (font-label follows the lang attribute). Greek is written in
 // sentence case in the dictionaries; uppercase here drops the tonos.
 export const eyebrowClass =
-  "font-label text-[11px] leading-4 font-normal uppercase tracking-[0.08em]";
+  "font-label text-[0.6875rem] leading-4 font-normal uppercase tracking-[0.08em]";
 
 export function Eyebrow<T extends ElementType = "p">({
   as,

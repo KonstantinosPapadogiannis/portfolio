@@ -36,7 +36,7 @@ export function BenchmarkFigure() {
             const seconds = cuda.seconds[key];
             return (
               <li key={key}>
-                <p className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 text-[13px] leading-5 text-ink">
+                <p className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 text-[0.8125rem] leading-5 text-ink">
                   <span lang="en" className="font-mono [overflow-wrap:anywhere]">
                     {name}
                   </span>{" "}
@@ -50,7 +50,7 @@ export function BenchmarkFigure() {
                     style={{ width: `${(seconds / baseline) * 100}%` }}
                   />
                 </div>
-                <p className="mt-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 text-[13px] leading-5">
+                <p className="mt-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 text-[0.8125rem] leading-5">
                   <span className="text-pretty text-muted">{t(`kernels.${key}`)}</span>{" "}
                   <span className="text-ink">
                     {key === "naive"
@@ -65,7 +65,7 @@ export function BenchmarkFigure() {
 
         <p
           id="benchmark-note"
-          className="mt-6 border-t border-border pt-4 text-[13px] leading-5 text-pretty text-muted md:mt-7"
+          className="mt-6 border-t border-border pt-4 text-[0.8125rem] leading-5 text-pretty text-muted md:mt-7"
         >
           {t("note")}
         </p>

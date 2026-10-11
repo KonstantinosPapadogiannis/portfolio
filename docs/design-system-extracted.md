@@ -207,13 +207,14 @@ same, so mixed lines and the two language versions keep the same rhythm:
 | Geist | 0.710 | 0.530 | 0.746 |
 | Inter | 0.728 | 0.546 | 0.750 |
 
-All three families are served by `next/font/google` (self-hosted at build
-time, no request to Google at runtime, size-adjusted fallbacks):
+All three families are self-hosted and make no request to Google at runtime.
+Geist and IBM Plex Mono use `next/font/google`; Inter 4.001 is stored under
+`public/fonts/` so its Greek and Latin files can be preloaded by language:
 
 | Family | Variable | Subsets | Weights |
 |---|---|---|---|
 | Geist | `--font-geist` | latin | variable |
-| Inter | `--font-inter` | greek (preloaded); latin loads on demand through `unicode-range` | variable |
+| Inter | `--font-inter` | Greek on every page for the `ΕΛ` label; Latin additionally on Greek pages | variable |
 | IBM Plex Mono | `--font-plex-mono` | latin | 400 only (no other weight is used, and every listed weight is preloaded) |
 
 Mapping, applied through `[lang]` rules in `globals.css`:

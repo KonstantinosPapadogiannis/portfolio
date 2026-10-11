@@ -18,7 +18,7 @@ export function Policy() {
             key={key}
             className="grid gap-y-1 border-b border-border py-4 md:grid-cols-[15rem_minmax(0,1fr)] md:gap-x-8"
           >
-            <dt className="font-mono text-[13px] leading-6 text-ink">{key}-chaincode</dt>
+            <dt className="font-mono text-[0.8125rem] leading-6 text-ink">{key}-chaincode</dt>
             <dd className={`${itemBody} max-w-[640px]`}>{t(`chaincodes.${key}`)}</dd>
           </div>
         ))}
@@ -38,7 +38,7 @@ export function Policy() {
             {guards.map((key) => (
               <li
                 key={key}
-                className="border-b border-border py-2.5 text-[15px] leading-6 text-ink/85 md:text-[16px]"
+                className="border-b border-border py-2.5 text-[0.9375rem] leading-6 text-ink/85 md:text-[1rem]"
               >
                 {t(`guards.${key}`)}
               </li>

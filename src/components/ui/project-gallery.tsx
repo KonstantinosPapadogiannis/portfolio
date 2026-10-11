@@ -85,10 +85,10 @@ export function ProjectGallery({
         <h3 id={`${id}-title`} className={`${eyebrowClass} min-w-0 text-muted`}>
           {title}
         </h3>
-        <div className="-mr-3 flex shrink-0 items-center">
+        <div className="-mr-[12px] flex shrink-0 items-center">
           <span
             aria-hidden="true"
-            className="mr-2 font-mono text-[12px] leading-4 whitespace-nowrap text-muted"
+            className="mr-2 font-mono text-[0.75rem] leading-4 whitespace-nowrap text-muted"
           >
             {pad(index + 1)} / {pad(total)}
           </span>

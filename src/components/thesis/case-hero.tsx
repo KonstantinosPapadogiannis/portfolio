@@ -19,14 +19,14 @@ export function CaseHero() {
         href={`${getPathname({ href: "/", locale })}#${sectionIds.work}`}
         internal
         arrow="left"
-        className="text-[14px] text-muted hover:text-ink"
+        className="text-[0.875rem] text-muted hover:text-ink"
       >
         {t("back")}
       </TextLink>
 
       <div className="mt-12 md:mt-16 lg:grid lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end lg:gap-x-16">
         <div>
-          <p className="flex flex-wrap items-baseline gap-x-[18px] font-label text-[11px] leading-5 text-muted uppercase lg:text-[13px] lg:normal-case">
+          <p className="flex flex-wrap items-baseline gap-x-[18px] font-label text-[0.6875rem] leading-5 text-muted uppercase lg:text-[0.8125rem] lg:normal-case">
             <span className="text-ink">{t("kind")}</span> <span>2026</span>{" "}
             <span>
               <span className="sr-only">{t("grade")} </span>
@@ -36,12 +36,12 @@ export function CaseHero() {
 
           <h1
             id="case-title"
-            className="mt-5 max-w-[920px] text-[38px] leading-[42px] font-semibold tracking-[-0.025em] text-balance text-ink sm:text-[48px] sm:leading-[52px] lg:mt-6 lg:text-[64px] lg:leading-[68px]"
+            className="mt-5 max-w-[920px] text-[2.375rem] leading-[2.625rem] font-semibold tracking-[-0.025em] text-balance text-ink sm:text-[3rem] sm:leading-[3.25rem] lg:mt-6 lg:text-[4rem] lg:leading-[4.25rem]"
           >
             {t("title")}
           </h1>
 
-          <p className="mt-5 max-w-[640px] text-[18px] leading-[27px] text-balance text-muted md:text-[22px] md:leading-[31px] lg:mt-6">
+          <p className="mt-5 max-w-[640px] text-[1.125rem] leading-[1.6875rem] text-balance text-muted md:text-[1.375rem] md:leading-[1.9375rem] lg:mt-6">
             {t("subtitle")}
           </p>
         </div>
@@ -49,11 +49,11 @@ export function CaseHero() {
         <dl className="mt-10 grid gap-y-4 border-t border-border pt-5 sm:grid-cols-2 sm:gap-x-10 lg:mt-0 lg:grid-cols-1 lg:gap-y-5 lg:border-t-0 lg:border-l lg:pt-0 lg:pb-1 lg:pl-6">
           <div>
             <dt className={`${eyebrowClass} text-muted`}>{t("departmentLabel")}</dt>
-            <dd className="mt-1.5 text-[14px] leading-[22px] text-balance text-ink">{t("department")}</dd>
+            <dd className="mt-1.5 text-[0.875rem] leading-[1.375rem] text-balance text-ink">{t("department")}</dd>
           </div>
           <div>
             <dt className={`${eyebrowClass} text-muted`}>{t("supervisorLabel")}</dt>
-            <dd className="mt-1.5 text-[14px] leading-[22px] text-ink">{t("supervisor")}</dd>
+            <dd className="mt-1.5 text-[0.875rem] leading-[1.375rem] text-ink">{t("supervisor")}</dd>
           </div>
         </dl>
       </div>

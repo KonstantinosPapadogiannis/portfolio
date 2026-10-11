@@ -44,7 +44,7 @@ export function MobileNav({ items, navLabel, menuLabel }: MobileNavProps) {
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
-        className="lg:hidden"
+        className="mobile-nav-toggle lg:hidden"
       >
         {open ? <CloseIcon size={20} /> : <MenuIcon size={20} />}
       </IconButton>
@@ -64,7 +64,7 @@ export function MobileNav({ items, navLabel, menuLabel }: MobileNavProps) {
             >
               <NavLink
                 item={item}
-                className="flex h-12 items-center text-[17px] text-ink transition-colors duration-150 hover:text-steel"
+                className="flex h-12 items-center text-[1.0625rem] text-ink transition-colors duration-150 hover:text-steel"
               >
                 {item.label}
               </NavLink>
@@ -72,6 +72,30 @@ export function MobileNav({ items, navLabel, menuLabel }: MobileNavProps) {
           ))}
         </Container>
       </nav>
+
+      {/* Keep primary navigation available on small screens when scripts are
+          blocked. The inline no-script rule removes the otherwise inert menu
+          button; the regular desktop navigation remains visible at lg. */}
+      <noscript>
+        <style>{`.mobile-nav-toggle { display: none !important; }`}</style>
+        <nav
+          aria-label={navLabel}
+          className="absolute inset-x-0 top-full z-40 border-b border-border bg-background lg:hidden"
+        >
+          <Container as="ul" className="py-2">
+            {items.map((item) => (
+              <li key={item.key} className="border-b border-border last:border-b-0">
+                <NavLink
+                  item={item}
+                  className="flex h-12 items-center text-[1.0625rem] text-ink"
+                >
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
+          </Container>
+        </nav>
+      </noscript>
     </>
   );
 }

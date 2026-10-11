@@ -22,7 +22,7 @@ export function Perspectives() {
             className="grid gap-y-1.5 border-b border-border py-4 md:grid-cols-[13rem_minmax(0,1fr)] md:items-baseline md:gap-x-10"
           >
             <div>
-              <h3 className="text-[16px] leading-6 font-medium text-ink">{t(`rows.${id}.name`)}</h3>
+              <h3 className="text-[1rem] leading-6 font-medium text-ink">{t(`rows.${id}.name`)}</h3>
               {t.has(`rows.${id}.tag`) && (
                 <p className={`${eyebrowClass} mt-0.5 text-steel`}>{t(`rows.${id}.tag`)}</p>
               )}

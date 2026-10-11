@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon, ArrowUpRightIcon } from "@/components/icons";
 
-// Internal page for checking English and Greek type side by side. It exists
-// only in builds made with ENABLE_QA_ROUTES=1 (the Playwright run); every
-// other build answers 404.
-const qaEnabled = process.env.ENABLE_QA_ROUTES === "1";
+// Internal page for checking English and Greek type side by side. The
+// ".qa.tsx" name makes it a route only in builds made with ENABLE_QA_ROUTES=1
+// (the Playwright run; see pageExtensions in next.config.ts). In every other
+// build the address does not exist and gets the global 404.
 
 export const metadata: Metadata = {
   title: "Typography QA",
@@ -78,11 +77,11 @@ const mixedSentence =
   "Κατανεμημένα συστήματα, υποδομές cloud και ανάπτυξη backend εφαρμογών.";
 
 const coverageStyles = [
-  { id: "body", className: "text-[18px] leading-[1.6]" },
-  { id: "label", className: "text-[12px] font-medium tracking-[0.08em]" },
+  { id: "body", className: "text-[1.125rem] leading-[1.6]" },
+  { id: "label", className: "text-[0.75rem] font-medium tracking-[0.08em]" },
   {
     id: "display",
-    className: "text-[40px] font-bold leading-[1.06] tracking-[-0.02em] md:text-[64px]",
+    className: "text-[2.5rem] font-bold leading-[1.06] tracking-[-0.02em] md:text-[4rem]",
   },
 ];
 
@@ -91,14 +90,12 @@ export default async function TypographyQaPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  if (!qaEnabled) notFound();
-
   const { locale } = await params;
   setRequestLocale(locale);
 
   return (
     <Container className="py-12 md:py-16">
-      <h1 id="qa-top" lang="en" className="font-label text-[12px] uppercase tracking-[0.08em] text-muted">
+      <h1 id="qa-top" lang="en" className="font-label text-[0.75rem] uppercase tracking-[0.08em] text-muted">
         Typography QA
       </h1>
 
@@ -111,23 +108,23 @@ export default async function TypographyQaPage({
             aria-label={sample.heading}
             className="border-t border-border pt-8"
           >
-            <p data-testid="eyebrow" className="font-label text-[12px] uppercase tracking-[0.08em] text-muted">
+            <p data-testid="eyebrow" className="font-label text-[0.75rem] uppercase tracking-[0.08em] text-muted">
               {sample.eyebrow}
             </p>
-            <p data-testid="h1" className="mt-4 text-[40px] font-bold leading-[1.06] tracking-[-0.02em] text-ink md:text-[64px]">
+            <p data-testid="h1" className="mt-4 text-[2.5rem] font-bold leading-[1.06] tracking-[-0.02em] text-ink md:text-[4rem]">
               {sample.h1}
             </p>
-            <p data-testid="body" className="mt-6 max-w-[60ch] text-[17px] leading-[1.6] text-muted md:text-[18px]">
+            <p data-testid="body" className="mt-6 max-w-[60ch] text-[1.0625rem] leading-[1.6] text-muted md:text-[1.125rem]">
               {sample.body}
             </p>
-            <p data-testid="h2" className="mt-10 text-[28px] font-bold leading-[1.15] tracking-[-0.01em] text-ink md:text-[40px]">
+            <p data-testid="h2" className="mt-10 text-[1.75rem] font-bold leading-[1.15] tracking-[-0.01em] text-ink md:text-[2.5rem]">
               {sample.h2}
             </p>
-            <p data-testid="h3" className="mt-8 text-[24px] font-semibold leading-[1.2] text-ink md:text-[30px]">
+            <p data-testid="h3" className="mt-8 text-[1.5rem] font-semibold leading-[1.2] text-ink md:text-[1.875rem]">
               {sample.h3}
             </p>
 
-            <ul data-testid="nav" className="mt-10 flex flex-wrap gap-x-8 gap-y-2 text-[15px] text-ink">
+            <ul data-testid="nav" className="mt-10 flex flex-wrap gap-x-8 gap-y-2 text-[0.9375rem] text-ink">
               {sample.nav.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -156,7 +153,7 @@ export default async function TypographyQaPage({
               {sample.tags.map((tag) => (
                 <li
                   key={tag}
-                  className="rounded-[3px] border border-border px-2.5 py-1 font-mono text-[12px] text-ink"
+                  className="rounded-[3px] border border-border px-2.5 py-1 font-mono text-[0.75rem] text-ink"
                 >
                   {tag}
                 </li>
@@ -184,13 +181,13 @@ export default async function TypographyQaPage({
           </div>
         ))}
 
-        <p data-testid="mixed" className="max-w-[60ch] text-[18px] leading-[1.6] text-ink">
+        <p data-testid="mixed" className="max-w-[60ch] text-[1.125rem] leading-[1.6] text-ink">
           {mixedSentence}
         </p>
-        <p data-testid="mixed-display" className="mt-6 text-[40px] font-bold leading-[1.06] tracking-[-0.02em] text-ink md:text-[64px]">
+        <p data-testid="mixed-display" className="mt-6 text-[2.5rem] font-bold leading-[1.06] tracking-[-0.02em] text-ink md:text-[4rem]">
           {mixedSentence}
         </p>
-        <p data-testid="uppercase" className="mt-6 font-label text-[12px] uppercase tracking-[0.08em] text-muted">
+        <p data-testid="uppercase" className="mt-6 font-label text-[0.75rem] uppercase tracking-[0.08em] text-muted">
           Επιλεγμένα έργα · Σχετικά · Επικοινωνία · Ύψος · Άρθρο
         </p>
       </section>

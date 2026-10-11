@@ -9,13 +9,13 @@ type ButtonBaseProps = {
 };
 
 const base =
-  "inline-flex items-center justify-center gap-1.5 text-[15px] font-medium transition-colors duration-150 disabled:opacity-40 disabled:pointer-events-none";
+  "inline-flex items-center justify-center gap-1.5 text-[0.9375rem] font-medium transition-colors duration-150 disabled:opacity-40 disabled:pointer-events-none";
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    "h-11 rounded-[3px] px-6 bg-navy text-on-navy hover:bg-navy-hover active:bg-navy-active",
+    "min-h-11 rounded-[3px] px-6 py-2 text-center bg-navy text-on-navy hover:bg-navy-hover active:bg-navy-active",
   secondary:
-    "h-11 rounded-[3px] px-6 border border-border text-ink bg-transparent hover:bg-steel/10 active:bg-steel/15",
+    "min-h-11 rounded-[3px] px-6 py-2 text-center border border-border text-ink bg-transparent hover:bg-steel/10 active:bg-steel/15",
   text: "text-ink hover:text-steel underline-offset-4 hover:underline",
 };
 

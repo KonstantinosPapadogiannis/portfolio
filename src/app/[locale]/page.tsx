@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Rule } from "@/components/ui/rule";
 import { Hero } from "@/components/home/hero";
@@ -8,13 +10,34 @@ import { AcademicHighlights } from "@/components/home/academic-highlights";
 import { Interests } from "@/components/home/interests";
 import { MoreWork, Technologies } from "@/components/home/more-work";
 import { siteConfig } from "@/config/site";
+import { routing } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/metadata";
 
 export const instant = false;
 
-// A request for /old.pdf reaches this route with "old.pdf" as the locale. The
-// first one waits for the complete render, so it is answered 404 rather than
-// with a 200 fallback shell.
+// The whole page is prerendered, so a later change cannot make it render per
+// request without failing the build.
 export const ensureStatic = "navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    return {};
+  }
+  const t = await getTranslations({ locale, namespace: "home" });
+  const tSite = await getTranslations({ locale, namespace: "site" });
+
+  return pageMetadata({
+    locale,
+    href: "/",
+    title: { absolute: `${tSite("name")} — ${t("title")}` },
+    description: t("description"),
+  });
+}
 
 export default async function HomePage({
   params,

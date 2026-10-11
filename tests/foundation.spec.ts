@@ -1,4 +1,4 @@
-import { test, expect, html, languageGroup } from "./fixtures";
+import { test, expect, html, languageGroup, siteOrigin } from "./fixtures";
 
 test("English renders at / with lang=en", async ({ page }) => {
   await page.goto("/");
@@ -132,7 +132,7 @@ test("resume page describes the PDF and has its own Open Graph URL", async ({ pa
     await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /.{80,}/);
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
       "content",
-      `https://kpapadogiannis.dev${path}`,
+      `${siteOrigin}${path}`,
     );
   }
 });
@@ -148,7 +148,7 @@ test("homepage describes its subject as a Person, with no job title", async ({ p
     const person = JSON.parse((await scripts.textContent()) ?? "{}");
     expect(person["@type"]).toBe("Person");
     expect(person.name).toBe(name);
-    expect(person.url).toBe("https://kpapadogiannis.dev");
+    expect(person.url).toBe(siteOrigin);
     expect(person.alumniOf.name).toBe(university);
     expect(person.sameAs).toEqual([
       "https://github.com/KonstantinosPapadogiannis",
@@ -195,6 +195,9 @@ test("an unknown address answers 404 with the not-found page in its language", a
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(heading);
     await expect(page.locator("main a")).toHaveAttribute("href", home);
     await expect(page.locator('meta[name="robots"][content="noindex"]').first()).toBeAttached();
+    // Let the final document consume its font preloads before the next full
+    // navigation. Firefox otherwise reports the superseded font as aborted.
+    await page.evaluate(() => document.fonts.ready);
   }
 
   // The two 404 responses, and the browser reporting each once, are what this
@@ -221,9 +224,15 @@ test("on a page shorter than the window the footer ends at the bottom edge", asy
     await page.setViewportSize(size);
     for (const path of ["/resume", "/el/resume", "/does-not-exist"]) {
       await page.goto(path);
-      const bottom = await page
-        .getByRole("contentinfo")
-        .evaluate((footer) => footer.getBoundingClientRect().bottom + window.scrollY);
+      await page.evaluate(() => document.fonts.ready);
+      // Read the already-loaded document directly. Firefox can regard a
+      // speculative Next.js navigation as pending and make locator.evaluate
+      // wait for it even though this full page load has completed.
+      const bottom = await page.evaluate(() => {
+        const footer = document.querySelector("footer");
+        if (!footer) throw new Error("footer not found");
+        return footer.getBoundingClientRect().bottom + window.scrollY;
+      });
       expect(bottom).toBe(size.height);
       expect(
         await page.evaluate(() => document.documentElement.scrollHeight),
@@ -242,6 +251,24 @@ test("on a page shorter than the window the footer ends at the bottom edge", asy
       pageIssues.splice(i, 1);
     }
   }
+});
+
+test.describe("without JavaScript on a phone", () => {
+  test.use({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+
+  test("primary navigation remains usable instead of showing an inert menu button", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const banner = page.getByRole("banner");
+    await expect(banner.getByRole("button", { name: "Menu" })).toBeHidden();
+    const navigation = banner.getByRole("navigation", { name: "Main" });
+    await expect(navigation).toBeVisible();
+    await expect(navigation.getByRole("link", { name: "Work" })).toHaveAttribute(
+      "href",
+      "/#work",
+    );
+  });
 });
 
 test("QA route is not indexed", async ({ page }) => {
@@ -295,12 +322,12 @@ test("canonical and alternate URLs use the production domain", async ({ page }) 
   ]) {
     const response = await page.goto(path);
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
-    expect(new URL(canonical!).origin).toBe("https://kpapadogiannis.dev");
+    expect(new URL(canonical!).origin).toBe(siteOrigin);
     const alternates = page.locator('link[rel="alternate"][hreflang]');
     await expect(alternates).toHaveCount(3);
     for (const alternate of await alternates.all()) {
       expect(new URL((await alternate.getAttribute("href"))!).origin).toBe(
-        "https://kpapadogiannis.dev",
+        siteOrigin,
       );
     }
     // No second list in the headers, on the host that happened to serve it.
@@ -334,6 +361,7 @@ test("sitemap lists each language version with the canonical URLs", async ({
   ]);
   expect(xml).not.toContain("/qa/");
   expect(xml).not.toMatch(/href="[^"]*\/el\/"/);
+  expect(xml.match(/hreflang="x-default"/g)).toHaveLength(16);
 
   for (const path of [
     "/el",

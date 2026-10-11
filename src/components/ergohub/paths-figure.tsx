@@ -24,7 +24,7 @@ function PathRow({
         <p className={`${eyebrowClass} text-ink`}>
           {t("label")}
         </p>
-        <p className="mt-1 text-[12px] leading-4 text-muted">{t("note")}</p>
+        <p className="mt-1 text-[0.75rem] leading-4 text-muted">{t("note")}</p>
       </div>
       <Track
         className="mt-5 @min-[52rem]:mt-0"
@@ -53,7 +53,7 @@ export function PathsFigure() {
         <div className="mt-8 border-t border-border pt-7 @min-[52rem]:mt-9 @min-[52rem]:pt-8">
           <PathRow id="delivery" steps={deliverySteps} />
         </div>
-        <p className="mt-8 border-t border-border pt-4 text-[13px] leading-5 text-pretty text-ink/80 @min-[52rem]:mt-9 @min-[52rem]:pl-[calc(9.5rem+2.5rem)]">
+        <p className="mt-8 border-t border-border pt-4 text-[0.8125rem] leading-5 text-pretty text-ink/80 @min-[52rem]:mt-9 @min-[52rem]:pl-[calc(9.5rem+2.5rem)]">
           {t("meet")}
         </p>
       </div>

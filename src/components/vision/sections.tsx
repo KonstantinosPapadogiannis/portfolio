@@ -20,15 +20,15 @@ import { nb } from "@/lib/rich-text";
 // A term and its description, one per row, as in the CUDA case study.
 const row =
   "grid gap-y-1 border-b border-border py-4 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-x-10";
-const rowLabel = "text-[15px] leading-6 font-medium text-ink md:text-[16px] md:leading-[25px]";
+const rowLabel = "text-[0.9375rem] leading-6 font-medium text-ink md:text-[1rem] md:leading-[1.5625rem]";
 const rowBody =
-  "max-w-[620px] text-[15px] leading-6 text-pretty text-ink/80 md:text-[16px] md:leading-[25px]";
+  "max-w-[620px] text-[0.9375rem] leading-6 text-pretty text-ink/80 md:text-[1rem] md:leading-[1.5625rem]";
 
 // The figures are in Plex Mono, which has no Greek, so only they are set in
 // it; a word between them stays in the text face.
 function Measured({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <p className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[14px] leading-[22px]">
+    <p className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[0.875rem] leading-[1.375rem]">
       <span className="text-muted">{label}</span>{" "}
       <span className="flex items-center gap-1.5 text-ink">{children}</span>
     </p>
@@ -154,7 +154,7 @@ export function Lessons() {
         href={`${getPathname({ href: "/", locale })}#${sectionIds.moreWork}`}
         internal
         arrow="left"
-        className="mt-12 text-[15px] text-ink hover:text-steel md:mt-14"
+        className="mt-12 text-[0.9375rem] text-ink hover:text-steel md:mt-14"
       >
         {t("back")}
       </TextLink>

@@ -9,7 +9,7 @@ Personal engineering portfolio. Backend engineering, distributed systems, and cl
 - Tailwind CSS 4
 - next-intl (English default at `/`, Greek at `/el`)
 - next-themes (light default, restrained dark mode)
-- MDX for long-form case studies
+- React components for the current case studies (MDX tooling is configured for future pages)
 - Playwright for smoke/E2E testing
 - pnpm
 
@@ -34,20 +34,21 @@ pnpm lint          # ESLint
 pnpm typecheck     # tsc --noEmit
 pnpm build         # production build
 pnpm test:e2e      # Playwright
+pnpm test:e2e:browsers # Chromium, Firefox and WebKit
 ```
 
 `pnpm test:e2e` builds the site and serves it on port 3100 (an already
-running server on that port is reused outside CI). Install the browser once
-with `pnpm exec playwright install chromium`; no system packages are needed
-on the development machine.
+running server on that port is reused outside CI). Install the browser engines
+once with `pnpm exec playwright install chromium firefox webkit`; no system
+packages are needed on the development machine.
 
 ### QA routes
 
 `/qa/typography` and `/el/qa/typography` show every text role in both
-languages, the full Greek character set and button states. They exist only
+languages, the full Greek character set and button states. `/qa/og` and
+`/el/qa/og` render the two share-image compositions. These routes exist only
 when the site is built with `ENABLE_QA_ROUTES=1` (the Playwright config sets
-it) and return 404 in a normal build. They are `noindex` and not in the
-sitemap.
+it) and return 404 in a normal build. They are `noindex` and not in the sitemap.
 
 ```bash
 ENABLE_QA_ROUTES=1 pnpm build && pnpm start
@@ -55,11 +56,11 @@ ENABLE_QA_ROUTES=1 pnpm build && pnpm start
 
 ## Fonts
 
-Loaded with `next/font/google` and self-hosted at build time:
+All fonts are self-hosted by the resulting site:
 
-- Geist: English text and the name in the header and footer
-- Inter: Greek text and labels (Geist has no Greek)
-- IBM Plex Mono, regular: English labels, code and tech tags
+- Geist: English text and the name in the header and footer, through `next/font/google`
+- Inter 4.001: Greek text and labels, stored under `public/fonts/`
+- IBM Plex Mono, regular: English labels, code and tech tags, through `next/font/google`
 
 The typeface follows the element's `lang` attribute, so Greek must always be
 marked `lang="el"`. Details in `docs/design-system-extracted.md` §4.1 and

@@ -20,7 +20,7 @@ function Attribute({ label, children }: { label: string; children: ReactNode }) 
   return (
     <div className="grid grid-cols-[6.5rem_minmax(0,1fr)] gap-x-3 @min-[52rem]:block">
       <dt className={`${eyebrowClass} pt-[3px] text-muted @min-[52rem]:sr-only`}>{label}</dt>
-      <dd className="min-w-0 text-[13px] leading-5 text-ink">{children}</dd>
+      <dd className="min-w-0 text-[0.8125rem] leading-5 text-ink">{children}</dd>
     </div>
   );
 }
@@ -49,7 +49,7 @@ export function Kubernetes() {
           <div className="grid gap-y-5 border border-diagram/80 p-4 @min-[52rem]:grid-cols-2 @min-[52rem]:gap-x-8 @min-[52rem]:p-5">
             <div>
               <p className={`${eyebrowClass} text-ink`}>{f("ingress")}</p>
-              <ul className="mt-2 space-y-1 text-[13px] leading-5 text-muted">
+              <ul className="mt-2 space-y-1 text-[0.8125rem] leading-5 text-muted">
                 {notes.map((note) => (
                   <li key={note}>{note}</li>
                 ))}
@@ -57,7 +57,7 @@ export function Kubernetes() {
             </div>
             <div>
               <p className={`${eyebrowClass} text-muted`}>{f("routesLabel")}</p>
-              <ul lang="en" className="mt-2 space-y-1 font-mono text-[12px] leading-5 text-ink">
+              <ul lang="en" className="mt-2 space-y-1 font-mono text-[0.75rem] leading-5 text-ink">
                 {ingressRoutes.map((route) => (
                   <li key={route.path} className="flex flex-wrap gap-x-2">
                     <span className="w-8 shrink-0">{route.path}</span>
@@ -69,7 +69,7 @@ export function Kubernetes() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-2 text-[12px] leading-[18px] text-pretty text-muted">{f("hosts")}</p>
+              <p className="mt-2 text-[0.75rem] leading-[1.125rem] text-pretty text-muted">{f("hosts")}</p>
             </div>
           </div>
 
@@ -93,26 +93,26 @@ export function Kubernetes() {
             {workloads.map((workload) => (
               <li key={workload.name} className={`border-b border-border py-3.5 ${rowGrid}`}>
                 <div>
-                  <p lang="en" className="font-mono text-[13px] leading-5 text-ink">
+                  <p lang="en" className="font-mono text-[0.8125rem] leading-5 text-ink">
                     {workload.name}
                   </p>
-                  <p className="mt-0.5 text-[12px] leading-[18px] text-muted">
+                  <p className="mt-0.5 text-[0.75rem] leading-[1.125rem] text-muted">
                     {f(`workloads.${workload.name}`)}
                   </p>
                 </div>
                 <dl className={`mt-3 ${valueGrid} @min-[52rem]:mt-0`}>
                   <Attribute label={f("service")}>
-                    <span lang="en" className="block font-mono text-[12px] break-words">
+                    <span lang="en" className="block font-mono text-[0.75rem] break-words">
                       {workload.service}
                     </span>
-                    <span lang="en" className="block font-mono text-[12px] text-muted">
+                    <span lang="en" className="block font-mono text-[0.75rem] text-muted">
                       {workload.ports
                         .split(", ")
                         .map((port) => `:${port}`)
                         .join(" ")}
                     </span>
                     {workload.nodePort && (
-                      <span lang="en" className="block font-mono text-[12px] text-muted">
+                      <span lang="en" className="block font-mono text-[0.75rem] text-muted">
                         {f("nodePort")}
                       </span>
                     )}
@@ -126,7 +126,7 @@ export function Kubernetes() {
                   </Attribute>
                   <Attribute label={f("probes")}>
                     {workload.probes.length > 0 ? (
-                      <span className="font-mono text-[12px]">
+                      <span className="font-mono text-[0.75rem]">
                         {workload.probes.map((kind) => f(`probeKinds.${kind}`)).join(", ")}
                       </span>
                     ) : (
@@ -140,7 +140,7 @@ export function Kubernetes() {
 
           <div className="mt-6 border border-dashed border-steel/55 px-4 py-3">
             <p className={`${eyebrowClass} text-ink`}>{f("config")}</p>
-            <p className="mt-1 text-[13px] leading-5 text-pretty text-muted">
+            <p className="mt-1 text-[0.8125rem] leading-5 text-pretty text-muted">
               {f.rich("configNote", { code })}
             </p>
           </div>

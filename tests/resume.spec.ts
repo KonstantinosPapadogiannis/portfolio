@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { test, expect } from "./fixtures";
 import { readPdf } from "./pdf";
+import { phone, repositoryLink, studentNumber, universityAddress } from "./privacy";
 
 // The public CV, built from cv/ and committed at this path. These tests read
 // the file the server sends, so a missing or replaced PDF fails here.
@@ -11,13 +12,6 @@ const approvedLinks = [
   "https://www.linkedin.com/in/konstantinos-papadogiannis/",
   "https://github.com/KonstantinosPapadogiannis",
 ];
-
-// Patterns, not values: an international or Greek mobile number, a
-// university address, a student number and a link to a single repository.
-const phone = /(\+|\b00)\d{2}[\s\d]{8,}|\b69\d([\s.-]?\d){7}\b/;
-const universityAddress = /hua\.gr/i;
-const studentNumber = /\bit\d{6,8}\b/i;
-const repositoryLink = /github\.com\/[^\s/]+\/[^\s/]+/i;
 
 test("the CV is served as a one-page PDF the browser can show", async ({ request }) => {
   const response = await request.get(cvPath);

@@ -37,8 +37,10 @@ issue #397, pull request #386). pnpm refuses to install if the version
 changes while the patch is listed, so an upgrade must drop or regenerate it
 and rerun `pnpm test:e2e`.
 
-Fonts (Geist, Inter, IBM Plex Mono) are loaded through `next/font/google` in
-`src/lib/fonts.ts` and self-hosted by Next.js at build time.
+Geist and IBM Plex Mono are loaded through `next/font/google` in
+`src/lib/fonts.ts` and self-hosted by Next.js at build time. Inter 4.001 is
+self-hosted under `public/fonts/`; its language-specific preloads are defined
+in `src/config/fonts.ts` and `next.config.ts`.
 
 ## Styling
 
@@ -54,16 +56,16 @@ Fonts (Geist, Inter, IBM Plex Mono) are loaded through `next/font/google` in
 | `typescript`         | 5.9.3    | Strict mode (`tsconfig.json`)          |
 | `eslint`             | 9.39.5   | Flat config in `eslint.config.mjs`     |
 | `eslint-config-next` | 16.4.0   | Core Web Vitals and TypeScript rules   |
-| `@playwright/test`   | 1.64.0   | End-to-end tests in `tests/`, Chromium |
+| `@playwright/test`   | 1.64.0   | End-to-end tests in `tests/`, Chromium, Firefox and WebKit |
 
 `pnpm install` warns `deprecated eslint@9.39.5`; the suggested 10.x is
 outside the `^9` range in `package.json`. Moving to ESLint 10 is a separate
 upgrade and has not been made.
 
-Playwright needs its browser once per machine:
+Playwright needs its browsers once per machine:
 
 ```sh
-pnpm exec playwright install chromium
+pnpm exec playwright install chromium firefox webkit
 ```
 
 ## Commands
@@ -76,14 +78,16 @@ pnpm lint
 pnpm typecheck
 rm -rf .next && pnpm build
 rm -rf .next && pnpm test:e2e
+pnpm test:e2e:browsers
 ```
 
 `pnpm test:e2e` builds the site with `ENABLE_QA_ROUTES=1`, which adds the
-internal `/qa/typography` page the typography tests use, and serves it on port 3100.
+internal `/qa/typography` and `/qa/og` pages the tests and share-image
+generator use, and serves it on port 3100.
 Stop any server already listening on 3100 first: Playwright reuses it rather
 than starting its own. Never deploy a build made with `ENABLE_QA_ROUTES`.
 
 ## Deployment
 
-Vercel, at `https://kpapadogiannis.vercel.app` for now. The canonical URL in
-metadata is `https://kpapadogiannis.dev`.
+Vercel, at `https://kpapadogiannis.vercel.app` for now. Metadata uses that
+production origin until a custom domain is configured; see `docs/DEPLOYMENT.md`.

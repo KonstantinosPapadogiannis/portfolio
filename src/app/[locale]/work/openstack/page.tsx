@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPathname } from "@/i18n/navigation";
-import { openGraphLocales, routing } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/metadata";
+import { routing } from "@/i18n/routing";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { Rule } from "@/components/ui/rule";
@@ -34,30 +35,14 @@ export async function generateMetadata({
     return {};
   }
   const t = await getTranslations({ locale, namespace: "openstackPage" });
-  const tSite = await getTranslations({ locale, namespace: "site" });
-  const path = getPathname({ href, locale });
 
-  return {
+  return pageMetadata({
+    locale,
+    href,
     title: t("metaTitle"),
     description: t("description"),
-    alternates: {
-      canonical: path,
-      languages: {
-        ...Object.fromEntries(
-          routing.locales.map((target) => [target, getPathname({ href, locale: target })]),
-        ),
-        "x-default": getPathname({ href, locale: routing.defaultLocale }),
-      },
-    },
-    openGraph: {
-      type: "article",
-      locale: openGraphLocales[locale],
-      url: path,
-      siteName: tSite("name"),
-      title: t("metaTitle"),
-      description: t("description"),
-    },
-  };
+    type: "article",
+  });
 }
 
 // The OpenStack case study, laid out as the ErgoHub one is but shorter: from

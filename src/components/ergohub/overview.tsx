@@ -10,7 +10,7 @@ function GlanceRow({ label, children }: { label: string; children: ReactNode }) 
   return (
     <div className="border-t border-border py-3">
       <dt className={`${eyebrowClass} text-muted`}>{label}</dt>
-      <dd className="mt-1.5 text-[14px] leading-[22px] text-pretty text-ink">{children}</dd>
+      <dd className="mt-1.5 text-[0.875rem] leading-[1.375rem] text-pretty text-ink">{children}</dd>
     </div>
   );
 }
@@ -37,7 +37,7 @@ export function Overview() {
             {/* Names of tools, in Plex Mono, which has no Greek. */}
             {ergohub.stack.map((group) => (
               <GlanceRow key={group.key} label={t(`glance.groups.${group.key}`)}>
-                <span lang="en" className="font-mono text-[12px] leading-5">
+                <span lang="en" className="font-mono text-[0.75rem] leading-5">
                   {group.items.join(", ")}
                 </span>
               </GlanceRow>

@@ -11,14 +11,14 @@ import { institutions } from "@/components/thesis/consortium";
 // Wide panels set the planes as rows of a seven-column grid, the labels in
 // the first column. Narrow panels stack each plane with its boxes two by two.
 
-const box = "border px-3 py-2.5 text-[13px] leading-[18px]";
+const box = "border px-3 py-2.5 text-[0.8125rem] leading-[1.125rem]";
 const link = "h-7 w-px justify-self-center bg-steel/55";
 
 function PlaneLabel({ name, note }: { name: string; note: string }) {
   return (
     <div className="@min-[44rem]:pr-3">
-      <p className="text-[14px] leading-5 font-medium text-ink">{name}</p>
-      <p className="text-[12px] leading-4 text-muted">{note}</p>
+      <p className="text-[0.875rem] leading-5 font-medium text-ink">{name}</p>
+      <p className="text-[0.75rem] leading-4 text-muted">{note}</p>
     </div>
   );
 }
@@ -26,7 +26,7 @@ function PlaneLabel({ name, note }: { name: string; note: string }) {
 // Between two planes: one line and the protocol on a narrow panel, a line
 // under every column on a wide one.
 function PlaneLink({ protocol, skip }: { protocol: string; skip?: string }) {
-  const label = "font-mono text-[11px] leading-4 text-muted";
+  const label = "font-mono text-[0.6875rem] leading-4 text-muted";
   return (
     <>
       <div className="flex h-10 items-stretch gap-2.5 pl-6 @min-[44rem]:hidden">
@@ -65,7 +65,7 @@ export function PlanesFigure() {
                   key={key}
                   className={`${box} ${none ? "border-dashed border-border text-muted" : "border-border text-ink"}`}
                 >
-                  <span className="block text-[12px] leading-4 text-muted @min-[44rem]:sr-only">
+                  <span className="block text-[0.75rem] leading-4 text-muted @min-[44rem]:sr-only">
                     {tOrg(`${key}.name`)}
                   </span>
                   <span className="block">{t(`registries.${key}`)}</span>
@@ -89,12 +89,12 @@ export function PlanesFigure() {
 
           <PlaneLabel name={t("consortium.name")} note={t("consortium.note")} />
           <div className="mt-3 border border-diagram/80 px-4 py-3 @min-[44rem]:col-span-6 @min-[44rem]:mt-0">
-            <p className="font-mono text-[13px] leading-[18px] text-ink">subsidychannel</p>
-            <p className="text-[12px] leading-4 text-muted">{t("channel")}</p>
+            <p className="font-mono text-[0.8125rem] leading-[1.125rem] text-ink">subsidychannel</p>
+            <p className="text-[0.75rem] leading-4 text-muted">{t("channel")}</p>
           </div>
         </div>
 
-        <p className="mt-6 max-w-[720px] border-t border-border pt-4 text-[13px] leading-5 text-ink/80">
+        <p className="mt-6 max-w-[720px] border-t border-border pt-4 text-[0.8125rem] leading-5 text-ink/80">
           {tDesign("rule")}
         </p>
       </div>

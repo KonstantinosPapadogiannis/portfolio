@@ -14,8 +14,8 @@ import { eyebrowClass } from "@/components/ui/eyebrow";
 //
 // Class names are written out in full so that Tailwind finds them.
 
-const mono = "font-mono text-[13px] leading-5 text-ink";
-const note = "mt-0.5 text-[13px] leading-5 text-pretty text-muted";
+const mono = "font-mono text-[0.8125rem] leading-5 text-ink";
+const note = "mt-0.5 text-[0.8125rem] leading-5 text-pretty text-muted";
 
 // A hop on the way out, marked as the steps of a track are (ergohub/track):
 // a small steel square, and a line from it down the left edge to the next
@@ -60,7 +60,7 @@ function HostInterface({
         <p className={note}>{description}</p>
       </div>
       <div className="border border-dashed border-steel/55 px-3.5 py-3">
-        <p className="text-[13px] leading-5 text-ink">
+        <p className="text-[0.8125rem] leading-5 text-ink">
           <span className="sr-only">{t("addedPrefix")} </span>
           <span lang="en" className="font-mono">
             {added}
@@ -137,7 +137,7 @@ export function NetworkFigure() {
             <p className={`${eyebrowClass} text-ink`}>{t("openstack")}</p>
             <div className="mt-3">
               <Hop first="name">
-                <p className="text-[13px] leading-5 text-ink">{t("router")}</p>
+                <p className="text-[0.8125rem] leading-5 text-ink">{t("router")}</p>
                 <p className={note}>{t("routerNote")}</p>
               </Hop>
             </div>
@@ -149,7 +149,7 @@ export function NetworkFigure() {
                 <Instance name="vm-app">{t("vmApp")}</Instance>
                 <Instance name="vm-db">{t("vmDb")}</Instance>
               </div>
-              <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] leading-5 text-muted">
+              <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.8125rem] leading-5 text-muted">
                 <span lang="en" className="font-mono text-ink">
                   vm-app
                 </span>
@@ -165,7 +165,7 @@ export function NetworkFigure() {
 
         <div className="mt-6 space-y-4 border-t border-border pt-5">
           {/* Drawn for the eye; assistive technology hears "added" in each box. */}
-          <p aria-hidden="true" className="flex items-center gap-3 text-[13px] leading-5 text-muted">
+          <p aria-hidden="true" className="flex items-center gap-3 text-[0.8125rem] leading-5 text-muted">
             <span className="block h-3 w-6 shrink-0 border border-dashed border-steel/55" />
             {t("added")}
           </p>
@@ -173,7 +173,7 @@ export function NetworkFigure() {
           <div id="network-paths" className="space-y-3">
             <div className="@min-[44rem]:grid @min-[44rem]:grid-cols-[6rem_minmax(0,1fr)] @min-[44rem]:gap-x-6">
               <p className={`${eyebrowClass} text-ink`}>{t("outbound")}</p>
-              <ol className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] leading-5 text-ink @min-[44rem]:mt-0">
+              <ol className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.8125rem] leading-5 text-ink @min-[44rem]:mt-0">
                 {outbound.map((step, index) => (
                   <li key={"key" in step ? step.key : step.name} className="flex items-center gap-2">
                     {index > 0 && <ArrowRightIcon size={12} className="shrink-0 text-muted" />}
@@ -190,7 +190,7 @@ export function NetworkFigure() {
             </div>
             <div className="@min-[44rem]:grid @min-[44rem]:grid-cols-[6rem_minmax(0,1fr)] @min-[44rem]:gap-x-6">
               <p className={`${eyebrowClass} text-ink`}>{t("testing")}</p>
-              <p className="mt-1.5 text-[13px] leading-5 text-pretty text-ink @min-[44rem]:mt-0">
+              <p className="mt-1.5 text-[0.8125rem] leading-5 text-pretty text-ink @min-[44rem]:mt-0">
                 {t("testPath")}
               </p>
             </div>

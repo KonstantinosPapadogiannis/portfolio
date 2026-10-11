@@ -1,4 +1,4 @@
-import { test, expect, html, languageGroup, toggleTheme } from "./fixtures";
+import { test, expect, html, languageGroup, toggleTheme, siteOrigin } from "./fixtures";
 
 const sections = [
   "overview",
@@ -114,7 +114,7 @@ for (const locale of locales) {
 
       await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
         "href",
-        `https://kpapadogiannis.dev${locale.path}`,
+        `${siteOrigin}${locale.path}`,
       );
       for (const [hreflang, path] of [
         ["en", "/work/thesis"],
@@ -123,7 +123,7 @@ for (const locale of locales) {
       ]) {
         await expect(
           page.locator(`link[rel="alternate"][hreflang="${hreflang}"]`),
-        ).toHaveAttribute("href", `https://kpapadogiannis.dev${path}`);
+        ).toHaveAttribute("href", `${siteOrigin}${path}`);
       }
 
       const ld = JSON.parse(
@@ -133,7 +133,7 @@ for (const locale of locales) {
         "@type": "CreativeWork",
         name: locale.title,
         alternativeHeadline: locale.subtitle,
-        url: `https://kpapadogiannis.dev${locale.path}`,
+        url: `${siteOrigin}${locale.path}`,
         inLanguage: locale.lang,
         author: { "@type": "Person", name: locale.author },
       });

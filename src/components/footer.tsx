@@ -18,7 +18,7 @@ async function getYear() {
   return new Date().getFullYear();
 }
 
-const labelClass = "font-label text-[10px] leading-4 tracking-[0.08em] text-footer-muted uppercase";
+const labelClass = "font-label text-[0.625rem] leading-4 tracking-[0.08em] text-footer-muted uppercase";
 const linkClass = `${textLinkClass} text-footer-ink`;
 
 // Below 1024px every link is a 44px touch target; the text keeps its size and
@@ -66,14 +66,16 @@ export async function Footer() {
         <div className="lg:grid lg:grid-cols-[minmax(0,634fr)_minmax(0,638fr)] lg:items-baseline lg:gap-x-14">
           <div>
             {/* One word per line below 480px, where the name no longer fits
-                on one line at this size. */}
-            <p className="font-brand text-[28px] leading-[1.05] font-bold tracking-tight text-footer-ink max-[30rem]:w-min md:text-[30px]">
+                on one line at this size. With a larger default text size on
+                a phone, the size stops at 11vw, where the longer word still
+                fits the column. */}
+            <p className="font-brand text-[length:min(1.75rem,11vw)] leading-[1.05] font-bold tracking-tight text-footer-ink max-[30rem]:w-min md:text-[1.875rem]">
               {siteConfig.name}
             </p>
-            <p className="mt-4 text-[16px] leading-6 text-balance text-footer-text lg:text-[18px] lg:leading-[27px]">
+            <p className="mt-4 text-[1rem] leading-6 text-balance text-footer-text lg:text-[1.125rem] lg:leading-[1.6875rem]">
               {t.rich("tagline", { br })}
             </p>
-            <p className="mt-3 font-label text-[11px] leading-4 text-footer-muted">
+            <p className="mt-3 font-label text-[0.6875rem] leading-4 text-footer-muted">
               {t("location")}
             </p>
           </div>
@@ -83,7 +85,7 @@ export async function Footer() {
               <h2 id="footer-navigate" className={labelClass}>
                 {t("navigate")}
               </h2>
-              <ul className="flex flex-wrap gap-x-5 text-[15px] leading-[26px]">
+              <ul className="flex flex-wrap gap-x-5 text-[0.9375rem] leading-[1.625rem]">
                 {primaryNav.map((item) => (
                   <li key={item.key}>
                     <NavLink item={item} className={`${linkClass} ${targetClass}`}>
@@ -105,7 +107,7 @@ export async function Footer() {
                   column at 1024px. */}
               <ul
                 aria-labelledby="footer-elsewhere"
-                className="flex flex-wrap gap-x-5 text-[15px] leading-[26px]"
+                className="flex flex-wrap gap-x-5 text-[0.9375rem] leading-[1.625rem]"
               >
                 {profiles.map(({ key, href, Icon }) => (
                   <li key={key} className="flex">
@@ -139,11 +141,11 @@ export async function Footer() {
                     fits; it breaks rather than overflow if it ever does not. */}
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className={`${linkClass} ${targetClass} text-[13px] leading-[26px] wrap-anywhere min-[360px]:text-[14px] md:text-[15px]`}
+                  className={`${linkClass} ${targetClass} text-[0.8125rem] leading-[1.625rem] wrap-anywhere min-[360px]:text-[0.875rem] md:text-[0.9375rem]`}
                 >
                   {siteConfig.email}
                 </a>
-                <p className="text-[14px] leading-[22px] text-balance text-footer-soft">
+                <p className="text-[0.875rem] leading-[1.375rem] text-balance text-footer-soft">
                   {t("availability")}
                 </p>
               </div>
@@ -151,7 +153,7 @@ export async function Footer() {
           </div>
         </div>
 
-        <div className="mt-7 flex flex-col gap-y-1 border-t border-footer-rule pt-4 font-label text-[10px] leading-4 text-footer-muted md:mt-10 md:flex-row md:items-center md:justify-between md:gap-x-8 md:pt-3 lg:mt-12 lg:pt-4">
+        <div className="mt-7 flex flex-col gap-y-1 border-t border-footer-rule pt-4 font-label text-[0.625rem] leading-4 text-footer-muted md:mt-10 md:flex-row md:items-center md:justify-between md:gap-x-8 md:pt-3 lg:mt-12 lg:pt-4">
           {/* Three separate facts, so a list: each is read on its own,
               without punctuation added for screen readers. On phones they
               wrap as whole phrases; the dot, which is not read, only appears
@@ -170,7 +172,7 @@ export async function Footer() {
             <LanguageSwitcher tone="footer" showIcon={false} />
             <a
               href="#top"
-              className={`${textLinkClass} min-h-11 font-sans text-[11px] text-footer-ink lg:min-h-6`}
+              className={`${textLinkClass} min-h-11 font-sans text-[0.6875rem] text-footer-ink lg:min-h-6`}
             >
               <span>{t("backToTop")}</span>
               <ArrowUpIcon

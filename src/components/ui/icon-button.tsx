@@ -14,7 +14,7 @@ export function IconButton({
   return (
     <button
       type="button"
-      className={`inline-flex h-11 w-11 items-center justify-center rounded-[3px] border border-transparent text-ink transition-colors duration-150 hover:border-border hover:bg-steel/10 active:bg-steel/15 ${className}`}
+      className={`inline-flex size-[44px] items-center justify-center rounded-[3px] border border-transparent text-ink transition-colors duration-150 hover:border-border hover:bg-steel/10 active:bg-steel/15 ${className}`}
       {...rest}
     >
       {children}

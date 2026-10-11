@@ -26,10 +26,10 @@ export function Interests() {
           />
 
           <div data-reveal className="mt-[30px] lg:mt-[42px] lg:pr-14">
-            <p className="max-w-[440px] text-[24px] leading-[30px] font-semibold tracking-[-0.015em] text-ink md:text-[28px] md:leading-[34px]">
+            <p className="max-w-[440px] text-[1.5rem] leading-[1.875rem] font-semibold tracking-[-0.015em] text-ink md:text-[1.75rem] md:leading-[2.125rem]">
               {t("lead")}
             </p>
-            <div className="mt-4 max-w-[560px] space-y-3 text-[15px] leading-[23px] text-muted md:mt-5 md:text-[16px] md:leading-[26px] lg:max-w-[380px]">
+            <div className="mt-4 max-w-[560px] space-y-3 text-[0.9375rem] leading-[1.4375rem] text-muted md:mt-5 md:text-[1rem] md:leading-[1.625rem] lg:max-w-[380px]">
               <p>{t("intro")}</p>
               <p>{t("open")}</p>
             </div>
@@ -41,10 +41,10 @@ export function Interests() {
                 key={key}
                 className="border-t border-border pt-4 pb-5 last:pb-0 lg:grid lg:grid-cols-2 lg:pt-5 lg:pb-6"
               >
-                <h3 className="max-w-[370px] text-[17px] leading-6 font-medium tracking-[-0.01em] text-ink lg:pr-9 lg:text-[18px] lg:leading-[26px]">
+                <h3 className="max-w-[370px] text-[1.0625rem] leading-6 font-medium tracking-[-0.01em] text-ink lg:pr-9 lg:text-[1.125rem] lg:leading-[1.625rem]">
                   {t(`themes.${key}.name`)}
                 </h3>
-                <p className="mt-1.5 max-w-[560px] text-[15px] leading-6 text-muted lg:mt-px lg:max-w-none lg:pr-9">
+                <p className="mt-1.5 max-w-[560px] text-[0.9375rem] leading-6 text-muted lg:mt-px lg:max-w-none lg:pr-9">
                   {t(`themes.${key}.body`)}
                 </p>
               </li>

@@ -1,4 +1,4 @@
-import { Geist, IBM_Plex_Mono, Inter } from "next/font/google";
+import { Geist, IBM_Plex_Mono } from "next/font/google";
 
 // English text and the name in the header and footer. Geist has no Greek alphabet, so it is
 // never used to set Greek.
@@ -8,13 +8,9 @@ export const geist = Geist({
 });
 
 // Greek text, including any Latin words inside Greek sentences, so a
-// sentence never switches typeface midway. Only the Greek subset is
-// preloaded: English pages need it for the "ΕΛ" switcher label, while the
-// Latin subset is fetched through unicode-range on Greek pages.
-export const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["greek"],
-});
+// sentence never switches typeface midway, is set in Inter. Inter is declared
+// in globals.css and not through next/font, which preloads per route and not
+// per language (src/config/fonts.ts).
 
 // Technical metadata and code identifiers in English. No Greek glyphs.
 // Regular only: the labels in the design are not set in a heavier weight,
@@ -25,4 +21,4 @@ export const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
 });
 
-export const fontVariables = [geist.variable, inter.variable, plexMono.variable].join(" ");
+export const fontVariables = [geist.variable, plexMono.variable].join(" ");

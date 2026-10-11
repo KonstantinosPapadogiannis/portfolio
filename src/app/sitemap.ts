@@ -19,12 +19,18 @@ const pages = [
 // match the canonical links in the page metadata exactly (/el, not /el/).
 export default function sitemap(): MetadataRoute.Sitemap {
   return pages.flatMap((href) => {
-    const languages = Object.fromEntries(
-      routing.locales.map((locale) => [
-        locale,
-        `${siteConfig.url}${getPathname({ href, locale })}`,
-      ]),
-    );
+    const languages: Record<string, string> = {
+      ...Object.fromEntries(
+        routing.locales.map((locale) => [
+          locale,
+          `${siteConfig.url}${getPathname({ href, locale })}`,
+        ]),
+      ),
+      "x-default": `${siteConfig.url}${getPathname({
+        href,
+        locale: routing.defaultLocale,
+      })}`,
+    };
 
     return routing.locales.map((locale) => ({
       url: languages[locale],

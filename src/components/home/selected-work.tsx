@@ -34,10 +34,10 @@ export function SelectedWork() {
                   reference. */}
               <p
                 data-reveal
-                className="flex flex-wrap items-baseline gap-x-[18px] font-label text-[11px] leading-5 text-muted uppercase lg:normal-case"
+                className="flex flex-wrap items-baseline gap-x-[18px] font-label text-[0.6875rem] leading-5 text-muted uppercase lg:normal-case"
               >
-                <span className="text-[13px] text-ink lg:mr-2.5 lg:text-[15px]">01</span>{" "}
-                <span className="text-ink lg:text-[13px]">{t("kind")}</span>{" "}
+                <span className="text-[0.8125rem] text-ink lg:mr-2.5 lg:text-[0.9375rem]">01</span>{" "}
+                <span className="text-ink lg:text-[0.8125rem]">{t("kind")}</span>{" "}
                 <span>2026</span>{" "}
                 <span>
                   <span className="sr-only">{t("grade")} </span>
@@ -48,14 +48,14 @@ export function SelectedWork() {
               <h3
                 id="thesis-title"
                 data-reveal
-                className="mt-[27px] max-w-[440px] text-[27px] leading-[33px] font-semibold tracking-[-0.02em] text-ink sm:max-w-[560px] md:max-w-[620px] md:text-[32px] md:leading-[40px] lg:mt-[33px] lg:max-w-[460px] lg:text-[36px] lg:leading-[44px]"
+                className="mt-[27px] max-w-[440px] text-[1.6875rem] leading-[2.0625rem] font-semibold tracking-[-0.02em] text-ink sm:max-w-[560px] md:max-w-[620px] md:text-[2rem] md:leading-[2.5rem] lg:mt-[33px] lg:max-w-[460px] lg:text-[2.25rem] lg:leading-[2.75rem]"
               >
                 {t.rich("title", { br })}
               </h3>
 
               {/* The text and the link come in together. */}
               <div data-reveal>
-                <p className="mt-5 max-w-[600px] text-[15px] leading-6 text-muted md:text-[16px] md:leading-[25px]">
+                <p className="mt-5 max-w-[600px] text-[0.9375rem] leading-6 text-muted md:text-[1rem] md:leading-[1.5625rem]">
                   {t("body")}
                 </p>
 
@@ -64,7 +64,7 @@ export function SelectedWork() {
                     <li
                       key={tag}
                       lang="en"
-                      className="flex h-[26px] items-center border border-border px-2 font-mono text-[11px] text-ink"
+                      className="flex min-h-[1.625rem] items-center border border-border px-2 font-mono text-[0.6875rem] text-ink"
                     >
                       {tag}
                     </li>
@@ -74,7 +74,7 @@ export function SelectedWork() {
                 <TextLink
                   href={getPathname({ href: "/work/thesis", locale })}
                   internal
-                  className="mt-10 text-[14px] text-ink hover:text-steel md:text-[15px] lg:mt-12"
+                  className="mt-10 text-[0.875rem] text-ink hover:text-steel md:text-[0.9375rem] lg:mt-12"
                 >
                   {t("cta")}
                 </TextLink>
@@ -87,10 +87,10 @@ export function SelectedWork() {
               <dl className="mt-6 grid gap-y-6">
                 {(["privateData", "testing"] as const).map((key) => (
                   <div key={key}>
-                    <dt className="font-label text-[10px] leading-4 tracking-[0.06em] text-ink uppercase">
+                    <dt className="font-label text-[0.625rem] leading-4 tracking-[0.06em] text-ink uppercase">
                       {t(`facts.${key}.label`)}
                     </dt>
-                    <dd className="mt-2 text-[13px] leading-5 text-pretty text-muted">
+                    <dd className="mt-2 text-[0.8125rem] leading-5 text-pretty text-muted">
                       {t.rich(`facts.${key}.value`, { nb })}
                     </dd>
                   </div>

@@ -25,10 +25,10 @@ export function Performance() {
                 key={key}
                 className="flex items-baseline justify-between gap-6 border-b border-border py-2.5"
               >
-                <dt className="text-[14px] leading-[22px] text-muted">
+                <dt className="text-[0.875rem] leading-[1.375rem] text-muted">
                   {t(`results.${key}.label`)}
                 </dt>
-                <dd className="text-[15px] leading-[22px] font-medium text-ink tabular-nums">
+                <dd className="text-[0.9375rem] leading-[1.375rem] font-medium text-ink tabular-nums">
                   {t(`results.${key}.value`)}
                 </dd>
               </div>

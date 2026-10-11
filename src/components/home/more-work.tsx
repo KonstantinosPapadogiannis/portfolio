@@ -46,8 +46,8 @@ function ProjectMeta({
   return (
     <>
       {/* "02 / ERGOHUB / 2025" on phones, three aligned columns on desktop. */}
-      <p className="flex items-baseline font-label text-[11px] leading-4 uppercase">
-        <span className="font-mono text-[11px] text-ink lg:w-9 lg:text-[13px]">
+      <p className="flex items-baseline font-label text-[0.6875rem] leading-4 uppercase">
+        <span className="font-mono text-[0.6875rem] text-ink lg:w-9 lg:text-[0.8125rem]">
           {project.number}
         </span>{" "}
         <span aria-hidden="true" className="px-2 text-muted lg:hidden">
@@ -61,7 +61,7 @@ function ProjectMeta({
         </span>
         <span className="text-muted">{project.year}</span>
       </p>
-      <p className="mt-2 font-label text-[11px] leading-4 text-muted lg:mt-[15px]">{kind}</p>
+      <p className="mt-2 font-label text-[0.6875rem] leading-4 text-muted lg:mt-[15px]">{kind}</p>
     </>
   );
 }
@@ -77,7 +77,7 @@ function ErgohubSignals() {
 
   return (
     <>
-      <p className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[13px] leading-5">
+      <p className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[0.8125rem] leading-5">
         <span className="text-ink">
           {t.rich("pipelines", {
             count: ergohub.pipelines,
@@ -101,7 +101,7 @@ function ErgohubSignals() {
         href={getPathname({ href: ergohub.href, locale })}
         internal
         aria-label={`${t("cta")}: ${t("name")}`}
-        className="mt-5 text-[14px] text-ink hover:text-steel lg:mt-6"
+        className="mt-5 text-[0.875rem] text-ink hover:text-steel lg:mt-6"
       >
         {t("cta")}
       </TextLink>
@@ -118,7 +118,7 @@ function OpenstackSignals() {
 
   return (
     <>
-      <p className="mt-3 text-[13px] leading-5 text-muted">
+      <p className="mt-3 text-[0.8125rem] leading-5 text-muted">
         {/* The dots are read as commas (globals.css). */}
         {signals.map((item, index) => (
           <Fragment key={item}>
@@ -131,7 +131,7 @@ function OpenstackSignals() {
         href={getPathname({ href: openstack.href, locale })}
         internal
         aria-label={`${t("cta")}: ${t("name")}`}
-        className="mt-5 text-[14px] text-ink hover:text-steel lg:mt-6"
+        className="mt-5 text-[0.875rem] text-ink hover:text-steel lg:mt-6"
       >
         {t("cta")}
       </TextLink>
@@ -161,7 +161,7 @@ function CudaSignals() {
 
   return (
     <>
-      <p className="mt-3 text-[13px] leading-5">
+      <p className="mt-3 text-[0.8125rem] leading-5">
         <span className="sr-only">
           {t("summary", { before, after, speedup })}
         </span>
@@ -178,7 +178,7 @@ function CudaSignals() {
         href={getPathname({ href: cuda.href, locale })}
         internal
         aria-label={`${t("cta")}: ${t("name")}`}
-        className="mt-5 text-[14px] text-ink hover:text-steel lg:mt-6"
+        className="mt-5 text-[0.875rem] text-ink hover:text-steel lg:mt-6"
       >
         {t("cta")}
       </TextLink>
@@ -213,34 +213,38 @@ function VisionSignals() {
 
   return (
     <>
-      {/* Two columns, so the results line up under each other. */}
-      <dl className="mt-3 grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 text-[13px] leading-5">
-        {visionResults.map(({ dataset, models }) => (
-          <Fragment key={dataset}>
-            <dt lang="en" className="text-muted">
-              {dataset}
-            </dt>
-            <dd className="text-ink">
-              {/* The dots are read as commas (globals.css). */}
-              {models.map(({ name, accuracy }, index) => (
-                <Fragment key={name}>
-                  {index > 0 && <span className="separator-dot px-1.5 text-muted">{" "}</span>}
-                  <span className="whitespace-nowrap">
-                    <span lang="en">{name}</span>{" "}
-                    <span className="font-mono">{percent(accuracy)}</span>
-                  </span>
-                </Fragment>
-              ))}
-            </dd>
-          </Fragment>
-        ))}
-      </dl>
-      <p className="mt-1 text-[13px] leading-5 text-muted">{t("metric")}</p>
+      {/* Two columns, so the results line up under each other, while they
+          fit: 16rem grows with the reader's text size, and below it each
+          result goes under its dataset. */}
+      <div className="@container mt-3">
+        <dl className="grid gap-x-3 gap-y-1 text-[0.8125rem] leading-5 @min-[16rem]:grid-cols-[auto_minmax(0,1fr)]">
+          {visionResults.map(({ dataset, models }) => (
+            <Fragment key={dataset}>
+              <dt lang="en" className="text-muted">
+                {dataset}
+              </dt>
+              <dd className="text-ink">
+                {/* The dots are read as commas (globals.css). */}
+                {models.map(({ name, accuracy }, index) => (
+                  <Fragment key={name}>
+                    {index > 0 && <span className="separator-dot px-1.5 text-muted">{" "}</span>}
+                    <span className="whitespace-nowrap">
+                      <span lang="en">{name}</span>{" "}
+                      <span className="font-mono">{percent(accuracy)}</span>
+                    </span>
+                  </Fragment>
+                ))}
+              </dd>
+            </Fragment>
+          ))}
+        </dl>
+      </div>
+      <p className="mt-1 text-[0.8125rem] leading-5 text-muted">{t("metric")}</p>
       <TextLink
         href={getPathname({ href: vision.href, locale })}
         internal
         aria-label={`${t("cta")}: ${t("name")}`}
-        className="mt-5 text-[14px] text-ink hover:text-steel lg:mt-6"
+        className="mt-5 text-[0.875rem] text-ink hover:text-steel lg:mt-6"
       >
         {t("cta")}
       </TextLink>
@@ -267,41 +271,44 @@ function EnergySignals() {
 
   return (
     <>
-      <dl className="mt-3 grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 text-[13px] leading-5">
-        <dt lang="en" className="text-muted">
-          Gradient Boosting
-        </dt>
-        <dd className="text-ink">
-          <span className="whitespace-nowrap">
-            <span className="font-mono">{percent(gradientBoosting.accuracy)}</span>{" "}
-            <span lang="en">{t("signals.accuracy")}</span>
-          </span>
-          {dot}
-          <span className="whitespace-nowrap">
-            <span className="font-mono">{percent(gradientBoosting.rocAuc)}</span>{" "}
-            <span lang="en">ROC-AUC</span>
-          </span>
-        </dd>
-        <dt lang="en" className="text-muted">
-          Random Forest
-        </dt>
-        <dd className="text-ink">
-          <span className="whitespace-nowrap">
-            <span className="font-mono">{kwh(randomForest)}</span>{" "}
-            <span lang="en">{t("signals.rmse")}</span>
-          </span>
-          {dot}
-          <span className="whitespace-nowrap">
-            <span lang="en">{t("signals.baseline")}</span>{" "}
-            <span className="font-mono">{kwh(persistence)}</span>
-          </span>
-        </dd>
-      </dl>
+      {/* Two columns while they fit, as in VisionSignals. */}
+      <div className="@container mt-3">
+        <dl className="grid gap-x-3 gap-y-1 text-[0.8125rem] leading-5 @min-[16rem]:grid-cols-[auto_minmax(0,1fr)]">
+          <dt lang="en" className="text-muted">
+            Gradient Boosting
+          </dt>
+          <dd className="text-ink">
+            <span className="whitespace-nowrap">
+              <span className="font-mono">{percent(gradientBoosting.accuracy)}</span>{" "}
+              <span lang="en">{t("signals.accuracy")}</span>
+            </span>
+            {dot}
+            <span className="whitespace-nowrap">
+              <span className="font-mono">{percent(gradientBoosting.rocAuc)}</span>{" "}
+              <span lang="en">ROC-AUC</span>
+            </span>
+          </dd>
+          <dt lang="en" className="text-muted">
+            Random Forest
+          </dt>
+          <dd className="text-ink">
+            <span className="whitespace-nowrap">
+              <span className="font-mono">{kwh(randomForest)}</span>{" "}
+              <span lang="en">{t("signals.rmse")}</span>
+            </span>
+            {dot}
+            <span className="whitespace-nowrap">
+              <span lang="en">{t("signals.baseline")}</span>{" "}
+              <span className="font-mono">{kwh(persistence)}</span>
+            </span>
+          </dd>
+        </dl>
+      </div>
       <TextLink
         href={getPathname({ href: energy.href, locale })}
         internal
         aria-label={`${t("cta")}: ${t("name")}`}
-        className="mt-5 text-[14px] text-ink hover:text-steel lg:mt-6"
+        className="mt-5 text-[0.875rem] text-ink hover:text-steel lg:mt-6"
       >
         {t("cta")}
       </TextLink>
@@ -335,11 +342,11 @@ export function MoreWork() {
                   />
                   <h3
                     id={`project-${project.key}`}
-                    className="mt-5 text-[22px] leading-[27px] font-semibold tracking-[-0.015em] text-ink lg:mt-[35px] lg:text-[26px] lg:leading-[32px]"
+                    className="mt-5 text-[1.375rem] leading-[1.6875rem] font-semibold tracking-[-0.015em] text-ink lg:mt-[35px] lg:text-[1.625rem] lg:leading-[2rem]"
                   >
                     {t.rich(`${project.key}.title`, { br })}
                   </h3>
-                  <p className="mt-3 max-w-[370px] text-[14px] leading-[22px] text-muted lg:mt-[18px]">
+                  <p className="mt-3 max-w-[370px] text-[0.875rem] leading-[1.375rem] text-muted lg:mt-[18px]">
                     {t.rich(`${project.key}.body`, { nb })}
                   </p>
                   {project.key === "ergohub" && <ErgohubSignals />}
@@ -364,11 +371,11 @@ export function MoreWork() {
                     />
                     <h4
                       id={`project-${project.key}`}
-                      className="mt-4 max-w-[370px] text-[18px] leading-6 font-medium tracking-[-0.01em] text-ink lg:mt-5 lg:text-[19px] lg:leading-[26px]"
+                      className="mt-4 max-w-[370px] text-[1.125rem] leading-6 font-medium tracking-[-0.01em] text-ink lg:mt-5 lg:text-[1.1875rem] lg:leading-[1.625rem]"
                     >
                       {t(`${project.key}.title`)}
                     </h4>
-                    <p className="mt-2.5 max-w-[370px] text-[14px] leading-[22px] text-muted">
+                    <p className="mt-2.5 max-w-[370px] text-[0.875rem] leading-[1.375rem] text-muted">
                       {t.rich(`${project.key}.body`, { nb })}
                     </p>
                     {project.key === "vision" && <VisionSignals />}
@@ -404,11 +411,11 @@ export function Technologies() {
           >
             {technologies.map((group) => (
               <div key={group.key} className="lg:pr-9">
-                <h3 className="font-label text-[11px] leading-4 tracking-[0.08em] text-ink uppercase">
+                <h3 className="font-label text-[0.6875rem] leading-4 tracking-[0.08em] text-ink uppercase">
                   {t(group.key)}
                 </h3>
                 {/* Lines break between items, never inside "Web Crypto API". */}
-                <p className="mt-2.5 max-w-[370px] text-[15px] leading-6 text-muted">
+                <p className="mt-2.5 max-w-[370px] text-[0.9375rem] leading-6 text-muted">
                   {group.items.map((item, index) => (
                     <Fragment key={item}>
                       {index > 0 && ", "}

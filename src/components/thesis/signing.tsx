@@ -24,16 +24,19 @@ export function Signing() {
       <div className="mt-8 grid gap-y-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:gap-x-16">
         <p className={prose}>{t.rich("p2", { code, nb })}</p>
 
-        <div>
+        {/* Label and value side by side while they fit: 16rem grows with
+            the reader's text size, and below it the value goes under its
+            label. */}
+        <div className="@container">
           <Eyebrow as="h3">{t("walletLabel")}</Eyebrow>
           <dl className="mt-3 border-t border-border">
             {wallet.map((key) => (
               <div
                 key={key}
-                className="grid grid-cols-[8.5rem_minmax(0,1fr)] gap-x-4 border-b border-border py-2.5"
+                className="grid gap-x-4 border-b border-border py-2.5 @min-[16rem]:grid-cols-[8.5rem_minmax(0,1fr)]"
               >
-                <dt className="text-[13px] leading-[22px] text-muted">{t(`wallet.${key}.label`)}</dt>
-                <dd className="text-[14px] leading-[22px] text-pretty text-ink">
+                <dt className="text-[0.8125rem] leading-[1.375rem] text-muted">{t(`wallet.${key}.label`)}</dt>
+                <dd className="text-[0.875rem] leading-[1.375rem] text-pretty text-ink">
                   {t.rich(`wallet.${key}.value`, { nb })}
                 </dd>
               </div>
@@ -66,10 +69,10 @@ export function Signing() {
         >
           {reads.map((key, i) => (
             <li key={key} className="border-t border-border pt-4">
-              <span aria-hidden="true" className="font-mono text-[11px] leading-4 text-muted">
+              <span aria-hidden="true" className="font-mono text-[0.6875rem] leading-4 text-muted">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h4 className="mt-3 text-[16px] leading-6 font-medium text-ink">
+              <h4 className="mt-3 text-[1rem] leading-6 font-medium text-ink">
                 {t(`reads.${key}.title`)}
               </h4>
               <p className={`${itemBody} mt-1.5`}>{t(`reads.${key}.body`)}</p>

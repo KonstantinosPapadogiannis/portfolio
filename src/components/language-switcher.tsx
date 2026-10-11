@@ -9,7 +9,7 @@ import { GlobeIcon } from "@/components/icons";
 
 const tones = {
   header: {
-    group: "text-[13px] text-muted",
+    group: "text-[0.8125rem] text-muted",
     // Decorative. Below 360px the header needs its width for the name.
     icon: "max-[360px]:hidden",
     link: "hover:text-ink",
@@ -17,7 +17,7 @@ const tones = {
   },
   footer: {
     // The first label lines up with the text above it on phones.
-    group: "-ml-1 text-[11px] text-footer-muted",
+    group: "-ml-1 text-[0.6875rem] text-footer-muted",
     icon: "",
     // 44px touch targets below 1024px, as for the other footer links.
     link: "inline-flex min-h-11 items-center hover:text-footer-ink lg:min-h-0",
@@ -28,7 +28,8 @@ const tones = {
 // Set in the sans of each language rather than in IBM Plex Mono: Plex Mono
 // has no Greek, and "EN" and "ΕΛ" should read as one control. Each label
 // carries its own lang, so "EN" is set in Geist and "ΕΛ" in Inter on both
-// locales.
+// locales; "ΕΛ" through the family that holds Inter's Greek file alone
+// (globals.css), so English pages need no other Inter file.
 //
 // The hrefs are the canonical URLs of the same page in each language (/resume,
 // /el/resume). next-intl's Link would render /en/resume for English, which
@@ -66,7 +67,7 @@ export function LanguageSwitcher({
               hrefLang={target}
               aria-label={localeLabels[target].name}
               aria-current={isCurrent ? "true" : undefined}
-              className={`px-1 py-2 transition-colors duration-150 ${styles.link} ${isCurrent ? styles.current : ""}`}
+              className={`px-1 py-2 transition-colors duration-150 ${styles.link} ${isCurrent ? styles.current : ""} ${target === "el" ? "font-[family-name:var(--font-inter-greek)]" : ""}`}
             >
               {localeLabels[target].short}
             </NextLink>

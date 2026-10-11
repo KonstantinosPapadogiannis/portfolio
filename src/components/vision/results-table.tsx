@@ -10,7 +10,9 @@ import { vision } from "@/config/work";
 // comes in with its section.
 //
 // Model names are proper names, the same in both languages. The figures are
-// in Plex Mono, formatted for the reader's language.
+// in Plex Mono, formatted for the reader's language. Below 24rem the columns
+// sit closer, so the Greek headings fit a 320px screen; with much larger
+// text the table scrolls sideways inside its frame instead of leaving it.
 
 const models = [
   { key: "vit", name: "ViT-B/16" },
@@ -18,7 +20,7 @@ const models = [
 ] as const;
 
 const head = `${eyebrowClass} pb-3 align-bottom text-muted`;
-const cell = "py-3.5 pl-3 text-right font-mono text-[13px] leading-5 whitespace-nowrap text-ink";
+const cell = "py-3.5 pl-2 text-right font-mono text-[0.8125rem] leading-5 whitespace-nowrap text-ink min-[24rem]:pl-3";
 
 export function ResultsTable() {
   const t = useTranslations("visionPage.comparison.table");
@@ -32,46 +34,48 @@ export function ResultsTable() {
         {t("caption")}
       </figcaption>
 
-      <div className="mt-6 max-w-[880px] border border-border bg-surface px-4 pt-5 pb-6 sm:px-[18px] md:mt-8 md:px-7 md:pt-6 md:pb-7">
-        <table className="w-full border-collapse text-left">
-          <thead>
-            <tr className="border-b border-border">
-              <th scope="col" className={`${head} pr-3`}>
-                {t("model")}
-              </th>
-              <th scope="col" className={`${head} pl-3 text-right`}>
-                {t("five")}
-              </th>
-              <th scope="col" className={`${head} pl-3 text-right`}>
-                {t("ten")}
-              </th>
-              <th scope="col" className={`${head} pl-3 text-right`}>
-                {t("time")}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {models.map(({ key, name }) => {
-              const result = vision.cifar10[key];
-              return (
-                <tr key={key} className="border-b border-border">
-                  <th
-                    scope="row"
-                    lang="en"
-                    className="py-3.5 pr-3 text-[14px] leading-5 font-medium whitespace-nowrap text-ink md:text-[15px]"
-                  >
-                    {name}
-                  </th>
-                  <td className={cell}>{percent(result.five)}</td>
-                  <td className={cell}>{percent(result.ten)}</td>
-                  <td className={cell}>{format.number(result.seconds)} s</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+      <div className="mt-6 max-w-[880px] border border-border bg-surface px-3 pt-5 pb-6 min-[24rem]:px-4 sm:px-[18px] md:mt-8 md:px-7 md:pt-6 md:pb-7">
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-left">
+            <thead>
+              <tr className="border-b border-border">
+                <th scope="col" className={`${head} pr-2 min-[24rem]:pr-3`}>
+                  {t("model")}
+                </th>
+                <th scope="col" className={`${head} pl-2 text-right min-[24rem]:pl-3`}>
+                  {t("five")}
+                </th>
+                <th scope="col" className={`${head} pl-2 text-right min-[24rem]:pl-3`}>
+                  {t("ten")}
+                </th>
+                <th scope="col" className={`${head} pl-2 text-right min-[24rem]:pl-3`}>
+                  {t("time")}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {models.map(({ key, name }) => {
+                const result = vision.cifar10[key];
+                return (
+                  <tr key={key} className="border-b border-border">
+                    <th
+                      scope="row"
+                      lang="en"
+                      className="py-3.5 pr-2 text-[0.875rem] leading-5 font-medium whitespace-nowrap text-ink min-[24rem]:pr-3 md:text-[0.9375rem]"
+                    >
+                      {name}
+                    </th>
+                    <td className={cell}>{percent(result.five)}</td>
+                    <td className={cell}>{percent(result.ten)}</td>
+                    <td className={cell}>{format.number(result.seconds)} s</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
-        <p id="results-note" className="mt-4 text-[13px] leading-5 text-pretty text-muted">
+        <p id="results-note" className="mt-4 text-[0.8125rem] leading-5 text-pretty text-muted">
           {t("note")}
         </p>
       </div>

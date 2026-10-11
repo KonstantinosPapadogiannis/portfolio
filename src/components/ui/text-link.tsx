@@ -62,7 +62,7 @@ export function TextLink({
 
   if (internal) {
     return (
-      <NextLink href={href} className={classes} {...rest}>
+      <NextLink href={href} prefetch={false} className={classes} {...rest}>
         {content}
       </NextLink>
     );

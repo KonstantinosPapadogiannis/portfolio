@@ -26,7 +26,7 @@ function StageColumn({ side }: { side: keyof typeof pipelineStages }) {
 
   return (
     <div>
-      <p className="text-[15px] leading-6 font-medium text-ink">{t(side)}</p>
+      <p className="text-[0.9375rem] leading-6 font-medium text-ink">{t(side)}</p>
       {pipelinePhases.map((phase, phaseIndex) => {
         const start = starts[phaseIndex];
         return (
@@ -34,7 +34,7 @@ function StageColumn({ side }: { side: keyof typeof pipelineStages }) {
             <p className={`${eyebrowClass} text-muted`}>{t(`phases.${phase}`)}</p>
             <ol start={start} lang="en" className="mt-2 space-y-1">
               {stages[phase].map((stage, index) => (
-                <li key={stage} className="flex gap-3 font-mono text-[12px] leading-5 text-ink">
+                <li key={stage} className="flex gap-3 font-mono text-[0.75rem] leading-5 text-ink">
                   <span aria-hidden="true" className="w-5 shrink-0 text-muted tabular-nums">
                     {String(start + index).padStart(2, "0")}
                   </span>
@@ -67,7 +67,7 @@ export function Pipeline() {
               <div>
                 <h4 className={subhead}>{t(`paths.items.${key}.title`)}</h4>
                 {/* File names, in Plex Mono, which has no Greek. */}
-                <p lang="en" className="mt-1 font-mono text-[12px] leading-5 text-muted">
+                <p lang="en" className="mt-1 font-mono text-[0.75rem] leading-5 text-muted">
                   {jenkinsfiles[key].map((file) => (
                     <span key={file} className="block">
                       {file}

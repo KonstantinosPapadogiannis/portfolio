@@ -166,7 +166,7 @@ function NarrowConnector({ handoff, relay }: { handoff: boolean; relay: string }
       {handoff && (
         <span
           aria-hidden="true"
-          className="absolute bottom-3.5 left-[34px] text-[12px] leading-4 text-muted @min-[52rem]:hidden"
+          className="absolute bottom-3.5 left-[34px] text-[0.75rem] leading-4 text-muted @min-[52rem]:hidden"
         >
           {relay}
         </span>
@@ -192,13 +192,13 @@ function FlowStep({ step, next }: { step: Step; next?: Step }) {
         className={`flex gap-3 @min-[52rem]:pl-4 ${laneBox[lane]} ${fabric ? "@min-[52rem]:pr-10" : "@min-[52rem]:pr-4"}`}
       >
         <span
-          className={`flex size-[22px] shrink-0 items-center justify-center border font-mono text-[11px] leading-none ${badgeClass[kind ?? "neutral"]}`}
+          className={`flex size-[22px] shrink-0 items-center justify-center border font-mono text-[0.6875rem] leading-none ${badgeClass[kind ?? "neutral"]}`}
         >
           {n}
         </span>
         <div className="min-w-0">
           {kind ? (
-            <p className={`${eyebrowClass} mb-1 @min-[52rem]:mb-0 @min-[52rem]:leading-[22px]`}>
+            <p className={`${eyebrowClass} mb-1 @min-[52rem]:mb-0 @min-[52rem]:leading-[1.375rem]`}>
               <span className="text-muted @min-[52rem]:sr-only">{t(`lanes.${lane}.name`)}</span>
               <Separator className="pr-[0.5px] pl-2 text-muted @min-[52rem]:hidden" />
               <span className={kindClass[kind]}>{t(`kinds.${kind}`)}</span>
@@ -208,10 +208,10 @@ function FlowStep({ step, next }: { step: Step; next?: Step }) {
               {t(`lanes.${lane}.name`)}
             </p>
           )}
-          <p className="text-[15px] leading-[22px] font-medium text-ink">
+          <p className="text-[0.9375rem] leading-[1.375rem] font-medium text-ink">
             {t(`steps.${n}.title`)}
           </p>
-          <p className="mt-0.5 text-[13px] leading-5 text-muted">
+          <p className="mt-0.5 text-[0.8125rem] leading-5 text-muted">
             {t.rich(`steps.${n}.detail`, { nb })}
           </p>
         </div>
@@ -231,7 +231,7 @@ function FlowStep({ step, next }: { step: Step; next?: Step }) {
             className="absolute top-2 hidden size-[7px] border border-diagram @min-[52rem]:block"
             style={{ left: "calc(80% + 7px)" }}
           />
-          <p className="mt-2 flex items-center gap-2 pl-[34px] text-[12px] leading-4 text-muted @min-[52rem]:absolute @min-[52rem]:top-[3px] @min-[52rem]:left-[calc(80%_+_22px)] @min-[52rem]:mt-0 @min-[52rem]:pl-0">
+          <p className="mt-2 flex items-center gap-2 pl-[34px] text-[0.75rem] leading-4 text-muted @min-[52rem]:absolute @min-[52rem]:top-[3px] @min-[52rem]:left-[calc(80%_+_22px)] @min-[52rem]:mt-0 @min-[52rem]:pl-0">
             <ArrowRightIcon size={12} className="shrink-0 @min-[52rem]:hidden" />
             {t(`fabricNotes.${n}`)}
           </p>
@@ -282,10 +282,10 @@ export function SigningFlow() {
           >
             {lanes.map((lane) => (
               <li key={lane} className="pr-3 pl-4">
-                <span className="block text-[13px] leading-5 font-medium text-ink">
+                <span className="block text-[0.8125rem] leading-5 font-medium text-ink">
                   {t(`lanes.${lane}.name`)}
                 </span>
-                <span className="block text-[12px] leading-4 text-balance text-muted">
+                <span className="block text-[0.75rem] leading-4 text-balance text-muted">
                   {t(`lanes.${lane}.note`)}
                 </span>
               </li>
@@ -314,7 +314,7 @@ export function SigningFlow() {
 
         <ul
           aria-label={t("legendLabel")}
-          className="mt-6 flex flex-col gap-y-2 border-t border-border pt-4 text-[12px] leading-4 text-muted @min-[52rem]:flex-row @min-[52rem]:flex-wrap @min-[52rem]:gap-x-7"
+          className="mt-6 flex flex-col gap-y-2 border-t border-border pt-4 text-[0.75rem] leading-4 text-muted @min-[52rem]:flex-row @min-[52rem]:flex-wrap @min-[52rem]:gap-x-7"
         >
           <li className="flex items-center gap-2.5">
             <span aria-hidden="true" className="size-3 shrink-0 border border-steel" />

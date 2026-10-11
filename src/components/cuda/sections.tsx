@@ -19,9 +19,9 @@ import { code } from "@/lib/rich-text";
 // A term and its description, one per row, as in the OpenStack case study.
 const row =
   "grid gap-y-1 border-b border-border py-4 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-x-10";
-const rowLabel = "text-[15px] leading-6 font-medium text-ink md:text-[16px] md:leading-[25px]";
+const rowLabel = "text-[0.9375rem] leading-6 font-medium text-ink md:text-[1rem] md:leading-[1.5625rem]";
 const rowBody =
-  "max-w-[620px] text-[15px] leading-6 text-pretty text-ink/80 md:text-[16px] md:leading-[25px]";
+  "max-w-[620px] text-[0.9375rem] leading-6 text-pretty text-ink/80 md:text-[1rem] md:leading-[1.5625rem]";
 
 const method = ["timer", "inputs", "runs", "check"] as const;
 
@@ -65,7 +65,7 @@ function Measured({ before, after }: { before: number; after: number }) {
   const oneDecimal = { minimumFractionDigits: 1, maximumFractionDigits: 1 };
 
   return (
-    <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[14px] leading-[22px]">
+    <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.875rem] leading-[1.375rem]">
       <span className="text-muted">{t("measured")}</span>{" "}
       <span className="flex items-center gap-1.5 text-ink">
         <span className="font-mono">{format.number(before * 1000, oneDecimal)} ms</span>
@@ -128,7 +128,7 @@ export function Result() {
         href={`${getPathname({ href: "/", locale })}#${sectionIds.moreWork}`}
         internal
         arrow="left"
-        className="mt-12 text-[15px] text-ink hover:text-steel md:mt-14"
+        className="mt-12 text-[0.9375rem] text-ink hover:text-steel md:mt-14"
       >
         {t("back")}
       </TextLink>

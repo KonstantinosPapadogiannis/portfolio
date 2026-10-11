@@ -1,5 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// Chromium runs on every test run. Firefox and WebKit run on request
+// (pnpm test:e2e:browsers); tests that read Chromium-only data, such as the
+// fonts that drew a text run or layout-shift entries, skip on them.
+const otherBrowsers = process.env.PLAYWRIGHT_ALL_BROWSERS === "1";
+
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
@@ -15,6 +20,12 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    ...(otherBrowsers
+      ? [
+          { name: "firefox", use: { ...devices["Desktop Firefox"] } },
+          { name: "webkit", use: { ...devices["Desktop Safari"] } },
+        ]
+      : []),
   ],
   webServer: {
     command: "pnpm build && npx next start -p 3100",

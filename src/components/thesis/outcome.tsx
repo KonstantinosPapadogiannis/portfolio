@@ -16,7 +16,7 @@ export function Outcome() {
         href={`${getPathname({ href: "/", locale })}#${sectionIds.work}`}
         internal
         arrow="left"
-        className="mt-10 text-[15px] text-ink hover:text-steel md:mt-12"
+        className="mt-10 text-[0.9375rem] text-ink hover:text-steel md:mt-12"
       >
         {t("back")}
       </TextLink>

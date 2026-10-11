@@ -30,7 +30,7 @@ export function AcademicHighlights() {
 
           <p
             data-reveal
-            className="mt-[30px] max-w-[440px] text-[15px] leading-[23px] text-muted md:text-[16px] md:leading-[26px] lg:mt-[42px] lg:max-w-[300px] lg:pr-14"
+            className="mt-[30px] max-w-[440px] text-[0.9375rem] leading-[1.4375rem] text-muted md:text-[1rem] md:leading-[1.625rem] lg:mt-[42px] lg:max-w-[300px] lg:pr-14"
           >
             {t("lead")}
           </p>
@@ -40,19 +40,21 @@ export function AcademicHighlights() {
               <div key={column} className="lg:pr-9">
                 {groups.map((group) => (
                   <div key={group.key} data-reveal className="mt-6 lg:first:mt-0">
-                    <h3 className="text-[15px] leading-[22px] font-medium text-ink">
+                    <h3 className="text-[0.9375rem] leading-[1.375rem] font-medium text-ink">
                       {t(`groups.${group.key}`)}
                     </h3>
                     <ul className="mt-2">
                       {group.courses.map((course) => (
                         <li
                           key={course.key}
-                          className="flex items-baseline justify-between gap-4 border-t border-border py-[5px] text-[14px] leading-[22px] text-ink"
+                          className="flex items-baseline justify-between gap-4 border-t border-border py-[5px] text-[0.875rem] leading-[1.375rem] text-ink"
                         >
-                          <span>{t(`courses.${course.key}`)}</span>
+                          {/* A word longer than the line, with much larger
+                              text, breaks rather than pushing the mark out. */}
+                          <span className="min-w-0 wrap-break-word">{t(`courses.${course.key}`)}</span>
                           {/* The mark takes two digits' width, so the slashes
                               line up down the column. */}
-                          <span className="shrink-0 font-mono text-[12px] text-muted">
+                          <span className="shrink-0 font-mono text-[0.75rem] text-muted">
                             <span className="inline-block min-w-[2ch] text-end">
                               {format.number(course.grade)}
                             </span>

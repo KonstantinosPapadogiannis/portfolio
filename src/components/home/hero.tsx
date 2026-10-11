@@ -29,7 +29,7 @@ export function Hero() {
           right makes up the rest of the space after it. */}
       <p
         data-enter="1"
-        className="font-label text-[10px] leading-4 tracking-[0.02em] text-muted uppercase md:text-[11px] lg:col-span-12"
+        className="font-label text-[0.625rem] leading-4 tracking-[0.02em] text-muted uppercase md:text-[0.6875rem] lg:col-span-12"
       >
         {t("name")}
         <Separator className="pr-[1.8px] pl-2 md:pr-[5.2px] md:pl-3" />
@@ -39,14 +39,14 @@ export function Hero() {
       <h1
         id="hero-heading"
         data-enter="1"
-        className="mt-[30px] text-[40px] leading-[43px] font-semibold tracking-[-0.025em] text-ink sm:text-[52px] sm:leading-[56px] md:mt-10 lg:col-span-7 lg:row-start-2 lg:mt-[39px] lg:max-w-[730px] lg:text-[68px] lg:leading-[72px]"
+        className="mt-[30px] text-[2.5rem] leading-[2.6875rem] font-semibold tracking-[-0.025em] text-ink sm:text-[3.25rem] sm:leading-[3.5rem] md:mt-10 lg:col-span-7 lg:row-start-2 lg:mt-[39px] lg:max-w-[730px] lg:text-[4.25rem] lg:leading-[4.5rem]"
       >
         {t.rich("headline", { br })}
       </h1>
 
       <p
         data-enter="2"
-        className="mt-5 max-w-[660px] text-[15px] leading-[23px] text-muted md:mt-6 md:text-[18px] md:leading-[30px] lg:col-span-7 lg:row-start-3"
+        className="mt-5 max-w-[660px] text-[0.9375rem] leading-[1.4375rem] text-muted md:mt-6 md:text-[1.125rem] md:leading-[1.875rem] lg:col-span-7 lg:row-start-3"
       >
         {t("intro")}
       </p>
@@ -60,7 +60,7 @@ export function Hero() {
         </Button>
         {/* Wraps rather than overflows: at 320px the Greek row is within a
             pixel of the width in Firefox and WebKit. */}
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[15px] text-ink min-[360px]:gap-x-6 md:gap-x-8">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[0.9375rem] text-ink min-[360px]:gap-x-6 md:gap-x-8">
           <TextLink
             href={siteConfig.resumePdf}
             arrow="up-right"

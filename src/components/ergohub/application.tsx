@@ -34,16 +34,16 @@ export function Application() {
             key: step.key,
             name: (
               <>
-                <span lang="en" className="font-mono text-[12px] font-normal">
+                <span lang="en" className="font-mono text-[0.75rem] font-normal">
                   {step.status}
                 </span>
                 {"alternative" in step && (
                   <>
                     {" "}
-                    <span className="text-[13px] font-normal text-muted">
+                    <span className="text-[0.8125rem] font-normal text-muted">
                       {t("workflow.or")}
                     </span>{" "}
-                    <span lang="en" className="font-mono text-[12px] font-normal">
+                    <span lang="en" className="font-mono text-[0.75rem] font-normal">
                       {step.alternative}
                     </span>
                   </>

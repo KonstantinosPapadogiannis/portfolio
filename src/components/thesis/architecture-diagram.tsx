@@ -36,17 +36,17 @@ function OrganisationRow({ id }: { id: Organisation }) {
       }`}
     >
       <p className="flex flex-wrap items-baseline gap-x-2 @min-[52rem]:block">
-        <span className="text-[14px] leading-5 font-medium text-ink @min-[52rem]:block">
+        <span className="text-[0.875rem] leading-5 font-medium text-ink @min-[52rem]:block">
           {tOrg(`${id}.name`)}
         </span>
-        <span className="font-mono text-[11px] leading-4 text-muted @min-[52rem]:block">
+        <span className="font-mono text-[0.6875rem] leading-4 text-muted @min-[52rem]:block">
           {mspIds[id]}
         </span>
       </p>
       <p className="mt-0.5 @min-[52rem]:mt-0">
-        <span className="block text-[13px] leading-5 text-ink">{t(`roles.${id}`)}</span>
+        <span className="block text-[0.8125rem] leading-5 text-ink">{t(`roles.${id}`)}</span>
         {t.has(`notes.${id}`) && (
-          <span className="block text-[12px] leading-4 text-muted">{t(`notes.${id}`)}</span>
+          <span className="block text-[0.75rem] leading-4 text-muted">{t(`notes.${id}`)}</span>
         )}
       </p>
       {/* Level with the middle of the name, however many lines the role
@@ -66,7 +66,7 @@ function GroupLabel({ name, note }: { name: string; note: string }) {
   return (
     <>
       <p className={`${eyebrowClass} text-muted`}>{name}</p>
-      <p className="mt-1 text-[12px] leading-4 text-muted">{note}</p>
+      <p className="mt-1 text-[0.75rem] leading-4 text-muted">{note}</p>
     </>
   );
 }
@@ -110,8 +110,8 @@ export function ArchitectureDiagram() {
           {/* The channel: one ledger, three chaincodes, each with its own
               world state and, for two of them, private data collections. */}
           <div className="mt-6 border border-diagram/80 px-4 py-4 @min-[52rem]:mt-0 @min-[52rem]:self-stretch @min-[52rem]:px-5">
-            <p className="font-mono text-[13px] leading-[18px] text-ink">subsidychannel</p>
-            <p className="text-[12px] leading-4 text-muted">{t("ledger")}</p>
+            <p className="font-mono text-[0.8125rem] leading-[1.125rem] text-ink">subsidychannel</p>
+            <p className="text-[0.75rem] leading-4 text-muted">{t("ledger")}</p>
 
             <p id="architecture-chaincodes" className={`${eyebrowClass} mt-5 text-muted`}>
               {t("chaincodesLabel")}
@@ -119,14 +119,15 @@ export function ArchitectureDiagram() {
             <ul aria-labelledby="architecture-chaincodes" className="mt-2 border-t border-border">
               {chaincodes.map(({ name, contracts, collections }) => (
                 <li key={name} className="border-b border-border py-2.5">
-                  <p className="flex items-baseline justify-between gap-3">
-                    <span className="font-mono text-[12px] leading-4 text-ink">{name}</span>
-                    <span className="shrink-0 text-[12px] leading-4 text-muted">
+                  {/* With larger text the count goes under the name. */}
+                  <p className="flex flex-wrap items-baseline justify-between gap-x-3">
+                    <span className="font-mono text-[0.75rem] leading-4 text-ink">{name}</span>
+                    <span className="shrink-0 text-[0.75rem] leading-4 text-muted">
                       {t("contracts", { count: contracts })}
                     </span>
                   </p>
                   <div className="mt-1.5 pl-[15px]">
-                    <p className="text-[12px] leading-4 text-muted">{t("worldState")}</p>
+                    <p className="text-[0.75rem] leading-4 text-muted">{t("worldState")}</p>
                     {collections.length > 0 && (
                       <ul aria-label={t("collectionsLabel")} className="mt-1.5 space-y-1.5">
                         {collections.map(({ name: collection, members }) => (
@@ -135,10 +136,10 @@ export function ArchitectureDiagram() {
                               aria-hidden="true"
                               className="absolute top-[5px] left-0 size-[7px] bg-steel/80"
                             />
-                            <span className="block font-mono text-[11px] leading-4 text-ink">
+                            <span className="block font-mono text-[0.6875rem] leading-4 text-ink">
                               {collection}
                             </span>
-                            <span className="block text-[12px] leading-4 text-muted">
+                            <span className="block text-[0.75rem] leading-4 text-muted">
                               <span className="sr-only">{t("members")}: </span>
                               {members.map((member) => tOrg(`${member}.name`)).join(", ")}
                             </span>
@@ -151,13 +152,13 @@ export function ArchitectureDiagram() {
               ))}
             </ul>
 
-            <p className="mt-3 text-[12px] leading-4 text-muted">{t("namespaceNote")}</p>
+            <p className="mt-3 text-[0.75rem] leading-4 text-muted">{t("namespaceNote")}</p>
           </div>
         </div>
 
         <ul
           aria-label={t("legendLabel")}
-          className="mt-6 flex flex-col gap-y-1.5 border-t border-border pt-4 text-[12px] leading-4 text-muted @min-[52rem]:flex-row @min-[52rem]:flex-wrap @min-[52rem]:gap-x-7"
+          className="mt-6 flex flex-col gap-y-1.5 border-t border-border pt-4 text-[0.75rem] leading-4 text-muted @min-[52rem]:flex-row @min-[52rem]:flex-wrap @min-[52rem]:gap-x-7"
         >
           <li className="flex items-center gap-2.5">
             <span aria-hidden="true" className="w-6 shrink-0 border-t border-steel/55" />

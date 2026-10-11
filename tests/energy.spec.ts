@@ -1,4 +1,4 @@
-import { test, expect, html } from "./fixtures";
+import { test, expect, html, siteOrigin } from "./fixtures";
 
 const sections = ["classification", "forecasting", "comparison"];
 
@@ -111,7 +111,7 @@ for (const locale of locales) {
 
       await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
         "href",
-        `https://kpapadogiannis.dev${locale.path}`,
+        `${siteOrigin}${locale.path}`,
       );
       for (const [hreflang, path] of [
         ["en", "/work/energy-data-mining"],
@@ -120,7 +120,7 @@ for (const locale of locales) {
       ]) {
         await expect(
           page.locator(`link[rel="alternate"][hreflang="${hreflang}"]`),
-        ).toHaveAttribute("href", `https://kpapadogiannis.dev${path}`);
+        ).toHaveAttribute("href", `${siteOrigin}${path}`);
       }
       await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /.{80,}/);
       await expect(page.locator('meta[name="description"]')).toHaveAttribute(
@@ -134,7 +134,7 @@ for (const locale of locales) {
       );
       await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
         "content",
-        `https://kpapadogiannis.dev${locale.path}`,
+        `${siteOrigin}${locale.path}`,
       );
 
       const ld = JSON.parse(
@@ -143,7 +143,7 @@ for (const locale of locales) {
       expect(ld).toMatchObject({
         "@type": "CreativeWork",
         name: locale.metaTitle,
-        url: `https://kpapadogiannis.dev${locale.path}`,
+        url: `${siteOrigin}${locale.path}`,
         inLanguage: locale.lang,
         author: { "@type": "Person", name: locale.author },
       });

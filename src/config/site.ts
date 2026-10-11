@@ -1,3 +1,5 @@
+import { deployment } from "./deployment";
+
 const orcidId = "0009-0008-9445-2484";
 
 export const siteConfig = {
@@ -13,9 +15,9 @@ export const siteConfig = {
   // English only. Built from cv/ by cv/build.sh, which writes this file
   // (public/downloads/konstantinos-papadogiannis-cv.pdf, committed).
   resumePdf: "/downloads/konstantinos-papadogiannis-cv.pdf",
-  // Canonical origin for metadata, the sitemap and robots.txt. The Vercel
-  // deployment (kpapadogiannis.vercel.app) is only an alias of it.
-  url: "https://kpapadogiannis.dev",
+  // Canonical origin for metadata, the sitemap, robots.txt and structured
+  // data; it depends on where the site is deployed (see deployment.ts).
+  url: deployment.siteUrl,
 } as const;
 
 export type SiteConfig = typeof siteConfig;

@@ -31,11 +31,11 @@ export function About() {
           />
 
           <div data-reveal className="mt-[30px] lg:col-span-2 lg:mt-[37px] lg:pr-14">
-            <p className="max-w-[660px] text-[30px] leading-[35px] font-semibold tracking-[-0.02em] text-ink md:text-[36px] md:leading-[43px] lg:text-[42px] lg:leading-[49px]">
+            <p className="max-w-[660px] text-[1.875rem] leading-[2.1875rem] font-semibold tracking-[-0.02em] text-ink md:text-[2.25rem] md:leading-[2.6875rem] lg:text-[2.625rem] lg:leading-[3.0625rem]">
               {t("statement")}
             </p>
 
-            <div className="mt-6 max-w-[640px] space-y-[22px] text-[15px] leading-[22px] text-muted md:mt-8 md:space-y-[27px] md:text-[17px] md:leading-[27px]">
+            <div className="mt-6 max-w-[640px] space-y-[22px] text-[0.9375rem] leading-[1.375rem] text-muted md:mt-8 md:space-y-[27px] md:text-[1.0625rem] md:leading-[1.6875rem]">
               <p>{t("p1")}</p>
               <p>{t("p2")}</p>
               <p>{t("p3")}</p>
@@ -46,10 +46,10 @@ export function About() {
                 {t("education.label")}
               </Eyebrow>
               <div className="mt-3">
-                <p className="text-[15px] leading-[22px] font-medium text-ink">
+                <p className="text-[0.9375rem] leading-[1.375rem] font-medium text-ink">
                   {t("education.degree")}
                 </p>
-                <p className="text-[14px] leading-[22px] text-muted">
+                <p className="text-[0.875rem] leading-[1.375rem] text-muted">
                   {t("education.university")}
                   {/* The dot wraps with the years after it, never ends a line,
                       and is read as a comma (globals.css). The padding stands
@@ -61,11 +61,11 @@ export function About() {
                   </span>
                 </p>
               </div>
-              <dl className="mt-4 grid grid-cols-[auto_1fr] content-start gap-x-5 text-[14px] leading-[22px] md:mt-3">
+              <dl className="mt-4 grid grid-cols-[auto_1fr] content-start gap-x-5 text-[0.875rem] leading-[1.375rem] md:mt-3">
                 <dt className="text-muted">{t("education.average")}</dt>
-                <dd className="font-mono text-[13px] text-ink">{grade(education.average)}</dd>
+                <dd className="font-mono text-[0.8125rem] text-ink">{grade(education.average)}</dd>
                 <dt className="text-muted">{t("education.thesis")}</dt>
-                <dd className="font-mono text-[13px] text-ink">{grade(education.thesis)}</dd>
+                <dd className="font-mono text-[0.8125rem] text-ink">{grade(education.thesis)}</dd>
               </dl>
             </div>
           </div>
@@ -79,7 +79,7 @@ export function About() {
               sizes="(min-width: 434px) 390px, calc(100vw - 44px)"
               className="aspect-[4/5] w-full bg-border/40 object-cover"
             />
-            <figcaption className="mt-5 text-[12px] leading-4 text-muted">
+            <figcaption className="mt-5 text-[0.75rem] leading-4 text-muted">
               {t("portraitCaption")}
             </figcaption>
           </figure>

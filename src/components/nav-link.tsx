@@ -20,5 +20,5 @@ export function NavLink({ item, ...rest }: NavLinkProps) {
     return <a href={href} {...rest} />;
   }
 
-  return <Link href={item.pathname} {...rest} />;
+  return <Link href={item.pathname} prefetch={false} {...rest} />;
 }

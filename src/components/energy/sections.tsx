@@ -53,17 +53,17 @@ export function Classification() {
       {/* The model, its split, then its three test metrics, each named. Only
           the figures are in Plex Mono. */}
       <div className="mt-8 max-w-[880px] border-y border-border py-4 md:mt-10 md:grid md:grid-cols-[11rem_minmax(0,1fr)] md:items-baseline md:gap-x-10">
-        <p className="text-[15px] leading-6 md:text-[16px] md:leading-[25px]">
+        <p className="text-[0.9375rem] leading-6 md:text-[1rem] md:leading-[1.5625rem]">
           <span lang="en" className="font-medium text-ink">
             Gradient Boosting
           </span>{" "}
-          <span className="block text-[13px] leading-5 text-muted">
+          <span className="block text-[0.8125rem] leading-5 text-muted">
             {t("split", { days: count(testDays) })}
           </span>
         </p>
         <dl className="mt-3 flex flex-wrap gap-x-8 gap-y-2 md:mt-0">
           {metrics.map(({ key, name }) => (
-            <div key={key} className="flex items-baseline gap-2.5 text-[14px] leading-[22px]">
+            <div key={key} className="flex items-baseline gap-2.5 text-[0.875rem] leading-[1.375rem]">
               <dt lang="en" className="text-muted">
                 {name}
               </dt>
@@ -127,7 +127,7 @@ export function Comparison() {
         href={`${getPathname({ href: "/", locale })}#${sectionIds.moreWork}`}
         internal
         arrow="left"
-        className="mt-12 text-[15px] text-ink hover:text-steel md:mt-14"
+        className="mt-12 text-[0.9375rem] text-ink hover:text-steel md:mt-14"
       >
         {t("back")}
       </TextLink>

@@ -64,11 +64,11 @@ export function ContentsNav({ label, items }: { label: string; items: ContentsIt
               <a
                 href={`#${id}`}
                 aria-current={isCurrent ? "location" : undefined}
-                className={`-ml-px flex gap-3 border-l py-[5px] pl-4 text-[13px] leading-5 transition-colors duration-150 ${
+                className={`-ml-px flex gap-3 border-l py-[5px] pl-4 text-[0.8125rem] leading-5 transition-colors duration-150 ${
                   isCurrent ? "border-steel text-ink" : "border-transparent text-muted hover:text-ink"
                 }`}
               >
-                <span aria-hidden="true" className="w-4 shrink-0 font-mono text-[11px]">
+                <span aria-hidden="true" className="w-4 shrink-0 font-mono text-[0.6875rem]">
                   {number}
                 </span>
                 <span>{itemLabel}</span>
