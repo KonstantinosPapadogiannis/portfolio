@@ -1177,6 +1177,60 @@
       "back": "Back to projects"
     }
   },
+  "energyPage": {
+    "metaTitle": "Energy Data Mining: Classifying and Forecasting Household Consumption",
+    "title": "Classifying and forecasting household energy use",
+    "subtitle": "A public UCI dataset of one household’s minute readings over almost four years, aggregated to 1,418 days and used for two tasks: labelling high-consumption days and forecasting the next day’s total",
+    "description": "Team academic project: high-consumption days classified with Gradient Boosting (89.4% test accuracy, ROC-AUC 96.3%) and next-day consumption forecast with Random Forest and an LSTM, measured against a persistence baseline.",
+    "back": "More work",
+    "kind": "Team academic project",
+    "periodLabel": "Period",
+    "period": "January 2026",
+    "teamLabel": "Team",
+    "team": "Team of two",
+    "contextLabel": "Context",
+    "context": "Harokopio University of Athens: Data Mining",
+    "toolsLabel": "Tools",
+    "tools": "Python, pandas, scikit-learn, Keras",
+    "sections": {
+      "classification": {
+        "title": "Classification: high-consumption days"
+      },
+      "forecasting": {
+        "title": "Forecasting: the next day’s total"
+      },
+      "comparison": {
+        "title": "What the comparison showed"
+      }
+    },
+    "classification": {
+      "lead": "A day counts as high when its total reaches {threshold} kWh, the mean of the training days alone. We split the {days} days in time order, 60/20/20, so the {test} test days come last.",
+      "p2": "The ten features describe the same day: sub-meter totals, peak-hour power, night-time energy, mean voltage and the calendar. So the model labels a day after the fact; it does not predict one. We removed mean current, which nearly restates the total, since power is voltage times current.",
+      "split": "Test set, {days} days",
+      "p3": "Random Forest ({rf}) and logistic regression ({lr}) reached slightly lower test accuracy. Only {high} of test days are high, so answering “not high” every time would already score {majority}; that is why F1 and <nb>ROC-AUC</nb> sit beside accuracy."
+    },
+    "forecasting": {
+      "lead": "Here the target is the next day’s total in kWh, and the reference is persistence: tomorrow equals today. Each model was tuned or checked on the validation days, refitted on training plus validation and scored once on the test period.",
+      "p1": "We took two routes. A Random Forest regressor used twelve features of the current day; Ridge regression, its linear counterpart, had a test RMSE of <nb>{ridge} kWh</nb>. An LSTM used only the last 14 days of consumption.",
+      "figure": {
+        "caption": "Next-day forecast: test RMSE, lower is better",
+        "models": {
+          "persistence": "tomorrow equals today",
+          "randomForest": "twelve features of the current day",
+          "lstm": "the last 14 days of consumption"
+        },
+        "reference": "reference",
+        "below": "{percent}% below the baseline",
+        "note": "Bars start at zero; the baseline is the full width. The two models come from separate setups, scored over almost the same test period ({features} and {history} days); persistence scores {baseline} in both."
+      },
+      "p2": "Random Forest’s test RMSE was <nb>{gap} kWh</nb> below that of the LSTM run in our report. The LSTM was not seeded, though, and the last saved run of the notebook gave <nb>{lastRun} kWh</nb>, so in this experiment we read the two as level."
+    },
+    "comparison": {
+      "lead": "The test RMSE of Ridge regression, Random Forest and the LSTM fell between {low} and <nb>{high} kWh</nb>, against <nb>{baseline} kWh</nb> for persistence. Without that baseline, the errors alone would say little.",
+      "p1": "The two tasks also needed different measures: when one class is more common, accuracy alone flatters a classifier, and a forecast error means something only beside a naive reference. One comparison we would redo: <nb>ARIMA(1,1,1)</nb> and Prophet were scored on a single forecast of the whole test period, made before its first day rather than one day at a time, so their errors are not comparable and are left out.",
+      "back": "Back to projects"
+    }
+  },
   "gallery": {
     "carousel": "carousel",
     "slide": "slide",
@@ -1328,7 +1382,13 @@
       "name": "Energy data mining",
       "kind": "Academic project · Team of two",
       "title": "Classifying and forecasting energy consumption",
-      "body": "Gradient Boosting identified high-consumption days at 89.4% test accuracy (<nb>ROC-AUC</nb> 96.3%). Random Forest and LSTM next-day forecasts reached RMSE 5.59 and <nb>5.61 kWh</nb>, against a <nb>6.84 kWh</nb> persistence baseline."
+      "body": "A team project on almost four years of one household’s electricity readings, aggregated to 1,418 days. We used the same daily data for two tasks: labelling high-consumption days, and forecasting the next day’s total against a persistence baseline. Each task has its own metrics, scored on test days held out until the end.",
+      "signals": {
+        "accuracy": "test accuracy",
+        "rmse": "test RMSE",
+        "baseline": "baseline"
+      },
+      "cta": "Read case study"
     }
   },
   "technologies": {

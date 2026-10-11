@@ -201,16 +201,17 @@ Requirements:
     Technologies: a few blocks each, the section label first (then, for
     example, the thesis meta, title, text and figure; the About text and
     the portrait; each group of courses; each project);
-  - the ErgoHub, OpenStack, CUDA and computer vision case studies: each
-    section as one block, nothing inside it (the OpenStack diagram, the
-    CUDA benchmark figure and the computer vision results table come in
-    with their sections; no number counts up).
+  - the ErgoHub, OpenStack, CUDA, computer vision and energy data mining
+    case studies: each section as one block, nothing inside it (the
+    OpenStack diagram, the CUDA benchmark figure, the computer vision
+    results table and the energy forecast figure come in with their
+    sections; no number counts up).
   The header and the footer never move. A block is put around a link or a
   button, never on the control itself, so its hover and focus transitions
   are left alone.
 - Entrance on load (`[data-enter]`, `globals.css`): the hero of the
-  homepage and of the ErgoHub, OpenStack, CUDA and computer vision case
-  studies come in once as the page is painted, in up to three steps 80ms
+  homepage and of the ErgoHub, OpenStack, CUDA, computer vision and energy
+  data mining case studies come in once as the page is painted, in up to three steps 80ms
   apart (opacity and translateY 10px, 500ms). CSS only: no script, nothing waits for hydration, and under
   reduced motion it is over at once.
 - Academic highlights (`src/components/home/academic-highlights.tsx`): a
@@ -278,3 +279,18 @@ Requirements:
   the time per epoch, model names as row headers, named by its caption and
   described by its note. A table and not bars: accuracies three points
   apart would only look different on a cut axis. No images.
+- Energy data mining case study (`src/components/energy/`): the most
+  compact case study, laid out as the computer vision one and lighter:
+  three sections in the order of `outline.ts`, in one column with no
+  contents list. Its figures live in `energy` in `src/config/work.ts`; the
+  shares, gaps, ranges and distances from the baseline on the page are
+  computed from them and formatted for the reader's language. The
+  classifier's three test metrics sit in one ruled row, each under its own
+  name, with the model and the split beside them. One figure
+  (`forecast-figure.tsx`): an ordered list of the persistence baseline,
+  Random Forest and the LSTM, each with its name, test RMSE, a one-line
+  note and its distance from the baseline written out, and a bar on one
+  scale from zero (the baseline is the full width), so errors 0.02 kWh
+  apart look the same. The bars are hidden from assistive technology; the
+  text carries every value, so the figure reads without colour. Named by
+  its caption and described by its note. No ROC curve, no images.

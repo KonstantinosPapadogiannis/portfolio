@@ -12,6 +12,7 @@ import { nb } from "@/lib/rich-text";
 import {
   additionalWork,
   cuda,
+  energy,
   ergohub,
   moreWork,
   openstack,
@@ -247,6 +248,67 @@ function VisionSignals() {
   );
 }
 
+// The same for energy data mining: one result of each task with its metric
+// named, the classifier's test accuracy and ROC-AUC, and the forecast's test
+// RMSE beside the persistence baseline, then the link. Model and metric names
+// are the same in both languages; only the figures are in Plex Mono.
+function EnergySignals() {
+  const t = useTranslations("projects.energy");
+  const locale = useLocale();
+  const format = useFormatter();
+  const { gradientBoosting } = energy.classification;
+  const { randomForest, persistence } = energy.forecasting;
+  const percent = (value: number) =>
+    `${format.number(value, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
+  const kwh = (value: number) =>
+    `${format.number(value, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} kWh`;
+  // The dots are read as commas (globals.css).
+  const dot = <span className="separator-dot px-1.5 text-muted">{" "}</span>;
+
+  return (
+    <>
+      <dl className="mt-3 grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 text-[13px] leading-5">
+        <dt lang="en" className="text-muted">
+          Gradient Boosting
+        </dt>
+        <dd className="text-ink">
+          <span className="whitespace-nowrap">
+            <span className="font-mono">{percent(gradientBoosting.accuracy)}</span>{" "}
+            <span lang="en">{t("signals.accuracy")}</span>
+          </span>
+          {dot}
+          <span className="whitespace-nowrap">
+            <span className="font-mono">{percent(gradientBoosting.rocAuc)}</span>{" "}
+            <span lang="en">ROC-AUC</span>
+          </span>
+        </dd>
+        <dt lang="en" className="text-muted">
+          Random Forest
+        </dt>
+        <dd className="text-ink">
+          <span className="whitespace-nowrap">
+            <span className="font-mono">{kwh(randomForest)}</span>{" "}
+            <span lang="en">{t("signals.rmse")}</span>
+          </span>
+          {dot}
+          <span className="whitespace-nowrap">
+            <span lang="en">{t("signals.baseline")}</span>{" "}
+            <span className="font-mono">{kwh(persistence)}</span>
+          </span>
+        </dd>
+      </dl>
+      <TextLink
+        href={getPathname({ href: energy.href, locale })}
+        internal
+        aria-label={`${t("cta")}: ${t("name")}`}
+        className="mt-5 text-[14px] text-ink hover:text-steel lg:mt-6"
+      >
+        {t("cta")}
+      </TextLink>
+    </>
+  );
+}
+
 // Each project comes in as one block as it scrolls into view, after the
 // section label; the secondary projects come in together after them.
 export function MoreWork() {
@@ -310,6 +372,7 @@ export function MoreWork() {
                       {t.rich(`${project.key}.body`, { nb })}
                     </p>
                     {project.key === "vision" && <VisionSignals />}
+                    {project.key === "energy" && <EnergySignals />}
                   </article>
                 </li>
               ))}

@@ -99,6 +99,8 @@ for (const path of [
   "/el/work/cuda",
   "/work/computer-vision",
   "/el/work/computer-vision",
+  "/work/energy-data-mining",
+  "/el/work/energy-data-mining",
 ]) {
   test(`every text run on ${path} is drawn by its language's web font`, async ({
     page,

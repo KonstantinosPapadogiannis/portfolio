@@ -54,6 +54,17 @@ const locales = [
       metric: "Test accuracy at the last epoch",
       caseTitle: "Classification, segmentation and detection in PyTorch",
     },
+    energy: {
+      name: "Energy data mining",
+      title: "Classifying and forecasting energy consumption",
+      kind: "Academic project · Team of two",
+      tasks: ["high-consumption days", "next day’s total", "persistence baseline"],
+      results: [
+        ["Gradient Boosting", ["89.4% test accuracy", "96.3% ROC-AUC"]],
+        ["Random Forest", ["5.59 kWh test RMSE", "baseline 6.84 kWh"]],
+      ],
+      caseTitle: "Classifying and forecasting household energy use",
+    },
     figure: "System architecture / simplified",
     organisations: "Organisations on the channel",
     portrait: "Portrait of Konstantinos Papadogiannis",
@@ -172,6 +183,17 @@ const locales = [
       ],
       metric: "Test accuracy στην τελευταία εποχή",
       caseTitle: "Classification, segmentation και detection σε PyTorch",
+    },
+    energy: {
+      name: "Εξόρυξη δεδομένων ενέργειας",
+      title: "Classification και forecasting κατανάλωσης ενέργειας",
+      kind: "Ακαδημαϊκό έργο · Ομάδα δύο ατόμων",
+      tasks: ["υψηλής κατανάλωσης", "επόμενης ημέρας", "persistence baseline"],
+      results: [
+        ["Gradient Boosting", ["89,4% test accuracy", "96,3% ROC-AUC"]],
+        ["Random Forest", ["5,59 kWh test RMSE", "baseline 6,84 kWh"]],
+      ],
+      caseTitle: "Classification και forecasting της κατανάλωσης ενός νοικοκυριού",
     },
     figure: "Αρχιτεκτονική συστήματος / απλοποιημένη",
     organisations: "Οργανισμοί στο κανάλι",
@@ -394,6 +416,7 @@ for (const locale of locales) {
         `${locale.prefix}/work/openstack`,
         `${locale.prefix}/work/cuda`,
         `${locale.prefix}/work/computer-vision`,
+        `${locale.prefix}/work/energy-data-mining`,
       ]) {
         await page.goto(path);
         expect(await page.locator("body").innerText(), path).not.toMatch(/\bKP\b/);
@@ -589,6 +612,49 @@ for (const locale of locales) {
       await cta.click();
       await expect(page).toHaveURL(new RegExp(`${locale.prefix}/work/computer-vision$`));
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(locale.vision.caseTitle);
+    });
+
+    // The other secondary project with a case study: a team project of two,
+    // the two tasks on the same data, one result of each with its metric
+    // named, and the link. Accuracy and ROC-AUC are two figures, never one,
+    // and the forecast is shown beside its baseline.
+    test("Energy data mining: two tasks, a result of each, linked to its case study", async ({
+      page,
+    }) => {
+      await page.goto(locale.home);
+      const entry = page
+        .locator("#more-work")
+        .getByRole("article", { name: locale.energy.title });
+      await expect(entry).toContainText("2026");
+      await expect(entry).toContainText(locale.energy.kind);
+      const body = entry.locator("h4 + p");
+      for (const task of locale.energy.tasks) await expect(body).toContainText(task);
+
+      const results = entry.locator("dl");
+      await expect(results.locator("dt")).toHaveText(
+        locale.energy.results.map(([model]) => model),
+      );
+      for (const [i, [, figures]] of locale.energy.results.entries()) {
+        for (const figure of figures) {
+          await expect(results.locator("dd").nth(i)).toContainText(figure);
+        }
+      }
+      await expect(entry).not.toContainText(/99\s*%|0[.,]99|outperform|beat|υπερτερ/i);
+
+      const words = (text: string) => text.match(/[\p{L}\p{N}][\p{L}\p{N}’'-]*/gu)?.length ?? 0;
+      const text = await body.innerText();
+      expect(words(text)).toBeGreaterThanOrEqual(40);
+      expect(words(text)).toBeLessThanOrEqual(locale.prefix ? 60 : 55);
+
+      const cta = entry.getByRole("link", {
+        name: `${locale.cta}: ${locale.energy.name}`,
+        exact: true,
+      });
+      await expect(cta).toHaveText(locale.cta);
+      await expect(cta).toHaveAttribute("href", `${locale.prefix}/work/energy-data-mining`);
+      await cta.click();
+      await expect(page).toHaveURL(new RegExp(`${locale.prefix}/work/energy-data-mining$`));
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(locale.energy.caseTitle);
     });
 
     test("footer links and back to top", async ({ page }) => {
@@ -845,6 +911,7 @@ for (const locale of locales) {
         `${locale.prefix}/work/openstack`,
         `${locale.prefix}/work/cuda`,
         `${locale.prefix}/work/computer-vision`,
+        `${locale.prefix}/work/energy-data-mining`,
         `${locale.prefix}/resume`,
       ]) {
         await page.goto(path);
@@ -1193,6 +1260,7 @@ test("keyboard order follows the page and every stop shows a focus ring", async 
     "Read case study: OpenStack",
     "Read case study: CUDA",
     "Read case study: Computer vision",
+    "Read case study: Energy data mining",
     "Work",
     "About",
     "Résumé",

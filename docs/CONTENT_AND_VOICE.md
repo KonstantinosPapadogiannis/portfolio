@@ -193,11 +193,13 @@ detail; the teaser only has to say what the project is and why it is worth
 opening. A major project without a
 case study keeps title, meta and one or two sentences, as now.
 
-A compact project with a case study (Computer Vision) keeps the compact
-entry and adds to it: a description of two or three sentences, 40–60 words
-in English; about three measured signals, each with its dataset and model,
-and the metric named under them; and the same `Read case study` link. Not
-every model it trained, and nothing the case study does not report.
+A compact project with a case study (Computer Vision, Energy Data Mining)
+keeps the compact entry and adds to it: a description of two or three
+sentences, 40–60 words in English (40–55 for Energy Data Mining); about
+three measured signals, each with its model (and dataset, where there are
+several) and the metric named beside it; and the same `Read case study`
+link. Not every model it trained, and nothing the case study does not
+report.
 
 ## Other project facts
 
@@ -444,7 +446,59 @@ notebooks' file names and paths, and the personal storage link in the
 README.
 
 ### Energy Data Mining
-Team of two · Jan 2026
+Team academic project · Team of two · January 2026
+Harokopio University of Athens: Data Mining. Case study at
+`/work/energy-data-mining` and `/el/work/energy-data-mining`: the most
+compact case study, 350–500 words in English (at most 550; two to three
+minutes), three sections, no contents list and one visual, lighter than
+OpenStack, CUDA and Computer Vision. Teaser: 40–55 words in English, with
+three signals (Gradient Boosting test accuracy and ROC-AUC, Random Forest
+test RMSE beside the persistence baseline).
 
-Gradient Boosting: 89.4% test accuracy, ROC-AUC 96.3%.
-Random Forest/LSTM next-day forecasting: RMSE 5.59 / 5.61 kWh vs 6.84 kWh persistence baseline.
+Its line is: the same daily data, two tasks, different models, each task
+with its own metrics, every model compared with a baseline. It is
+coursework, not employment, a production system, a deployed service or a
+publication.
+
+Voice: first person plural ("we") for all the work. The report has two
+authors and documents no individual roles, so nothing is said in the
+first person singular and no role is assigned. The page says "Team of two"
+and names no one.
+
+Verified in the project's notebooks and report (read-only; nothing is
+copied from them). The figures on the page live in `energy` in
+`src/config/work.ts`.
+- Data: the public UCI "Individual Household Electric Power Consumption"
+  set, one household, minute readings from December 2006 to November 2010,
+  1,418 days after cleaning and daily aggregation.
+- Classification: target `is_high_consumption`, a day whose total reaches
+  27.15 kWh, the mean of the training days. Chronological 60/20/20 split
+  (850/284/284 days); 102 of the 284 test days are high. Ten features of
+  the same day; mean current was removed as a near copy of the target, so
+  the models label a day, they do not predict one. Test set: Gradient
+  Boosting 89.4% accuracy, F1 86.1%, ROC-AUC 96.3% (one model, one run);
+  Random Forest 88.4% and logistic regression 86.6% accuracy.
+- Forecasting: target the next day's total in kWh, test RMSE. Persistence
+  (tomorrow equals today) 6.84 kWh in both setups. Twelve features of the
+  current day (284 test days): Ridge 5.68, Random Forest 5.59 (tuned on
+  validation, refitted on training plus validation). The last 14 days of
+  consumption (285 test days): LSTM 5.61 in the report; it was not seeded,
+  and the last run saved in the notebook gave 5.56.
+- Derived: 36% of test days high, so always answering "not high" scores
+  64%; Random Forest and the LSTM both about 18% below persistence; 0.02 kWh
+  between them.
+
+Never claim: that Random Forest beats deep learning or the LSTM, that any
+model is the best, that the LSTM was the only model to beat the baseline
+(Random Forest and Ridge did too), that accuracy and ROC-AUC measure the
+same thing, or anything about production use. Never publish the README's
+"~99%" accuracy, F1 and ROC-AUC (an earlier version of the task), the
+report's Random Forest validation figures, the validation scores as test
+scores, or the ARIMA(1,1,1) and Prophet errors: they forecast the whole
+test period at once, before its first day, so they are not comparable with
+the one-step models and are only mentioned as left out.
+
+Not published: the teammate's name on this page, the student numbers (in
+the README and the report), the course code, the teaching staff, the
+repository link (its README and report carry the student numbers), the
+notebooks' file names and local paths.

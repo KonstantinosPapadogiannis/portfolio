@@ -7,7 +7,12 @@ export type ProjectEntry = {
   number: string;
   year: string;
   // The project's own case study, for the projects that have one.
-  href?: "/work/ergohub" | "/work/openstack" | "/work/cuda" | "/work/computer-vision";
+  href?:
+    | "/work/ergohub"
+    | "/work/openstack"
+    | "/work/cuda"
+    | "/work/computer-vision"
+    | "/work/energy-data-mining";
 };
 
 // ErgoHub, shared by its homepage entry and its case study. From the
@@ -96,6 +101,41 @@ export const vision = {
   detectionLoss: { first: 0.6444, last: 0.1611 },
 } as const;
 
+// Energy data mining, shared by its homepage entry and its case study. From
+// the project's notebook and report: a team project of two, submitted in
+// January 2026, on the UCI household power data aggregated to days. Both
+// tasks split the days in time order, 60/20/20, and score each model once
+// on the last fifth. Percentages and kWh as the notebook printed them,
+// rounded as in the report; every other number on the page is derived from
+// these.
+export const energy = {
+  href: "/work/energy-data-mining",
+  year: "2026",
+  days: 1418,
+  // A day is high when its total reaches the mean of the training days.
+  classification: {
+    threshold: 27.15,
+    testDays: 284,
+    testHigh: 102,
+    gradientBoosting: { accuracy: 89.4, f1: 86.1, rocAuc: 96.3 },
+    randomForest: { accuracy: 88.4 },
+    logisticRegression: { accuracy: 86.6 },
+  },
+  // Test RMSE in kWh of the next day's total. Random Forest and Ridge use
+  // twelve features of the current day (284 test days); the LSTM uses the
+  // last 14 days of consumption (285 test days). Persistence scores 6.84 in
+  // both setups. The LSTM was not seeded: 5.61 is the run in the report,
+  // 5.56 the last run saved in the notebook.
+  forecasting: {
+    testDays: { features: 284, history: 285 },
+    persistence: 6.84,
+    ridge: 5.68,
+    randomForest: 5.59,
+    lstm: 5.61,
+    lstmLastRun: 5.56,
+  },
+} as const;
+
 // Primary projects, after the thesis.
 export const moreWork = [
   { key: "ergohub", number: "02", year: ergohub.year, href: ergohub.href },
@@ -106,7 +146,7 @@ export const moreWork = [
 // Secondary projects, shown more quietly.
 export const additionalWork = [
   { key: "vision", number: "05", year: vision.year, href: vision.href },
-  { key: "energy", number: "06", year: "2026" },
+  { key: "energy", number: "06", year: energy.year, href: energy.href },
 ] as const satisfies readonly ProjectEntry[];
 
 // Proper names, identical in both languages. Only the group labels are
