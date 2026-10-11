@@ -201,16 +201,17 @@ Requirements:
     Technologies: a few blocks each, the section label first (then, for
     example, the thesis meta, title, text and figure; the About text and
     the portrait; each group of courses; each project);
-  - the ErgoHub, OpenStack and CUDA case studies: each section as one
-    block, nothing inside it (the OpenStack diagram and the CUDA benchmark
-    figure come in with their sections; no number counts up).
+  - the ErgoHub, OpenStack, CUDA and computer vision case studies: each
+    section as one block, nothing inside it (the OpenStack diagram, the
+    CUDA benchmark figure and the computer vision results table come in
+    with their sections; no number counts up).
   The header and the footer never move. A block is put around a link or a
   button, never on the control itself, so its hover and focus transitions
   are left alone.
 - Entrance on load (`[data-enter]`, `globals.css`): the hero of the
-  homepage and of the ErgoHub, OpenStack and CUDA case studies come in
-  once as the page is painted, in up to three steps 80ms apart (opacity and translateY 10px,
-  500ms). CSS only: no script, nothing waits for hydration, and under
+  homepage and of the ErgoHub, OpenStack, CUDA and computer vision case
+  studies come in once as the page is painted, in up to three steps 80ms
+  apart (opacity and translateY 10px, 500ms). CSS only: no script, nothing waits for hydration, and under
   reduced motion it is over at once.
 - Academic highlights (`src/components/home/academic-highlights.tsx`): a
   section of its own after Story. A one-line note in the first grid column;
@@ -266,3 +267,14 @@ Requirements:
   time is the full width). The bars are hidden from assistive technology;
   the text carries every value, so the figure reads without colour. Named
   by its caption and described by its note.
+- Computer vision case study (`src/components/vision/`): a compact
+  technical case study, laid out as the CUDA one and lighter, with four
+  sections in the order of `outline.ts`. Its figures live in `vision` in
+  `src/config/work.ts`; the gap and the time ratio on the page are computed
+  from them and formatted for the reader's language. Each ResNet18 run, the
+  segmentation and the detection have their measured value on a line of
+  its own, with the metric named. One figure (`results-table.tsx`): a table
+  of the two CIFAR-10 models with test accuracy after 5 and 10 epochs and
+  the time per epoch, model names as row headers, named by its caption and
+  described by its note. A table and not bars: accuracies three points
+  apart would only look different on a cut axis. No images.

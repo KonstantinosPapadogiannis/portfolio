@@ -11,6 +11,7 @@ const pages = [
   "/work/ergohub",
   "/work/openstack",
   "/work/cuda",
+  "/work/computer-vision",
 ] as const;
 
 // One entry per language version, each listing every alternate, so the URLs

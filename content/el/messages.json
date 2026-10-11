@@ -1108,6 +1108,75 @@
       "back": "Πίσω στα έργα"
     }
   },
+  "visionPage": {
+    "metaTitle": "Όραση υπολογιστών: Classification, segmentation και detection σε PyTorch",
+    "title": "Classification, segmentation και detection σε PyTorch",
+    "subtitle": "Πέντε ασκήσεις με δίκτυα εκπαιδευμένα από την αρχή ή με fine-tuning από προεκπαιδευμένα βάρη, που καταλήγουν σε σύγκριση ενός Vision Transformer με ένα CNN",
+    "description": "Ατομικό ακαδημαϊκό έργο: πέντε ασκήσεις όρασης υπολογιστών σε PyTorch, από image classification με ResNet18 και σύγκριση ViT-B/16 και VGG16-BN στο CIFAR-10 έως segmentation με U-Net και detection με Faster R-CNN.",
+    "back": "Περισσότερα έργα",
+    "contents": "Περιεχόμενα",
+    "kind": "Ατομικό ακαδημαϊκό έργο",
+    "periodLabel": "Περίοδος",
+    "period": "Φεβρουάριος 2026",
+    "platformLabel": "Πλατφόρμα",
+    "platform": "PyTorch και torchvision σε GPU του Google Colab",
+    "contextLabel": "Πλαίσιο",
+    "context": "Χαροκόπειο Πανεπιστήμιο: Υπολογιστική Όραση και Γραφικά",
+    "sections": {
+      "classification": {
+        "nav": "Classification",
+        "title": "Από ένα μικρό CNN σε ένα ResNet18 με fine-tuning"
+      },
+      "comparison": {
+        "nav": "Σύγκριση μοντέλων",
+        "title": "<nb>ViT-B/16</nb> και <nb>VGG16-BN</nb> με την ίδια ρύθμιση"
+      },
+      "segmentation-detection": {
+        "nav": "Segmentation και detection",
+        "title": "Ένα U-Net από την αρχή και ένας detector με fine-tuning από COCO"
+      },
+      "lessons": {
+        "nav": "Τι έμαθα",
+        "title": "Τι δείχνουν αυτοί οι αριθμοί και τι όχι"
+      }
+    },
+    "classification": {
+      "lead": "Ένα CNN με τρία convolutional layers, εκπαιδευμένο από την αρχή στο <nb>CIFAR-100</nb>, έφτασε από 30,62% έως 42,13% test accuracy σε τρεις ρυθμίσεις optimizer, ενώ η training accuracy του ανέβηκε περίπου στο 80% στις δύο καλύτερες εκτελέσεις.",
+      "p2": "Έπειτα προσάρμοσα ένα ResNet18, προεκπαιδευμένο στο ImageNet, στις 37 ράτσες του <nb>Oxford-IIIT</nb> Pet, σε τρεις εκτελέσεις των δέκα εποχών:",
+      "runs": {
+        "featureExtraction": "παγωμένο backbone· εκπαιδεύεται μόνο ένα νέο επίπεδο εξόδου 37 κλάσεων",
+        "fineTuning": "εκπαίδευση όλων των επιπέδων με learning rate 0,0001, συνεχίζοντας από την προηγούμενη εκτέλεση",
+        "augmentation": "τυχαίες περιστροφές και οριζόντιες αναστροφές, με νέο fine-tuning από τα βάρη ImageNet"
+      },
+      "metric": "Test accuracy",
+      "p3": "Το fine-tuning έδωσε το καλύτερο αποτέλεσμα, με training accuracy 100%. Το augmentation δεν ανέβασε την test accuracy, όμως εκείνη η εκτέλεση ξεκίνησε ξανά από τα βάρη ImageNet, οπότε η σύγκριση δεν είναι καθαρή."
+    },
+    "comparison": {
+      "lead": "Η τελευταία άσκηση σύγκρινε ένα Vision Transformer, το <nb>ViT-B/16</nb>, με ένα CNN, το <nb>VGG16-BN</nb>, στο <nb>CIFAR-10</nb>. Και τα δύο ξεκίνησαν από βάρη ImageNet με νέο επίπεδο εξόδου 10 κλάσεων, και εκπαίδευσα όλες τις παραμέτρους τους με τον ίδιο τρόπο: είσοδοι 224 × 224, χωρίς augmentation, Adam με 0,0001, batches των 64.",
+      "table": {
+        "caption": "Test accuracy στο CIFAR-10, στην τελευταία εποχή",
+        "model": "Μοντέλο",
+        "five": "5 εποχές",
+        "ten": "10 εποχές",
+        "time": "Χρόνος ανά εποχή",
+        "note": "Μία εκτέλεση ανά μοντέλο και διάρκεια, χωρίς σταθερό seed, σε NVIDIA A100. Ο χρόνος ανά εποχή περιλαμβάνει το testing σε 10.000 εικόνες."
+      },
+      "p1": "Το <nb>ViT-B/16</nb> τελείωσε {low} έως {high} ποσοστιαίες μονάδες μπροστά, με περίπου {ratio} φορές τον χρόνο ανά εποχή. Στις δέκα εποχές, το test loss του <nb>VGG16-BN</nb> ανέβηκε από 0,216 μετά τη δεύτερη εποχή σε 0,270, ενώ του <nb>ViT-B/16</nb> έμεινε κάτω από 0,20. Αυτό ισχύει για αυτό το dataset και αυτή τη ρύθμιση· δεν κατατάσσει τις δύο αρχιτεκτονικές."
+    },
+    "segmentation-detection": {
+      "segmentation": "Υλοποίησα ένα U-Net από την αρχή και το εκπαίδευσα για 15 εποχές στο SBD, σε εικόνες 256 × 256 με 21 κλάσεις, κρατώντας το ένα πέμπτο των 8.498 εικόνων εκπαίδευσης για αξιολόγηση.",
+      "segmentationMetric": "Pixel accuracy",
+      "detection": "Έκανα fine-tuning στο <nb>Faster R-CNN</nb> του torchvision, με backbone <nb>ResNet-50</nb> FPN και βάρη COCO, στις 2.501 εικόνες του train split του VOC 2007, με νέο predictor για τις 20 κλάσεις του και το background.",
+      "detectionMetric": "Training loss, SGD, 10 εποχές",
+      "to": "σε",
+      "p1": "Από τρεις ρυθμίσεις optimizer, ο AdamW έφτασε στο χαμηλότερο training loss, 0,144. Όμως το training loss δεν είναι ποιότητα detection: mAP δεν υπολόγισα, και τις προβλέψεις τις έλεγξα μόνο με το μάτι. Αντίστοιχα, η pixel accuracy περιλαμβάνει το background, και χωρίς IoU δεν δείχνει πόσο καλά έγινε το segmentation κάθε κλάσης."
+    },
+    "lessons": {
+      "lead": "Αυτό που κρατώ από αυτές τις ασκήσεις: γράφω τη μετρική και το split δίπλα σε κάθε αριθμό, και συγκρίνω μοντέλα μόνο με την ίδια ρύθμιση.",
+      "p1": "Δύο πράγματα θα άλλαζα. Στις ασκήσεις classification το test split χρησίμευε και ως validation set μετά από κάθε εποχή, γι’ αυτό αναφέρω την τελευταία εποχή και όχι την καλύτερη· ένα ξεχωριστό validation split θα το διόρθωνε. Και η σύγκριση είχε μία εκτέλεση ανά μοντέλο χωρίς σταθερό seed: μετά από πέντε εποχές, δύο εκτελέσεις της ίδιας ρύθμισης του <nb>VGG16-BN</nb> βρίσκονταν στο 92,84% και στο 93,35%. Περισσότερα seeds, μαζί με IoU και mAP, θα έκαναν τις συγκρίσεις πιο σταθερές.",
+      "back": "Πίσω στα έργα"
+    }
+  },
   "gallery": {
     "carousel": "καρουζέλ",
     "slide": "διαφάνεια",
@@ -1250,8 +1319,10 @@
     "vision": {
       "name": "Όραση υπολογιστών",
       "kind": "Ατομικό ακαδημαϊκό έργο",
-      "title": "Fine-tuning και σύγκριση μοντέλων CNN και transformer",
-      "body": "ResNet18 στο <nb>Oxford-IIIT</nb> Pet: 90,32% validation accuracy. <nb>ViT-B/16</nb> έναντι <nb>VGG16-BN</nb> στο <nb>CIFAR-10</nb>: 95,85% και 93,18%. Εκπαίδευση <nb>U-Net</nb> και <nb>Faster R-CNN</nb> σε PyTorch."
+      "title": "Classification, segmentation και detection σε PyTorch",
+      "body": "Πέντε πειράματα σε image classification, semantic segmentation και object detection, με μοντέλα που εκπαίδευσα από την αρχή ή προσάρμοσα με <nb>fine-tuning</nb> από βάρη ImageNet και COCO. Το τελευταίο συγκρίνει ένα Vision Transformer με ένα CNN στο <nb>CIFAR-10</nb> με την ίδια ρύθμιση εκπαίδευσης, μετρώντας test accuracy και χρόνο ανά εποχή.",
+      "metric": "Test accuracy στην τελευταία εποχή",
+      "cta": "Διαβάστε τη μελέτη περίπτωσης"
     },
     "energy": {
       "name": "Εξόρυξη δεδομένων ενέργειας",

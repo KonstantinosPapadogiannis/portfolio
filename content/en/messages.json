@@ -1108,6 +1108,75 @@
       "back": "Back to projects"
     }
   },
+  "visionPage": {
+    "metaTitle": "Computer Vision: Classification, Segmentation and Detection in PyTorch",
+    "title": "Classification, segmentation and detection in PyTorch",
+    "subtitle": "Five exercises with networks trained from scratch or fine-tuned from pretrained weights, ending in a Vision Transformer compared with a CNN",
+    "description": "Individual academic project: five computer vision exercises in PyTorch, from image classification with ResNet18 and a ViT-B/16 and VGG16-BN comparison on CIFAR-10 to U-Net segmentation and Faster R-CNN detection.",
+    "back": "More work",
+    "contents": "Contents",
+    "kind": "Individual academic project",
+    "periodLabel": "Period",
+    "period": "February 2026",
+    "platformLabel": "Platform",
+    "platform": "PyTorch and torchvision on Google Colab GPUs",
+    "contextLabel": "Context",
+    "context": "Harokopio University of Athens: Computer Vision and Graphics",
+    "sections": {
+      "classification": {
+        "nav": "Classification",
+        "title": "From a small CNN to a fine-tuned ResNet18"
+      },
+      "comparison": {
+        "nav": "Model comparison",
+        "title": "<nb>ViT-B/16</nb> and <nb>VGG16-BN</nb> under one setup"
+      },
+      "segmentation-detection": {
+        "nav": "Segmentation and detection",
+        "title": "A U-Net from scratch and a detector fine-tuned from COCO"
+      },
+      "lessons": {
+        "nav": "What I learned",
+        "title": "What these numbers can and cannot show"
+      }
+    },
+    "classification": {
+      "lead": "A CNN with three convolutional layers, trained from scratch on <nb>CIFAR-100</nb>, reached 30.62% to 42.13% test accuracy across three optimiser settings, while its training accuracy rose to about 80% in the two stronger runs.",
+      "p2": "I then adapted ResNet18, pretrained on ImageNet, to the 37 breeds of <nb>Oxford-IIIT</nb> Pet, in three runs of ten epochs:",
+      "runs": {
+        "featureExtraction": "backbone frozen; only a new 37-class output layer trained",
+        "fineTuning": "every layer trained at a learning rate of 0.0001, continuing from the run above",
+        "augmentation": "random rotations and horizontal flips, fine-tuned again from the ImageNet weights"
+      },
+      "metric": "Test accuracy",
+      "p3": "Fine-tuning gave the best result, with training accuracy at 100%. Augmentation did not raise test accuracy, but that run restarted from the ImageNet weights, so the comparison is not clean."
+    },
+    "comparison": {
+      "lead": "The last exercise compared a Vision Transformer, <nb>ViT-B/16</nb>, with a CNN, <nb>VGG16-BN</nb>, on <nb>CIFAR-10</nb>. Both started from ImageNet weights with a new 10-class output layer, and I trained all parameters of each the same way: 224 × 224 inputs, no augmentation, Adam at 0.0001, batches of 64.",
+      "table": {
+        "caption": "CIFAR-10 test accuracy at the last epoch",
+        "model": "Model",
+        "five": "5 epochs",
+        "ten": "10 epochs",
+        "time": "Time per epoch",
+        "note": "One run per model and length, without a fixed seed, on an NVIDIA A100. Time per epoch includes testing on 10,000 images."
+      },
+      "p1": "<nb>ViT-B/16</nb> finished {low} to {high} percentage points ahead, at about {ratio} times the time per epoch. Over ten epochs, the test loss of <nb>VGG16-BN</nb> rose from 0.216 after the second epoch to 0.270, while that of <nb>ViT-B/16</nb> stayed below 0.20. That holds for this dataset and setup; it does not rank the two architectures."
+    },
+    "segmentation-detection": {
+      "segmentation": "I built a U-Net from scratch and trained it for 15 epochs on SBD, at 256 × 256 pixels in 21 classes, holding out a fifth of the 8,498 training images for evaluation.",
+      "segmentationMetric": "Pixel accuracy",
+      "detection": "I fine-tuned torchvision’s <nb>Faster R-CNN</nb>, with a <nb>ResNet-50</nb> FPN backbone and COCO weights, on the 2,501 images of the VOC 2007 train split, with a new predictor for its 20 classes plus background.",
+      "detectionMetric": "Training loss, SGD, 10 epochs",
+      "to": "to",
+      "p1": "Of three optimiser setups, AdamW reached the lowest training loss, 0.144. But training loss is not detection quality: I computed no mAP and only checked predictions by eye. Likewise, pixel accuracy includes the background, and without IoU it does not show how well each class was segmented."
+    },
+    "lessons": {
+      "lead": "What I took from these exercises: write the metric and the split beside every number, and compare models only under one setup.",
+      "p1": "Two things I would change. In the classification exercises the test split doubled as the validation set checked after each epoch, so I report the last epoch, not the best; a separate validation split would fix that. And the comparison had one run per model without a fixed seed: after five epochs, two runs of the same <nb>VGG16-BN</nb> setup stood at 92.84% and 93.35%. Several seeds, plus IoU and mAP, would make these comparisons firmer.",
+      "back": "Back to projects"
+    }
+  },
   "gallery": {
     "carousel": "carousel",
     "slide": "slide",
@@ -1250,8 +1319,10 @@
     "vision": {
       "name": "Computer vision",
       "kind": "Individual academic project",
-      "title": "Fine-tuning and comparing CNN and transformer models",
-      "body": "ResNet18 on <nb>Oxford-IIIT</nb> Pet: 90.32% validation accuracy. <nb>ViT-B/16</nb> against <nb>VGG16-BN</nb> on <nb>CIFAR-10</nb>: 95.85% and 93.18%. <nb>U-Net</nb> and <nb>Faster R-CNN</nb> trained in PyTorch."
+      "title": "Classification, segmentation and detection in PyTorch",
+      "body": "Five experiments in image classification, semantic segmentation and object detection, with models I trained from scratch or fine-tuned from ImageNet and COCO weights. The last compares a Vision Transformer with a CNN on <nb>CIFAR-10</nb> under one training setup, measuring test accuracy and time per epoch.",
+      "metric": "Test accuracy at the last epoch",
+      "cta": "Read case study"
     },
     "energy": {
       "name": "Energy data mining",

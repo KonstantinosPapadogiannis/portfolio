@@ -43,6 +43,17 @@ const locales = [
       caseTitle: "From 306 ms to 86 ms",
       maxWords: 65,
     },
+    vision: {
+      name: "Computer vision",
+      title: "Classification, segmentation and detection in PyTorch",
+      tasks: ["image classification", "semantic segmentation", "object detection"],
+      results: [
+        ["CIFAR-10", ["ViT-B/16 95.63%", "VGG16-BN 93.26%"]],
+        ["Oxford-IIIT Pet", ["ResNet18 90.32%"]],
+      ],
+      metric: "Test accuracy at the last epoch",
+      caseTitle: "Classification, segmentation and detection in PyTorch",
+    },
     figure: "System architecture / simplified",
     organisations: "Organisations on the channel",
     portrait: "Portrait of Konstantinos Papadogiannis",
@@ -150,6 +161,17 @@ const locales = [
       summary: "Ο χρόνος εκτέλεσης μειώθηκε από 306 ms σε 86 ms, επιτάχυνση 3,6×",
       caseTitle: "Από 306 ms σε 86 ms",
       maxWords: 75,
+    },
+    vision: {
+      name: "Όραση υπολογιστών",
+      title: "Classification, segmentation και detection σε PyTorch",
+      tasks: ["image classification", "semantic segmentation", "object detection"],
+      results: [
+        ["CIFAR-10", ["ViT-B/16 95,63%", "VGG16-BN 93,26%"]],
+        ["Oxford-IIIT Pet", ["ResNet18 90,32%"]],
+      ],
+      metric: "Test accuracy στην τελευταία εποχή",
+      caseTitle: "Classification, segmentation και detection σε PyTorch",
     },
     figure: "Αρχιτεκτονική συστήματος / απλοποιημένη",
     organisations: "Οργανισμοί στο κανάλι",
@@ -371,6 +393,7 @@ for (const locale of locales) {
         `${locale.prefix}/work/ergohub`,
         `${locale.prefix}/work/openstack`,
         `${locale.prefix}/work/cuda`,
+        `${locale.prefix}/work/computer-vision`,
       ]) {
         await page.goto(path);
         expect(await page.locator("body").innerText(), path).not.toMatch(/\bKP\b/);
@@ -523,6 +546,49 @@ for (const locale of locales) {
       await cta.click();
       await expect(page).toHaveURL(new RegExp(`${locale.prefix}/work/cuda$`));
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(locale.cuda.caseTitle);
+    });
+
+    // A secondary project with a case study: the three tasks in two
+    // sentences, test accuracy on two datasets with the metric named under
+    // them, and the link to the case study. Not every model it trained.
+    test("Computer vision: a short entry with measured results, linked to its case study", async ({
+      page,
+    }) => {
+      await page.goto(locale.home);
+      const entry = page
+        .locator("#more-work")
+        .getByRole("article", { name: locale.vision.title });
+      await expect(entry).toContainText("2026");
+      const body = entry.locator("h4 + p");
+      for (const task of locale.vision.tasks) await expect(body).toContainText(task);
+
+      const results = entry.locator("dl");
+      await expect(results.locator("dt")).toHaveText(
+        locale.vision.results.map(([dataset]) => dataset),
+      );
+      for (const [i, [, models]] of locale.vision.results.entries()) {
+        for (const model of models) await expect(results.locator("dd").nth(i)).toContainText(model);
+      }
+      await expect(entry).toContainText(locale.vision.metric);
+      // Only figures the case study reports: no mAP, no IoU.
+      await expect(entry).not.toContainText(/mAP|IoU|93[.,]18/);
+
+      const words = (text: string) => text.match(/[\p{L}\p{N}][\p{L}\p{N}’'-]*/gu)?.length ?? 0;
+      const text = await body.innerText();
+      const sentences = text.split(/[.!?](?:\s|$)/).filter((part) => part.trim()).length;
+      expect(sentences).toBeGreaterThanOrEqual(2);
+      expect(sentences).toBeLessThanOrEqual(3);
+      expect(words(text)).toBeGreaterThanOrEqual(40);
+      expect(words(text)).toBeLessThanOrEqual(60);
+
+      const cta = entry.getByRole("link", {
+        name: `${locale.cta}: ${locale.vision.name}`,
+        exact: true,
+      });
+      await expect(cta).toHaveAttribute("href", `${locale.prefix}/work/computer-vision`);
+      await cta.click();
+      await expect(page).toHaveURL(new RegExp(`${locale.prefix}/work/computer-vision$`));
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(locale.vision.caseTitle);
     });
 
     test("footer links and back to top", async ({ page }) => {
@@ -778,6 +844,7 @@ for (const locale of locales) {
         `${locale.prefix}/work/ergohub`,
         `${locale.prefix}/work/openstack`,
         `${locale.prefix}/work/cuda`,
+        `${locale.prefix}/work/computer-vision`,
         `${locale.prefix}/resume`,
       ]) {
         await page.goto(path);
@@ -1125,6 +1192,7 @@ test("keyboard order follows the page and every stop shows a focus ring", async 
     "Read case study: ErgoHub",
     "Read case study: OpenStack",
     "Read case study: CUDA",
+    "Read case study: Computer vision",
     "Work",
     "About",
     "Résumé",

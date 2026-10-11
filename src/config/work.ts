@@ -7,7 +7,7 @@ export type ProjectEntry = {
   number: string;
   year: string;
   // The project's own case study, for the projects that have one.
-  href?: "/work/ergohub" | "/work/openstack" | "/work/cuda";
+  href?: "/work/ergohub" | "/work/openstack" | "/work/cuda" | "/work/computer-vision";
 };
 
 // ErgoHub, shared by its homepage entry and its case study. From the
@@ -68,6 +68,34 @@ export const cuda = {
   },
 } as const;
 
+// Computer vision, shared by its homepage entry and its case study. From the
+// project's submitted notebooks: an individual assignment of February 2026,
+// five exercises in PyTorch on Google Colab. Accuracies are percentages on
+// each dataset's test split at the last epoch, which is how the notebooks
+// report them; one run each. The CIFAR-10 seconds are one training epoch plus
+// the pass over the test split, on an NVIDIA A100, as the notebook printed
+// them.
+export const vision = {
+  href: "/work/computer-vision",
+  year: "2026",
+  // ResNet18 on Oxford-IIIT Pet, 37 breeds.
+  pets: {
+    featureExtraction: 87.24,
+    fineTuning: 90.32,
+    augmentation: 88.28,
+  },
+  // ViT-B/16 and VGG16-BN on CIFAR-10, both fine-tuned from ImageNet weights.
+  cifar10: {
+    vit: { five: 95.85, ten: 95.63, seconds: 376 },
+    vgg: { five: 92.84, ten: 93.26, seconds: 141 },
+  },
+  // U-Net on SBD, pixel accuracy on a held-out fifth of the training images.
+  segmentation: 75.79,
+  // Faster R-CNN on VOC 2007: mean training loss of the first and the tenth
+  // epoch with SGD. No mAP was computed.
+  detectionLoss: { first: 0.6444, last: 0.1611 },
+} as const;
+
 // Primary projects, after the thesis.
 export const moreWork = [
   { key: "ergohub", number: "02", year: ergohub.year, href: ergohub.href },
@@ -77,7 +105,7 @@ export const moreWork = [
 
 // Secondary projects, shown more quietly.
 export const additionalWork = [
-  { key: "vision", number: "05", year: "2026" },
+  { key: "vision", number: "05", year: vision.year, href: vision.href },
   { key: "energy", number: "06", year: "2026" },
 ] as const satisfies readonly ProjectEntry[];
 

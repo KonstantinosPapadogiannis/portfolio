@@ -16,6 +16,7 @@ import {
   moreWork,
   openstack,
   technologies,
+  vision,
   type ProjectEntry,
 } from "@/config/work";
 
@@ -184,6 +185,68 @@ function CudaSignals() {
   );
 }
 
+// The same for computer vision, set as quietly as the other secondary
+// projects: test accuracy on two of its datasets, the metric named under
+// them, then the link. Dataset and model names are the same in both
+// languages; only the figures are in Plex Mono.
+const visionResults = [
+  {
+    dataset: "CIFAR-10",
+    models: [
+      { name: "ViT-B/16", accuracy: vision.cifar10.vit.ten },
+      { name: "VGG16-BN", accuracy: vision.cifar10.vgg.ten },
+    ],
+  },
+  {
+    dataset: "Oxford-IIIT Pet",
+    models: [{ name: "ResNet18", accuracy: vision.pets.fineTuning }],
+  },
+] as const;
+
+function VisionSignals() {
+  const t = useTranslations("projects.vision");
+  const locale = useLocale();
+  const format = useFormatter();
+  const percent = (value: number) =>
+    `${format.number(value, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+
+  return (
+    <>
+      {/* Two columns, so the results line up under each other. */}
+      <dl className="mt-3 grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 text-[13px] leading-5">
+        {visionResults.map(({ dataset, models }) => (
+          <Fragment key={dataset}>
+            <dt lang="en" className="text-muted">
+              {dataset}
+            </dt>
+            <dd className="text-ink">
+              {/* The dots are read as commas (globals.css). */}
+              {models.map(({ name, accuracy }, index) => (
+                <Fragment key={name}>
+                  {index > 0 && <span className="separator-dot px-1.5 text-muted">{" "}</span>}
+                  <span className="whitespace-nowrap">
+                    <span lang="en">{name}</span>{" "}
+                    <span className="font-mono">{percent(accuracy)}</span>
+                  </span>
+                </Fragment>
+              ))}
+            </dd>
+          </Fragment>
+        ))}
+      </dl>
+      <p className="mt-1 text-[13px] leading-5 text-muted">{t("metric")}</p>
+      <TextLink
+        href={getPathname({ href: vision.href, locale })}
+        internal
+        aria-label={`${t("cta")}: ${t("name")}`}
+        className="mt-5 text-[14px] text-ink hover:text-steel lg:mt-6"
+      >
+        {t("cta")}
+      </TextLink>
+    </>
+  );
+}
+
 // Each project comes in as one block as it scrolls into view, after the
 // section label; the secondary projects come in together after them.
 export function MoreWork() {
@@ -246,6 +309,7 @@ export function MoreWork() {
                     <p className="mt-2.5 max-w-[370px] text-[14px] leading-[22px] text-muted">
                       {t.rich(`${project.key}.body`, { nb })}
                     </p>
+                    {project.key === "vision" && <VisionSignals />}
                   </article>
                 </li>
               ))}

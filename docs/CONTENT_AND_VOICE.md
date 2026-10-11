@@ -193,6 +193,12 @@ detail; the teaser only has to say what the project is and why it is worth
 opening. A major project without a
 case study keeps title, meta and one or two sentences, as now.
 
+A compact project with a case study (Computer Vision) keeps the compact
+entry and adds to it: a description of two or three sentences, 40–60 words
+in English; about three measured signals, each with its dataset and model,
+and the metric named under them; and the same `Read case study` link. Not
+every model it trained, and nothing the case study does not report.
+
 ## Other project facts
 
 ### ErgoHub
@@ -372,11 +378,70 @@ Not published: the professor's name, the course code, the student number
 the notebook and the folder.
 
 ### Computer Vision
-Individual academic project · Feb 2026
+Individual academic project · February 2026
+Harokopio University of Athens: Computer Vision and Graphics. Case study at
+`/work/computer-vision` and `/el/work/computer-vision`: a compact technical
+case study, 350–550 words in English (at most 600; two to three minutes),
+four sections and one visual, lighter than OpenStack and CUDA. Teaser:
+40–60 words in English, with three measured signals. It opens with "Five
+experiments" ("Πέντε πειράματα"); the case study names the project as an
+individual academic project.
 
-ResNet18 on Oxford-IIIT Pet: 90.32% validation accuracy.
-ViT-B/16 vs VGG16-BN on CIFAR-10: 95.85% vs 93.18%.
-U-Net, Faster R-CNN, PyTorch.
+Its line is: the tasks, the model families, what was measured, and what
+the numbers can and cannot show. It is coursework, not employment, a
+research publication or a production ML system.
+
+Verified in the submitted notebooks (read-only; nothing is copied from
+them). Five exercises in PyTorch and torchvision on Google Colab GPUs; one
+run each; accuracies are on each dataset's test split at the last epoch,
+which is how the notebooks report them. The figures on the page live in
+`vision` in `src/config/work.ts`.
+- CIFAR-100, a CNN trained from scratch (three convolutional layers),
+  ten epochs, three optimiser settings: 30.62%, 41.43% and 42.13% test
+  accuracy; training accuracy about 80% in the two stronger runs.
+- ResNet18 with ImageNet weights on Oxford-IIIT Pet (37 breeds; 3,680
+  training and 3,669 test images), ten epochs per run: feature extraction
+  (frozen backbone, new 37-class layer) 87.24%; fine-tuning every layer at
+  0.0001, continuing from that run, 90.32% (training accuracy 100%);
+  random rotations and horizontal flips, fine-tuned again from the
+  ImageNet weights, 88.28%. The last run started over, so it is not a
+  clean comparison with fine-tuning.
+- ViT-B/16 and VGG16-BN on CIFAR-10, both from ImageNet weights with a new
+  10-class layer, all parameters trained, 224 × 224 inputs, no
+  augmentation, Adam at 0.0001, batches of 64, no fixed seed, an NVIDIA
+  A100. 5 epochs: 95.85% and 92.84%; 10 epochs: 95.63% and 93.26%. Time
+  per epoch, training plus the pass over the 10,000 test images: about
+  376 s and 141 s. Over ten epochs the VGG16-BN test loss rose from 0.216
+  (second epoch) to 0.270; the ViT-B/16 one stayed below 0.20. Two runs of
+  the same VGG16-BN setup stood at 92.84% and 93.35% after five epochs.
+- Derived: a gap of 2.4 to 3.0 percentage points; about 2.7 times the
+  time per epoch.
+- U-Net built from scratch on SBD, 21 classes, 256 × 256, 15 epochs,
+  a fifth of the 8,498 training images held out: 75.79% pixel accuracy.
+  No IoU.
+- Faster R-CNN (ResNet-50 FPN, COCO weights) fine-tuned on the 2,501
+  images of the VOC 2007 train split, new predictor for 20 classes and
+  background. Mean training loss with SGD, 10 epochs: 0.644 to 0.161;
+  AdamW lowest of three optimiser setups at 0.144. No mAP, precision or
+  recall; predictions were checked by eye only.
+
+Voice: first person singular. Say what was trained from scratch, what was
+fine-tuned and from which weights. Name the metric and the split beside
+every number. The CIFAR-10 result holds for that dataset and that setup;
+it does not rank the architectures.
+
+Never claim: that Vision Transformers are better than CNNs, superiority
+of attention, state of the art, robustness, production or real-time use,
+quadratic cost, "excellent" detection, any mAP or IoU figure, a learning
+rate comparison for the U-Net (the notebook's code and notes disagree),
+or 93.18% (an earlier, unsubmitted run). The report's 30.85%, 41.15% and
+41.76% come from other runs than the submitted notebook: not published.
+
+Not published: the dataset images (identifiable people, a brand logo,
+photographs under other licences), the teaching staff, the course code,
+the student number (in the folder name and the file headers), the
+notebooks' file names and paths, and the personal storage link in the
+README.
 
 ### Energy Data Mining
 Team of two · Jan 2026
