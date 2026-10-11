@@ -35,6 +35,14 @@ const locales = [
       caseTitle: "A Private Cloud Inside One Google Cloud VM",
       maxWords: 70,
     },
+    cuda: {
+      title: "GPU matrix multiplication with CUDA",
+      signals: ["NVIDIA T4", "4096 × 4096", "tiling", "register blocking"],
+      result: ["306 ms", "86 ms", "3.6× speedup"],
+      summary: "Runtime reduced from 306 ms to 86 ms, a 3.6× speedup",
+      caseTitle: "From 306 ms to 86 ms",
+      maxWords: 65,
+    },
     figure: "System architecture / simplified",
     organisations: "Organisations on the channel",
     portrait: "Portrait of Konstantinos Papadogiannis",
@@ -134,6 +142,14 @@ const locales = [
       caseTitle: "Ένα ιδιωτικό cloud μέσα σε ένα VM του Google Cloud",
       // Greek takes a few more words for the same sentences.
       maxWords: 80,
+    },
+    cuda: {
+      title: "Πολλαπλασιασμός πινάκων σε GPU με CUDA",
+      signals: ["NVIDIA T4", "4096 × 4096", "tiling", "register blocking"],
+      result: ["306 ms", "86 ms", "επιτάχυνση 3,6×"],
+      summary: "Ο χρόνος εκτέλεσης μειώθηκε από 306 ms σε 86 ms, επιτάχυνση 3,6×",
+      caseTitle: "Από 306 ms σε 86 ms",
+      maxWords: 75,
     },
     figure: "Αρχιτεκτονική συστήματος / απλοποιημένη",
     organisations: "Οργανισμοί στο κανάλι",
@@ -354,6 +370,7 @@ for (const locale of locales) {
         `${locale.prefix}/work/thesis`,
         `${locale.prefix}/work/ergohub`,
         `${locale.prefix}/work/openstack`,
+        `${locale.prefix}/work/cuda`,
       ]) {
         await page.goto(path);
         expect(await page.locator("body").innerText(), path).not.toMatch(/\bKP\b/);
@@ -472,6 +489,40 @@ for (const locale of locales) {
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(
         locale.openstack.caseTitle,
       );
+    });
+
+    // The measured result in one line, the scale and the platform, and what
+    // changed between the kernels said as a sentence, not as a list of terms.
+    test("CUDA: a short entry with its result, linked to its case study", async ({ page }) => {
+      await page.goto(locale.home);
+      const entry = page.locator("#more-work").getByRole("article", { name: locale.cuda.title });
+      await expect(entry).toContainText("2026");
+      const body = entry.locator("h3 + p");
+      for (const item of locale.cuda.signals) await expect(body).toContainText(item);
+      const result = entry.locator("h3 + p + p");
+      await expect(result.locator(".sr-only")).toHaveText(locale.cuda.summary);
+      // What is drawn: the two times, the arrow between them and the ratio.
+      const shown = result.locator('[aria-hidden="true"] span:not(:has(span))');
+      await expect(shown).toHaveText(locale.cuda.result);
+      await expect(entry).not.toContainText(/×\s*(faster|ταχύτερ)/);
+
+      const words = (text: string) => text.match(/[\p{L}\p{N}][\p{L}\p{N}’'-]*/gu)?.length ?? 0;
+      const title = await entry.getByRole("heading", { level: 3 }).innerText();
+      const sentences = (await body.innerText())
+        .split(/[.!?](?:\s|$)/)
+        .filter((part) => part.trim()).length;
+      expect(sentences).toBeGreaterThanOrEqual(2);
+      expect(sentences).toBeLessThanOrEqual(4);
+      const total =
+        words(title) + words(await body.innerText()) + words((await shown.allInnerTexts()).join(" "));
+      expect(total).toBeGreaterThanOrEqual(40);
+      expect(total).toBeLessThanOrEqual(locale.cuda.maxWords);
+
+      const cta = entry.getByRole("link", { name: `${locale.cta}: CUDA`, exact: true });
+      await expect(cta).toHaveAttribute("href", `${locale.prefix}/work/cuda`);
+      await cta.click();
+      await expect(page).toHaveURL(new RegExp(`${locale.prefix}/work/cuda$`));
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(locale.cuda.caseTitle);
     });
 
     test("footer links and back to top", async ({ page }) => {
@@ -726,6 +777,7 @@ for (const locale of locales) {
         `${locale.prefix}/work/thesis`,
         `${locale.prefix}/work/ergohub`,
         `${locale.prefix}/work/openstack`,
+        `${locale.prefix}/work/cuda`,
         `${locale.prefix}/resume`,
       ]) {
         await page.goto(path);
@@ -1072,6 +1124,7 @@ test("keyboard order follows the page and every stop shows a focus ring", async 
     "Read case study",
     "Read case study: ErgoHub",
     "Read case study: OpenStack",
+    "Read case study: CUDA",
     "Work",
     "About",
     "Résumé",

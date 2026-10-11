@@ -188,8 +188,9 @@ column of the row and nothing larger:
   assistive technology ("Read case study: ErgoHub").
 
 45–80 words in English for the title, the description and the signals
-together (45–70 for OpenStack). The case study carries the detail; the teaser only has to say
-what the project is and why it is worth opening. A major project without a
+together (45–70 for OpenStack, 40–65 for CUDA). The case study carries the
+detail; the teaser only has to say what the project is and why it is worth
+opening. A major project without a
 case study keeps title, meta and one or two sentences, as now.
 
 ## Other project facts
@@ -314,9 +315,61 @@ fictional company in the assignment brief, and resource names that contain
 the student number.
 
 ### CUDA
-Individual academic project · Jun 2026
+Individual academic project · June 2026
+Harokopio University of Athens: Modern Parallel Architectures and
+High-Performance Programming. Case study at `/work/cuda` and
+`/el/work/cuda`: a focused technical case study, 500–700 words in English
+(two to four minutes), with one figure. Teaser: 40–65 words in English.
 
-NVIDIA T4, 4096×4096 matrices, 0.306s -> 0.086s, about 3.6× speed-up via tiling/register blocking.
+Its story is one: measure, find where the time goes, change where the
+operands come from, measure again. The headline is the measured pair,
+"From 306 ms to 86 ms".
+
+Verified in the source, the report and the program's output (read-only;
+nothing is copied from them):
+- Single-precision C = A × B for square N × N matrices, N = 128 to 4096,
+  compiled with `nvcc -O2 -arch=sm_75` on Google Colab, NVIDIA Tesla T4
+  (16 GB).
+- Three kernels: `naive_matmul` (16 × 16 threads, one element of C per
+  thread, every operand from global memory); `tiled_matmul` (16 × 16
+  tiles of A and B in shared memory, a barrier between loads);
+  `register_blocked_matmul` (32 × 32 tiles, 64 threads, a 4 × 4 block of
+  C per thread with its sums in registers, an outer product of four values
+  of A and four of B at each step).
+- Timing: `gettimeofday` around one launch and `cudaDeviceSynchronize`;
+  copies from host to GPU excluded; C set to zero before each kernel; the
+  same seeded inputs; one timed launch per kernel and size, in one
+  session.
+- At N = 4096: 0.305967 s, 0.190668 s, 0.086069 s. The page uses these
+  three numbers only (`cuda` in `src/config/work.ts`); everything else on
+  it is arithmetic on them or on the code.
+- Derived: 3.6× from the first kernel to the third (3.5549), 1.6× for
+  tiling (1.6047), 2.2× for the third kernel over the second (2.2153);
+  3.2× to 5.8× across N = 256 to 4096. Global loads per element of C at
+  N = 4096: 8,192, 512, 256 (2N, 2N/16, 2N/32).
+- The naive kernel at N = 128 was the first launch of the session and
+  took 0.159 s, about 300 times its time at N = 256; it is called
+  start-up cost and left out, without a cause.
+- Correctness: the sum of all elements of C, in double precision, was the
+  same for the three kernels at every size. There is no element-by-element
+  check against a CPU result, and the page says so.
+
+Voice: first person singular. A ratio is written as a speedup (`3.6×
+speedup`, `επιτάχυνση 3,6×`), never as `3.6× faster`. A percentage, if
+one is ever used, is a runtime reduction and never stands in for the
+speedup.
+
+Never claim: profiling, bandwidth, occupancy, FLOPS or GFLOP/s, cache hit
+rates, utilisation, repeated runs or averages, the cause of the warm-up
+outlier, why tiling bought 1.6× rather than 16×, a share of the 2.2× for
+register blocking alone (the third kernel also changed tile and block
+size), a speed-up for GPUs or matrix multiplication in general, production
+or industry use, a publication, a new algorithm. The report's remarks on
+occupancy, L2 and latency are textbook, not measured: not published.
+
+Not published: the professor's name, the course code, the student number
+(it is in the folder name and the file headers), the names of the files,
+the notebook and the folder.
 
 ### Computer Vision
 Individual academic project · Feb 2026

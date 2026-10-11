@@ -71,6 +71,8 @@ test("language links point at the canonical URL of the same page", async ({
     ["/el/work/ergohub", "/work/ergohub", "/el/work/ergohub"],
     ["/work/openstack", "/work/openstack", "/el/work/openstack"],
     ["/el/work/openstack", "/work/openstack", "/el/work/openstack"],
+    ["/work/cuda", "/work/cuda", "/el/work/cuda"],
+    ["/el/work/cuda", "/work/cuda", "/el/work/cuda"],
   ];
   for (const [path, en, el] of cases) {
     await page.goto(path);
@@ -140,6 +142,8 @@ test("the case studies are indexable", async ({ page }) => {
     "/el/work/ergohub",
     "/work/openstack",
     "/el/work/openstack",
+    "/work/cuda",
+    "/el/work/cuda",
   ]) {
     await page.goto(path);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
@@ -160,6 +164,8 @@ test("canonical and alternate URLs use the production domain", async ({ page }) 
     "/el/work/ergohub",
     "/work/openstack",
     "/el/work/openstack",
+    "/work/cuda",
+    "/el/work/cuda",
   ]) {
     const response = await page.goto(path);
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
@@ -193,6 +199,8 @@ test("sitemap lists each language version with the canonical URLs", async ({
     "/el/work/ergohub",
     "/work/openstack",
     "/el/work/openstack",
+    "/work/cuda",
+    "/el/work/cuda",
   ]);
   expect(xml).not.toContain("/qa/");
   expect(xml).not.toMatch(/href="[^"]*\/el\/"/);
@@ -203,6 +211,7 @@ test("sitemap lists each language version with the canonical URLs", async ({
     "/el/work/thesis",
     "/el/work/ergohub",
     "/el/work/openstack",
+    "/el/work/cuda",
   ]) {
     await page.goto(path);
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");

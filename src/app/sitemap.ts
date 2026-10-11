@@ -4,7 +4,14 @@ import { getPathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 
 // Public pages only; the QA routes are never listed.
-const pages = ["/", "/resume", "/work/thesis", "/work/ergohub", "/work/openstack"] as const;
+const pages = [
+  "/",
+  "/resume",
+  "/work/thesis",
+  "/work/ergohub",
+  "/work/openstack",
+  "/work/cuda",
+] as const;
 
 // One entry per language version, each listing every alternate, so the URLs
 // match the canonical links in the page metadata exactly (/el, not /el/).

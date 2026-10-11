@@ -154,6 +154,7 @@ for (const locale of locales) {
       `${prefix}/work/thesis`,
       `${prefix}/work/ergohub`,
       `${prefix}/work/openstack`,
+      `${prefix}/work/cuda`,
       `${prefix}/qa/typography`,
     ];
     for (const width of [390, 768, 1440, 1728]) {

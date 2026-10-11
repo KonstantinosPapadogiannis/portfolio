@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Reveal } from "@/components/ui/reveal";
@@ -11,6 +11,7 @@ import { getPathname } from "@/i18n/navigation";
 import { nb } from "@/lib/rich-text";
 import {
   additionalWork,
+  cuda,
   ergohub,
   moreWork,
   openstack,
@@ -136,6 +137,53 @@ function OpenstackSignals() {
   );
 }
 
+// The same for CUDA: the measured result, then the link. Screen readers get
+// the result as one sentence; the figures and the arrow are its visual form.
+// Only the figures are in Plex Mono, which has no Greek. The times and the
+// ratio are worked out from the measured ones, as on the case study.
+function CudaSignals() {
+  const t = useTranslations("projects.cuda");
+  const locale = useLocale();
+  const format = useFormatter();
+  const { naive, registerBlocked } = cuda.seconds;
+  const ms = (seconds: number) =>
+    `${format.number(seconds * 1000, { maximumFractionDigits: 0 })} ms`;
+  const before = ms(naive);
+  const after = ms(registerBlocked);
+  const speedup = t("speedup", {
+    ratio: format.number(naive / registerBlocked, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    }),
+  });
+
+  return (
+    <>
+      <p className="mt-3 text-[13px] leading-5">
+        <span className="sr-only">
+          {t("summary", { before, after, speedup })}
+        </span>
+        <span aria-hidden="true" className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className="flex items-center gap-1.5 text-ink">
+            <span className="font-mono">{before}</span>
+            <ArrowRightIcon size={12} className="text-muted" />
+            <span className="font-mono">{after}</span>
+          </span>
+          <span className="text-muted">{speedup}</span>
+        </span>
+      </p>
+      <TextLink
+        href={getPathname({ href: cuda.href, locale })}
+        internal
+        aria-label={`${t("cta")}: ${t("name")}`}
+        className="mt-5 text-[14px] text-ink hover:text-steel lg:mt-6"
+      >
+        {t("cta")}
+      </TextLink>
+    </>
+  );
+}
+
 // Each project comes in as one block as it scrolls into view, after the
 // section label; the secondary projects come in together after them.
 export function MoreWork() {
@@ -169,33 +217,9 @@ export function MoreWork() {
                   <p className="mt-3 max-w-[370px] text-[14px] leading-[22px] text-muted lg:mt-[18px]">
                     {t.rich(`${project.key}.body`, { nb })}
                   </p>
-                  {project.key === "cuda" && (
-                    <p className="mt-3 text-[13px] leading-5">
-                      {/* Screen readers get the result as one sentence; the
-                          figures and the arrow are its visual form. Only the
-                          figures are in Plex Mono, which has no Greek. */}
-                      <span className="sr-only">
-                        {t("cuda.summary", {
-                          before: t("cuda.before"),
-                          after: t("cuda.after"),
-                          speedup: t("cuda.speedup"),
-                        })}
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        className="flex flex-wrap items-center gap-x-3 gap-y-1"
-                      >
-                        <span className="flex items-center gap-1.5 text-ink">
-                          <span className="font-mono">{t("cuda.before")}</span>
-                          <ArrowRightIcon size={12} className="text-muted" />
-                          <span className="font-mono">{t("cuda.after")}</span>
-                        </span>
-                        <span className="text-muted">{t("cuda.speedup")}</span>
-                      </span>
-                    </p>
-                  )}
                   {project.key === "ergohub" && <ErgohubSignals />}
                   {project.key === "openstack" && <OpenstackSignals />}
+                  {project.key === "cuda" && <CudaSignals />}
                 </article>
               </li>
             ))}

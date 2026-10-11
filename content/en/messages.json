@@ -1021,6 +1021,93 @@
       "back": "Back to the projects"
     }
   },
+  "cudaPage": {
+    "metaTitle": "CUDA: Matrix Multiplication from 306 ms to 86 ms",
+    "title": "From 306 ms to 86 ms",
+    "subtitle": "A CUDA matrix multiplication on an NVIDIA T4, rewritten twice to reuse data from faster memory, and measured after each step",
+    "description": "Individual academic project: a CUDA matrix multiplication on an NVIDIA T4, from a naive kernel to shared-memory tiling and register blocking, measured at each step.",
+    "back": "More work",
+    "contents": "Contents",
+    "kind": "Individual academic project",
+    "periodLabel": "Period",
+    "period": "June 2026",
+    "platformLabel": "Platform",
+    "platform": "NVIDIA Tesla T4 (16 GB) on Google Colab, CUDA C",
+    "contextLabel": "Context",
+    "context": "Harokopio University of Athens: Modern Parallel Architectures and High-Performance Programming",
+    "sections": {
+      "baseline": {
+        "nav": "Baseline",
+        "title": "One thread per element, every operand from global memory"
+      },
+      "bottleneck": {
+        "nav": "Bottleneck",
+        "title": "Two loads from global memory for every multiply-add"
+      },
+      "optimisation": {
+        "nav": "Optimisation",
+        "title": "Reuse in shared memory, then in registers"
+      },
+      "result": {
+        "nav": "Result",
+        "title": "A 3.6× speedup, for these kernels on this GPU"
+      }
+    },
+    "baseline": {
+      "lead": "I implemented C = A × B for square N × N single-precision matrices in CUDA C and timed it from N = 128 to 4096. At N = 4096, each of the 16.8 million elements of C is a sum of 4096 products.",
+      "p2": "The first kernel is the direct translation: one thread per element of C, in blocks of 16 × 16 threads. Each thread walks its row of A and its column of B in global memory, the GPU’s main memory.",
+      "methodLabel": "How each kernel was timed",
+      "method": {
+        "timer": {
+          "label": "Timer",
+          "body": "<code>gettimeofday</code> around one launch and <code>cudaDeviceSynchronize</code>, so copies from host to GPU are excluded"
+        },
+        "inputs": {
+          "label": "Inputs",
+          "body": "the same seeded random matrices for every kernel; C set to zero before each"
+        },
+        "runs": {
+          "label": "Runs",
+          "body": "one Colab session, one timed launch per kernel and size"
+        },
+        "check": {
+          "label": "Check",
+          "body": "the sum of all elements of C, in double precision"
+        }
+      },
+      "warmup": "The session’s first launch, the naive kernel at N = 128, took 0.159 s, about 300 times its time at N = 256, and nothing like it happened again. I counted it as start-up cost and left N = 128 out of the comparisons."
+    },
+    "bottleneck": {
+      "lead": "I did not profile the kernels, so this step is reasoning from the code. The naive kernel loads two values from global memory for every multiply-add: 8,192 loads for each element of C at N = 4096.",
+      "p2": "Most of those loads repeat. The 16 threads in a row of a block read the same row of A, the 16 in a column the same column of B, and each fetches its own copy. What had to change was not the arithmetic but where its operands came from."
+    },
+    "optimisation": {
+      "lead": "Two changes, each measured before the next.",
+      "tiling": "The 256 threads of a block copy a 16 × 16 tile of A and one of B into shared memory, the fast on-chip memory they share, then wait at a barrier. Each thread does 16 multiply-adds from the tiles before the next pair is loaded. Every value fetched now serves 16 threads: 512 global loads per element of C instead of 8,192.",
+      "registers": "Each thread computes a 4 × 4 block of C and keeps its 16 running sums in registers, the fastest storage on the GPU. At each step it reads four values of A and four of B from shared memory and multiplies every pair: 16 multiply-adds for 8 reads, where the tiled kernel did 1 for 2.",
+      "measured": "Measured at N = 4096:",
+      "to": "to",
+      "speedup": "{ratio}× speedup",
+      "caveat": "That kernel also doubled the tiles to 32 × 32 and cut blocks to 64 threads, which halves the global loads again, to 256 per element. The 2.2× belongs to that combination, not to register blocking alone. And 16 times fewer global loads bought 1.6×, not 16×: they were not the whole cost, and without a profiler I cannot say what the rest was."
+    },
+    "result": {
+      "figure": {
+        "caption": "Kernel time at N = 4096 on an NVIDIA T4",
+        "kernels": {
+          "naive": "every operand from global memory",
+          "tiled": "16 × 16 tiles in shared memory",
+          "registerBlocked": "32 × 32 tiles, 4 × 4 elements per thread"
+        },
+        "baseline": "baseline",
+        "speedup": "{ratio}× speedup",
+        "note": "One timed launch per kernel, copies from host to GPU excluded. A shorter bar is faster."
+      },
+      "p1": "That ratio holds for this size on this T4: across N = 256 to 4096, the speedup of the third kernel over the first ranged from 3.2× to 5.8×.",
+      "correctness": "All three kernels returned the same checksum at every size. That shows they agree with each other; it is not an element-by-element check against a reference result.",
+      "lesson": "The lesson: work out where every operand comes from before changing code, and measure after each change. Next time I would change one thing at a time, so register blocking gets a number of its own, repeat every timing after a warm-up, and profile, so the reasoning about memory becomes a measurement.",
+      "back": "Back to projects"
+    }
+  },
   "gallery": {
     "carousel": "carousel",
     "slide": "slide",
@@ -1155,11 +1242,10 @@
       "name": "CUDA",
       "kind": "Individual academic project",
       "title": "GPU matrix multiplication<br></br>with CUDA",
-      "body": "<nb>4096 × 4096</nb> matrices on an <nb>NVIDIA T4</nb>, optimised with tiling and register blocking.",
-      "summary": "Runtime reduced from {before} to {after}, {speedup}",
-      "before": "0.306 s",
-      "after": "0.086 s",
-      "speedup": "about 3.6× faster"
+      "body": "Three CUDA kernels for <nb>4096 × 4096</nb> matrices on an <nb>NVIDIA T4</nb>. The first reads both operands of every multiply-add from global memory. The next two keep reused values in faster memory, through shared-memory tiling and then register blocking. All three give the same checksum.",
+      "summary": "Runtime reduced from {before} to {after}, a {speedup}",
+      "speedup": "{ratio}× speedup",
+      "cta": "Read case study"
     },
     "vision": {
       "name": "Computer vision",

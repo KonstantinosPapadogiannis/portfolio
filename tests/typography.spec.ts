@@ -95,6 +95,8 @@ for (const path of [
   "/el/work/ergohub",
   "/work/openstack",
   "/el/work/openstack",
+  "/work/cuda",
+  "/el/work/cuda",
 ]) {
   test(`every text run on ${path} is drawn by its language's web font`, async ({
     page,

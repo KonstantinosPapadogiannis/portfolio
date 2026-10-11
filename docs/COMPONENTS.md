@@ -201,14 +201,15 @@ Requirements:
     Technologies: a few blocks each, the section label first (then, for
     example, the thesis meta, title, text and figure; the About text and
     the portrait; each group of courses; each project);
-  - the ErgoHub and OpenStack case studies: each section as one block,
-    nothing inside it (the OpenStack diagram comes in with its section).
+  - the ErgoHub, OpenStack and CUDA case studies: each section as one
+    block, nothing inside it (the OpenStack diagram and the CUDA benchmark
+    figure come in with their sections; no number counts up).
   The header and the footer never move. A block is put around a link or a
   button, never on the control itself, so its hover and focus transitions
   are left alone.
 - Entrance on load (`[data-enter]`, `globals.css`): the hero of the
-  homepage and of the ErgoHub and OpenStack case studies come in once as the page is
-  painted, in up to three steps 80ms apart (opacity and translateY 10px,
+  homepage and of the ErgoHub, OpenStack and CUDA case studies come in
+  once as the page is painted, in up to three steps 80ms apart (opacity and translateY 10px,
   500ms). CSS only: no script, nothing waits for hydration, and under
   reduced motion it is over at once.
 - Academic highlights (`src/components/home/academic-highlights.tsx`): a
@@ -253,3 +254,15 @@ Requirements:
   named by its caption and described by the paths; one column inside its
   container below 36rem, the host's additions beside each interface from
   44rem. No addresses on it.
+- CUDA case study (`src/components/cuda/`): a focused technical case study,
+  laid out as the OpenStack one, with four sections in the order of
+  `outline.ts`. The three measured times live in `cuda` in
+  `src/config/work.ts`; every other number on the page is computed from
+  them and formatted for the reader's language. Under each change, the
+  times before and after sit on a line of their own, apart from the
+  explanation. One figure (`benchmark-figure.tsx`): an ordered list of the
+  three kernels, each with its name, time, a one-line note and its ratio to
+  the first kernel written out, and a bar on one scale (the first kernel's
+  time is the full width). The bars are hidden from assistive technology;
+  the text carries every value, so the figure reads without colour. Named
+  by its caption and described by its note.

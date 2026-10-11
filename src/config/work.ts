@@ -7,7 +7,7 @@ export type ProjectEntry = {
   number: string;
   year: string;
   // The project's own case study, for the projects that have one.
-  href?: "/work/ergohub" | "/work/openstack";
+  href?: "/work/ergohub" | "/work/openstack" | "/work/cuda";
 };
 
 // ErgoHub, shared by its homepage entry and its case study. From the
@@ -51,11 +51,28 @@ export const openstack = {
   year: "2026",
 } as const;
 
+// CUDA, shared by its homepage entry and its case study. From the project's
+// source, report and program output: an individual assignment of June 2026,
+// run on an NVIDIA Tesla T4 in Google Colab. The kernel times at N = 4096,
+// in seconds, as the program printed them: one timed launch of each kernel,
+// copies from host to GPU excluded. Every figure on the page is derived from
+// these three.
+export const cuda = {
+  href: "/work/cuda",
+  year: "2026",
+  size: 4096,
+  seconds: {
+    naive: 0.305967,
+    tiled: 0.190668,
+    registerBlocked: 0.086069,
+  },
+} as const;
+
 // Primary projects, after the thesis.
 export const moreWork = [
   { key: "ergohub", number: "02", year: ergohub.year, href: ergohub.href },
   { key: "openstack", number: "03", year: openstack.year, href: openstack.href },
-  { key: "cuda", number: "04", year: "2026" },
+  { key: "cuda", number: "04", year: cuda.year, href: cuda.href },
 ] as const satisfies readonly ProjectEntry[];
 
 // Secondary projects, shown more quietly.
