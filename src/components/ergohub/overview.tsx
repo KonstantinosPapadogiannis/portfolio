@@ -1,9 +1,11 @@
 import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Eyebrow, eyebrowClass } from "@/components/ui/eyebrow";
+import { TextLink } from "@/components/ui/text-link";
 import { prose, statement } from "@/components/thesis/case-section";
 import { ErgoSection } from "@/components/ergohub/case-section";
 import { PathsFigure } from "@/components/ergohub/paths-figure";
+import { collaboratorConfig } from "@/config/site";
 import { ergohub } from "@/config/work";
 
 function GlanceRow({ label, children }: { label: string; children: ReactNode }) {
@@ -26,7 +28,15 @@ export function Overview() {
         <div className={`${prose} space-y-5`}>
           <p>{t("p1")}</p>
           <p>{t("p2")}</p>
-          <p>{t("attribution")}</p>
+          <p>
+            {t.rich("attribution", {
+              anastasia: (chunks) => (
+                <TextLink href={collaboratorConfig.anastasiaZerva.linkedin} arrow="none">
+                  {chunks}
+                </TextLink>
+              ),
+            })}
+          </p>
           <p className="text-ink">{t("disclaimer")}</p>
         </div>
 

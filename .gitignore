@@ -65,4 +65,5 @@ AGENTS.md
 /qa/screenshots/
 /scratch/
 /tmp/
+/output/linkedin-banner/
 *.log

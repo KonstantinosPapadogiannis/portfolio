@@ -21,3 +21,9 @@ export const siteConfig = {
 } as const;
 
 export type SiteConfig = typeof siteConfig;
+
+export const collaboratorConfig = {
+  anastasiaZerva: {
+    linkedin: "https://www.linkedin.com/in/anastasia-zervas/",
+  },
+} as const;

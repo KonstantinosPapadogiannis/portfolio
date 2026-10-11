@@ -138,9 +138,9 @@ test("resume page describes the PDF and has its own Open Graph URL", async ({ pa
 });
 
 test("homepage describes its subject as a Person, with no job title", async ({ page }) => {
-  for (const [path, name, university] of [
-    ["/", "Konstantinos Papadogiannis", "Harokopio University of Athens"],
-    ["/el", "Κωνσταντίνος Παπαδογιάννης", "Χαροκόπειο Πανεπιστήμιο"],
+  for (const [path, name, city, university] of [
+    ["/", "Konstantinos Papadogiannis", "Athens", "Harokopio University of Athens"],
+    ["/el", "Κωνσταντίνος Παπαδογιάννης", "Αθήνα", "Χαροκόπειο Πανεπιστήμιο"],
   ] as const) {
     await page.goto(path);
     const scripts = page.locator('script[type="application/ld+json"]');
@@ -149,6 +149,11 @@ test("homepage describes its subject as a Person, with no job title", async ({ p
     expect(person["@type"]).toBe("Person");
     expect(person.name).toBe(name);
     expect(person.url).toBe(siteOrigin);
+    expect(person.address).toEqual({
+      "@type": "PostalAddress",
+      addressLocality: city,
+      addressCountry: "GR",
+    });
     expect(person.alumniOf.name).toBe(university);
     expect(person.sameAs).toEqual([
       "https://github.com/KonstantinosPapadogiannis",

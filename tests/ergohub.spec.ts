@@ -1,5 +1,7 @@
 import { test, expect, html, siteOrigin } from "./fixtures";
 
+const anastasiaLinkedin = "https://www.linkedin.com/in/anastasia-zervas/";
+
 const sections = [
   "overview",
   "application",
@@ -166,6 +168,14 @@ for (const locale of locales) {
       const facts = head.locator("dl");
       await expect(facts).toContainText(locale.period);
       await expect(facts).toContainText(locale.team);
+    });
+
+    test("the existing team attribution links only Anastasia Zerva's name", async ({ page }) => {
+      await page.goto(locale.path);
+      const name = locale.lang === "en" ? "Anastasia Zerva" : "Αναστασία Ζέρβα";
+      const link = page.locator("section#overview").getByRole("link", { name, exact: true });
+      await expect(link).toHaveAttribute("href", anastasiaLinkedin);
+      await expect(link).toHaveText(name);
     });
 
     test("both links back go to the other projects", async ({ page }) => {

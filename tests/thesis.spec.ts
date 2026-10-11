@@ -1,5 +1,7 @@
 import { test, expect, html, languageGroup, toggleTheme, siteOrigin } from "./fixtures";
 
+const anastasiaLinkedin = "https://www.linkedin.com/in/anastasia-zervas/";
+
 const sections = [
   "overview",
   "challenge",
@@ -184,6 +186,10 @@ for (const locale of locales) {
       const overview = page.locator("section#overview");
       await expect(overview).toContainText(locale.disclaimer);
       await expect(overview).toContainText(locale.attribution);
+      const name = locale.lang === "en" ? "Anastasia Zerva" : "Αναστασία Ζέρβα";
+      const link = overview.getByRole("link", { name, exact: true });
+      await expect(link).toHaveAttribute("href", anastasiaLinkedin);
+      await expect(link).toHaveText(name);
     });
 
     test("seven actors and nine signing steps", async ({ page }) => {

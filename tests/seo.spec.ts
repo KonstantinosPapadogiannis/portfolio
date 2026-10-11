@@ -10,20 +10,9 @@ const messages = {
 const localeOf = (path: string) => (path === "/el" || path.startsWith("/el/") ? "el" : "en");
 
 test.describe("deployment configuration", () => {
-  test("the canonical origin is the Vercel address until a domain is set", () => {
-    expect(defaultSiteUrl).toBe("https://kpapadogiannis.vercel.app");
-    expect(resolveSiteUrl({})).toBe(defaultSiteUrl);
-    // Vercel names the production domain without a scheme.
-    expect(resolveSiteUrl({ VERCEL_PROJECT_PRODUCTION_URL: "kpapadogiannis.dev" })).toBe(
-      "https://kpapadogiannis.dev",
-    );
-    // An origin set by hand wins, and only the origin is kept.
-    expect(
-      resolveSiteUrl({
-        SITE_URL: "https://example.org/some/path",
-        VERCEL_PROJECT_PRODUCTION_URL: "kpapadogiannis.vercel.app",
-      }),
-    ).toBe("https://example.org");
+  test("the canonical origin is pinned to the public domain", () => {
+    expect(defaultSiteUrl).toBe("https://kpapadogiannis.dev");
+    expect(resolveSiteUrl()).toBe(defaultSiteUrl);
   });
 
   test("only production may be indexed", () => {
@@ -33,16 +22,32 @@ test.describe("deployment configuration", () => {
     expect(isIndexable({ VERCEL_ENV: "development" })).toBe(false);
   });
 
-  test("no page points at the custom domain before it is set", async ({ request }) => {
-    test.skip(
-      siteOrigin !== defaultSiteUrl,
-      "the build under test was given another origin",
-    );
+  test("every public resource uses the canonical public domain", async ({ request }) => {
     for (const path of [...publicPages, "/robots.txt", "/sitemap.xml"]) {
       const body = await (await request.get(path)).text();
-      expect(body, path).not.toMatch(/\bkpapadogiannis\.dev\b/);
+      expect(body, path).toContain("kpapadogiannis.dev");
+      expect(body, path).not.toMatch(/kpapadogiannis\.vercel\.app/);
     }
   });
+});
+
+test("every public page names the human author, creator and publisher", async ({ page }) => {
+  for (const path of publicPages) {
+    await page.goto(path);
+    await expect(page.locator('meta[name="author"]')).toHaveAttribute(
+      "content",
+      "Konstantinos Papadogiannis",
+    );
+    await expect(page.locator('meta[name="creator"]')).toHaveAttribute(
+      "content",
+      "Konstantinos Papadogiannis",
+    );
+    await expect(page.locator('meta[name="publisher"]')).toHaveAttribute(
+      "content",
+      "Konstantinos Papadogiannis",
+    );
+    await expect(page.locator('link[rel="author"]')).toHaveAttribute("href", defaultSiteUrl);
+  }
 });
 
 test("every page has its own title and a description of 140–160 characters", async ({

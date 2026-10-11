@@ -1,6 +1,9 @@
+import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Eyebrow, eyebrowClass } from "@/components/ui/eyebrow";
+import { TextLink } from "@/components/ui/text-link";
 import { CaseSection, prose, statement } from "@/components/thesis/case-section";
+import { collaboratorConfig } from "@/config/site";
 
 // Names of tools, the same in both languages.
 const technologies = [
@@ -18,7 +21,7 @@ const technologies = [
   "Vitest",
 ];
 
-function GlanceRow({ label, children }: { label: string; children: React.ReactNode }) {
+function GlanceRow({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="border-t border-border py-3">
       <dt className={`${eyebrowClass} text-muted`}>{label}</dt>
@@ -42,7 +45,15 @@ export function Overview() {
         <div className={`${prose} space-y-5`}>
           <p>{t("p1")}</p>
           <p className="text-ink">{t("disclaimer")}</p>
-          <p>{t("attribution")}</p>
+          <p>
+            {t.rich("attribution", {
+              anastasia: (chunks) => (
+                <TextLink href={collaboratorConfig.anastasiaZerva.linkedin} arrow="none">
+                  {chunks}
+                </TextLink>
+              ),
+            })}
+          </p>
         </div>
 
         <div>

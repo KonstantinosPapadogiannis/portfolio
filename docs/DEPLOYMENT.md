@@ -1,9 +1,9 @@
 # Deployment
 
-The site is meant for Vercel, at `https://kpapadogiannis.vercel.app` first and
-at `https://kpapadogiannis.dev` once that domain is registered and pointed at
-the project. Nothing has been deployed from this repository yet. Neither the
-domain nor its DNS records exist yet.
+The site is meant for Vercel. Its canonical public identity is permanently
+`https://kpapadogiannis.dev`; a temporary `vercel.app` deployment may be used
+for previewing, but it is never the canonical origin. Nothing has been
+deployed or configured from this repository yet.
 
 ## What the build needs
 
@@ -29,19 +29,10 @@ that the tests use.
 
 ## The canonical address
 
-`src/config/deployment.ts` decides the origin used in canonical links,
-hreflang alternates, Open Graph URLs, the sitemap, `robots.txt` and the
-structured data. It takes the first of:
-
-1. `SITE_URL`, if set (only its origin is kept);
-2. `VERCEL_PROJECT_PRODUCTION_URL`, which Vercel sets in every deployment to
-   the project's production domain: `kpapadogiannis.vercel.app` now, the
-   shortest custom domain once one is added;
-3. `https://kpapadogiannis.vercel.app`, for builds outside Vercel.
-
-Until the custom domain is live, nothing on the site points at
-`kpapadogiannis.dev`, and no redirect to it exists. `tests/seo.spec.ts`
-checks both.
+`src/config/deployment.ts` pins `https://kpapadogiannis.dev` as the origin used
+in canonical links, hreflang alternates, Open Graph URLs, the sitemap,
+`robots.txt` and structured data. Environment-provided Vercel or preview
+addresses cannot replace that identity. `tests/seo.spec.ts` checks it.
 
 ## Preview deployments
 
@@ -66,19 +57,18 @@ site.
 4. Open `https://kpapadogiannis.vercel.app` and check:
    - `/`, `/el`, `/resume` and the six case studies load, in both themes;
    - `/downloads/konstantinos-papadogiannis-cv.pdf` opens the one-page CV;
-   - `view-source:` shows `https://kpapadogiannis.vercel.app` in the
+   - `view-source:` shows `https://kpapadogiannis.dev` in the
      canonical link and `og:image`;
    - `curl -sI https://kpapadogiannis.vercel.app/` shows the headers in
      `docs/SECURITY.md` and no `X-Robots-Tag`;
    - `curl -sI` on a preview deployment's address shows
      `X-Robots-Tag: noindex, nofollow`.
-5. Optionally, add the address to Google Search Console and submit
-   `/sitemap.xml`.
+5. Do not submit the temporary Vercel address to search engines.
 
-## Moving to kpapadogiannis.dev (manual, later)
+## Activating kpapadogiannis.dev (manual, later)
 
-The site moves to the new domain without a code change; only the last step
-edits the code, for builds made outside Vercel. In order:
+The metadata already uses the canonical domain, so activation needs no code
+change. In order:
 
 1. Register `kpapadogiannis.dev`. `.dev` domains are served over HTTPS only;
    Vercel issues the certificate.
@@ -87,17 +77,13 @@ edits the code, for builds made outside Vercel. In order:
 3. At the registrar, create the DNS records Vercel shows for the domain.
    Copy them from Vercel rather than from this file: they can change.
 4. Wait until Vercel shows the domain as valid and its certificate as issued.
-5. Redeploy production. `VERCEL_PROJECT_PRODUCTION_URL` is now the custom
-   domain, so canonical links, the sitemap, `robots.txt`, the share cards
-   and the structured data use it.
+5. Redeploy production and verify canonical links, the sitemap, `robots.txt`,
+   share cards and structured data still use the pinned public domain.
 6. Only then, under Domains, make `kpapadogiannis.vercel.app` redirect (308)
    to `kpapadogiannis.dev`.
 7. Check with `curl -sI` that `https://kpapadogiannis.dev/` answers 200 with
    the security headers, and that a page's canonical link is on the new
    domain. In Search Console, add the new domain.
-8. Update `defaultSiteUrl` in `src/config/deployment.ts` and the test in
-   `tests/seo.spec.ts` that expects the Vercel address, so builds outside
-   Vercel use the new domain too.
 
 ## Files that are generated and committed
 

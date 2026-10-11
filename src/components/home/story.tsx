@@ -2,7 +2,9 @@ import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
+import { TextLink } from "@/components/ui/text-link";
 import { SectionLabel } from "@/components/home/section-label";
+import { collaboratorConfig } from "@/config/site";
 
 const paragraph = "mt-4 first:mt-0 md:mt-5";
 
@@ -58,7 +60,16 @@ export function Story() {
               </p>
               <p data-reveal>{t("depth.p3")}</p>
               <p data-reveal className={paragraph}>
-                {t("depth.p4")}
+                {t.rich("depth.p4", {
+                  anastasia: (chunks) => (
+                    <TextLink
+                      href={collaboratorConfig.anastasiaZerva.linkedin}
+                      arrow="none"
+                    >
+                      {chunks}
+                    </TextLink>
+                  ),
+                })}
               </p>
             </Chapter>
 

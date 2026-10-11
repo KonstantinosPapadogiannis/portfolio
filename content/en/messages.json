@@ -20,8 +20,8 @@
     "toggle": "Dark theme"
   },
   "home": {
-    "title": "Backend, distributed systems and cloud",
-    "description": "Recent Informatics & Telematics graduate in Athens, focused on backend engineering, distributed systems and cloud. Academic work and the decisions behind it."
+    "title": "Software Engineering & Systems",
+    "description": "Portfolio of Konstantinos Papadogiannis, Informatics & Telematics graduate in Athens, Greece, spanning software engineering, distributed systems, cloud and AI."
   },
   "hero": {
     "name": "Konstantinos Papadogiannis",
@@ -167,7 +167,7 @@
       "statement": "Can the decision behind a subsidy become independently verifiable, without giving one organisation complete control of the workflow or custody of the citizen’s signing key?",
       "p1": "For my B.Sc. thesis I designed and built the application layer of a research platform for agricultural subsidies on Hyperledger Fabric. Seven participants share one workflow. Policy rules run as deterministic smart contracts, sensitive records reach only the organisations that need them, and farmers sign their own transactions from a browser wallet.",
       "disclaimer": "It is a fully implemented research prototype. It is not an official OPEKEPE service, not an official implementation of the EU Common Agricultural Policy and not a production government service: the institutional registries are simulated, and no real funds move.",
-      "attribution": "The thesis was written in two parts. I built the application layer described on this page; Anastasia Zerva led the Hyperledger Fabric infrastructure, its orchestration and the network evaluation.",
+      "attribution": "The thesis was written in two parts. I built the application layer described on this page; <anastasia>Anastasia Zerva</anastasia> led the Hyperledger Fabric infrastructure, its orchestration and the network evaluation.",
       "glance": {
         "label": "At a glance",
         "type": "Type",
@@ -670,7 +670,7 @@
       "statement": "Building the application was only half the problem. The other half was the path from a commit to a running cluster, and making that path repeatable.",
       "p1": "ErgoHub is a freelance marketplace with three roles. Clients post projects, and an administrator approves or denies each one before freelancers can see it. Freelancers apply, with a CV if they choose, and the client accepts one application, which starts the work.",
       "p2": "It began as the project for the Distributed Systems course at Harokopio University of Athens. In DevOps Concepts & Tools we took it the rest of the way: container images, Jenkins pipelines, Ansible playbooks and a deployment on Azure Kubernetes Service.",
-      "attribution": "We were a team of two, Anastasia Zerva and I, and we both worked across the API, the front end and the delivery. So this page says “we”; the reflection at the end is mine.",
+      "attribution": "We were a team of two, <anastasia>Anastasia Zerva</anastasia> and I, and we both worked across the API, the front end and the delivery. So this page says “we”; the reflection at the end is mine.",
       "disclaimer": "It was an academic project, deployed and presented for the course rather than run as a service, so there are no users, traffic or uptime figures to report.",
       "glance": {
         "label": "At a glance",
@@ -1273,7 +1273,7 @@
       "p2": "Two courses, DevOps and Computer Architecture, deepened that curiosity from opposite ends. DevOps showed me how source code becomes a system that is built, deployed, automated and operated. Computer Architecture went below the abstractions software relies on, closer to what the hardware itself is doing.",
       "pull": "I want to understand before I implement.",
       "p3": "I’m analytical and persistent, and I enjoy working as part of a team. When something doesn’t make sense to me yet, I find it hard to leave it unexamined. Knowing that something works is not enough: I want to know why it works, what it assumes, where its limits are and how it fits into the wider system.",
-      "p4": "Not everything I value from university shows up in a transcript. Anastasia Zerva and I have worked together since our first year, across assignments and projects. Over time, that grew into a long-term, research-oriented collaboration built on trust, complementary ways of thinking and a shared ambition to keep exploring difficult problems together."
+      "p4": "Not everything I value from university shows up in a transcript. <anastasia>Anastasia Zerva</anastasia> and I have worked together since our first year, across assignments and projects. Over time, that grew into a long-term, research-oriented collaboration built on trust, complementary ways of thinking and a shared ambition to keep exploring difficult problems together."
     },
     "direction": {
       "title": "Direction",

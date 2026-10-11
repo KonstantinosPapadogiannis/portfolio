@@ -29,6 +29,9 @@ export async function generateMetadata({
   return {
     metadataBase: new URL(siteConfig.url),
     applicationName: name,
+    authors: [{ name: siteConfig.name, url: siteConfig.url }],
+    creator: siteConfig.name,
+    publisher: siteConfig.name,
     title: {
       default: name,
       template: `%s — ${name}`,

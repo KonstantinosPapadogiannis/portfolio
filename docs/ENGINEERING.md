@@ -74,11 +74,11 @@ Keep:
 
 in one central config.
 
-Initial:
-`https://kpapadogiannis.vercel.app`
-
-Future:
+Canonical:
 `https://kpapadogiannis.dev`
+
+A temporary `vercel.app` preview address must not replace the canonical
+identity in metadata.
 
 No DNS/domain changes now.
 

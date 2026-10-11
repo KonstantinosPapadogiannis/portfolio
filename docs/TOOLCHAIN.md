@@ -89,5 +89,6 @@ than starting its own. Never deploy a build made with `ENABLE_QA_ROUTES`.
 
 ## Deployment
 
-Vercel, at `https://kpapadogiannis.vercel.app` for now. Metadata uses that
-production origin until a custom domain is configured; see `docs/DEPLOYMENT.md`.
+Vercel, with `https://kpapadogiannis.dev` pinned as the canonical origin.
+Temporary preview addresses remain noindex and do not replace that identity;
+see `docs/DEPLOYMENT.md`.

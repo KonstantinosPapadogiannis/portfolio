@@ -6,6 +6,7 @@ const site = {
   pdf: "/downloads/konstantinos-papadogiannis-cv.pdf",
   github: "https://github.com/KonstantinosPapadogiannis",
   linkedin: "https://www.linkedin.com/in/konstantinos-papadogiannis/",
+  anastasiaLinkedin: "https://www.linkedin.com/in/anastasia-zervas/",
   // The public record, never the my-orcid?orcid= address.
   orcid: "https://orcid.org/0009-0008-9445-2484",
   email: "konstantinospapadogiannis.dev@gmail.com",
@@ -899,6 +900,11 @@ for (const locale of locales) {
 
       const text = plain(await section.innerText());
       for (const term of locale.story.terms) expect(text).toContain(term);
+      const collaborator = locale.story.terms.at(-1)!;
+      await expect(section.getByRole("link", { name: collaborator, exact: true })).toHaveAttribute(
+        "href",
+        site.anastasiaLinkedin,
+      );
       expect(text).toContain(locale.story.research);
       expect(fold(text)).not.toMatch(institutionalClaims);
       expect(fold(text)).not.toMatch(storyCliches);
@@ -1284,6 +1290,7 @@ test("keyboard order follows the page and every stop shows a focus ring", async 
     "GitHub",
     "LinkedIn",
     "Read case study",
+    "Anastasia Zerva",
     "Read case study: ErgoHub",
     "Read case study: OpenStack",
     "Read case study: CUDA",
