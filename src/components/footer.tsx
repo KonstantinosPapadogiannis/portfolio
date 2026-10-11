@@ -154,20 +154,7 @@ export async function Footer() {
         </div>
 
         <div className="mt-7 flex flex-col gap-y-1 border-t border-footer-rule pt-4 font-label text-[0.625rem] leading-4 text-footer-muted md:mt-10 md:flex-row md:items-center md:justify-between md:gap-x-8 md:pt-3 lg:mt-12 lg:pt-4">
-          {/* Three separate facts, so a list: each is read on its own,
-              without punctuation added for screen readers. On phones they
-              wrap as whole phrases; the dot, which is not read, only appears
-              once they share a line. */}
-          <ul className="flex flex-wrap gap-x-5 gap-y-1.5 md:gap-x-1.5">
-            <li className="md:mr-12">© {year}</li>
-            <li>{t("builtWith")}</li>
-            <li>
-              <span aria-hidden="true" className="pr-1.5 max-md:hidden">
-                ·
-              </span>
-              {t("deployedOn")}
-            </li>
-          </ul>
+          <p>© {year}</p>
           <div className="flex items-center justify-between gap-x-8 md:justify-end">
             <LanguageSwitcher tone="footer" showIcon={false} />
             <a
