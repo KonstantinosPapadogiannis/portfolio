@@ -68,7 +68,7 @@ const locales = [
     },
     figure: "System architecture / simplified",
     organisations: "Organisations on the channel",
-    portrait: "Portrait of Konstantinos Papadogiannis",
+    portrait: "Konstantinos Papadogiannis",
     backToTop: "Back to top",
     elsewhere: "Elsewhere",
     orcid: "ORCID profile — 0009-0008-9445-2484",
@@ -198,7 +198,7 @@ const locales = [
     },
     figure: "Αρχιτεκτονική συστήματος / απλοποιημένη",
     organisations: "Οργανισμοί στο κανάλι",
-    portrait: "Πορτρέτο του Κωνσταντίνου Παπαδογιάννη",
+    portrait: "Κωνσταντίνος Παπαδογιάννης",
     backToTop: "Επιστροφή στην αρχή",
     elsewhere: "Σύνδεσμοι",
     orcid: "Προφίλ ORCID — 0009-0008-9445-2484",
@@ -440,7 +440,7 @@ for (const locale of locales) {
 
     test("the portrait loads at 4:5", async ({ page }) => {
       await page.goto(locale.home);
-      const portrait = page.getByRole("img", { name: locale.portrait });
+      const portrait = page.getByRole("img", { name: locale.portrait, exact: true });
       await portrait.scrollIntoViewIfNeeded();
       await expect
         .poll(() => portrait.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth))

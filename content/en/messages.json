@@ -1248,7 +1248,7 @@
     "p1": "I recently completed a B.Sc. in Informatics and Telematics at Harokopio University of Athens. Over the degree, my work moved steadily toward the server side and the infrastructure underneath it.",
     "p2": "What interests me most is how components communicate, where data and trust boundaries should live, and how software can be deployed, tested and operated reliably. My bachelor’s thesis gave me the opportunity to explore those questions across Go services, Hyperledger Fabric and browser-side cryptography.",
     "p3": "I’m now looking for graduate and junior engineering roles where I can keep building on that foundation in production systems.",
-    "portraitAlt": "Portrait of Konstantinos Papadogiannis",
+    "portraitAlt": "Konstantinos Papadogiannis",
     "portraitCaption": "Athens, Greece · B.Sc. Informatics & Telematics · 2026",
     "education": {
       "label": "Education",

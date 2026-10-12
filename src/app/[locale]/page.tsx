@@ -9,9 +9,9 @@ import { Story } from "@/components/home/story";
 import { AcademicHighlights } from "@/components/home/academic-highlights";
 import { Interests } from "@/components/home/interests";
 import { MoreWork, Technologies } from "@/components/home/more-work";
-import { siteConfig } from "@/config/site";
-import { routing } from "@/i18n/routing";
+import { routing, type AppLocale } from "@/i18n/routing";
 import { pageMetadata } from "@/lib/metadata";
+import { homepageGraph } from "@/lib/structured-data";
 
 export const instant = false;
 
@@ -46,26 +46,10 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const tSite = await getTranslations({ locale, namespace: "site" });
-  const tEducation = await getTranslations({ locale, namespace: "about.education" });
-
-  // Who the site is about, as shown on the page: no job title or employer.
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: tSite("name"),
-    url: siteConfig.url,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: locale === "el" ? "Αθήνα" : "Athens",
-      addressCountry: "GR",
-    },
-    alumniOf: {
-      "@type": "CollegeOrUniversity",
-      name: tEducation("university"),
-    },
-    sameAs: [siteConfig.github, siteConfig.linkedin, siteConfig.orcid],
-  };
+  // The same structured data on both homepages (lib/structured-data.ts).
+  const university = async (target: AppLocale) =>
+    (await getTranslations({ locale: target, namespace: "about.education" }))("university");
+  const jsonLd = homepageGraph({ en: await university("en"), el: await university("el") });
 
   return (
     <>

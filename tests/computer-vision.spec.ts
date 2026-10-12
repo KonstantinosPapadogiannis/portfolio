@@ -146,7 +146,12 @@ for (const locale of locales) {
         name: locale.metaTitle,
         url: `${siteOrigin}${locale.path}`,
         inLanguage: locale.lang,
-        author: { "@type": "Person", name: locale.author },
+        author: {
+          "@type": "Person",
+          "@id": `${siteOrigin}/#person`,
+          name: "Konstantinos Papadogiannis",
+          url: `${siteOrigin}/`,
+        },
       });
 
       const duplicates = await page.evaluate(() => {

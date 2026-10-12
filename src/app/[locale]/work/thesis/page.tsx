@@ -3,6 +3,7 @@ import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPathname } from "@/i18n/navigation";
 import { pageMetadata } from "@/lib/metadata";
+import { anastasiaZerva, personReference } from "@/lib/structured-data";
 import { routing } from "@/i18n/routing";
 import { Container } from "@/components/ui/container";
 import { Rule } from "@/components/ui/rule";
@@ -58,7 +59,6 @@ export default async function ThesisPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "thesisPage" });
-  const tSite = await getTranslations({ locale, namespace: "site" });
 
   // The case study as a piece of writing by its author. No publisher or
   // publication date: the thesis itself is not published here.
@@ -70,11 +70,8 @@ export default async function ThesisPage({
     description: t("description"),
     url: `${siteConfig.url}${getPathname({ href, locale })}`,
     inLanguage: locale,
-    author: {
-      "@type": "Person",
-      name: tSite("name"),
-      url: siteConfig.url,
-    },
+    author: personReference,
+    contributor: anastasiaZerva,
   };
 
   return (

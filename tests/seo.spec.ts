@@ -50,6 +50,83 @@ test("every public page names the human author, creator and publisher", async ({
   }
 });
 
+test.describe("one identity across the site", () => {
+  const personId = `${siteOrigin}/#person`;
+
+  // Every node in a page's structured data, nested ones included.
+  const nodesOf = (value: unknown): Record<string, unknown>[] => {
+    if (Array.isArray(value)) return value.flatMap(nodesOf);
+    if (value === null || typeof value !== "object") return [];
+    const node = value as Record<string, unknown>;
+    return [node, ...Object.values(node).flatMap(nodesOf)];
+  };
+
+  test("every Person naming Konstantinos is the homepage's person", async ({ page }) => {
+    let described = 0;
+    for (const path of publicPages) {
+      await page.goto(path);
+      const data = await page
+        .locator('script[type="application/ld+json"]')
+        .evaluateAll((scripts) => scripts.map((script) => JSON.parse(script.textContent ?? "")));
+      const people = nodesOf(data).filter((node) => node["@type"] === "Person");
+      for (const person of people) {
+        if (person.name === "Anastasia Zerva") {
+          expect(person, path).not.toHaveProperty("@id");
+          continue;
+        }
+        expect(person["@id"], path).toBe(personId);
+        expect(person.name, path).toBe("Konstantinos Papadogiannis");
+        if ("sameAs" in person) described += 1;
+      }
+    }
+    // Described in full once per homepage, referred to everywhere else.
+    expect(described).toBe(2);
+  });
+
+  test("no page points search engines at a private, local or preview address", async ({
+    page,
+  }) => {
+    for (const path of publicPages) {
+      await page.goto(path);
+      const head = await page.evaluate(() =>
+        [
+          ...[...document.querySelectorAll("head meta[content], head link[href]")].map(
+            (el) => el.getAttribute("content") ?? el.getAttribute("href"),
+          ),
+          ...[...document.querySelectorAll('script[type="application/ld+json"]')].map(
+            (script) => script.textContent,
+          ),
+        ].join("\n"),
+      );
+      expect(head, path).not.toMatch(/localhost|127\.0\.0\.1|vercel\.app|hua\.gr|it\d{5,}/i);
+      for (const [github] of head.matchAll(/https:\/\/github\.com\/[^/"\s]+/g)) {
+        expect(github, path).toBe("https://github.com/KonstantinosPapadogiannis");
+      }
+    }
+  });
+
+  test("the portrait is a public JPEG, shown under the person's name", async ({
+    page,
+    request,
+  }) => {
+    const response = await request.get("/images/portrait.jpg");
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toBe("image/jpeg");
+    expect((await response.body()).length).toBeGreaterThan(0);
+    if (isIndexable()) expect(response.headers()).not.toHaveProperty("x-robots-tag");
+
+    for (const [path, name] of [
+      ["/", "Konstantinos Papadogiannis"],
+      ["/el", "Κωνσταντίνος Παπαδογιάννης"],
+    ] as const) {
+      await page.goto(path);
+      const portrait = page.locator(`img[alt="${name}"]`);
+      await expect(portrait).toHaveCount(1);
+      await expect(portrait).toHaveAttribute("src", /%2Fimages%2Fportrait\.jpg/);
+    }
+  });
+});
+
 test("every page has its own title and a description of 140–160 characters", async ({
   page,
 }) => {

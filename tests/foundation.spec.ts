@@ -137,32 +137,48 @@ test("resume page describes the PDF and has its own Open Graph URL", async ({ pa
   }
 });
 
-test("homepage describes its subject as a Person, with no job title", async ({ page }) => {
-  for (const [path, name, city, university] of [
-    ["/", "Konstantinos Papadogiannis", "Athens", "Harokopio University of Athens"],
-    ["/el", "Κωνσταντίνος Παπαδογιάννης", "Αθήνα", "Χαροκόπειο Πανεπιστήμιο"],
-  ] as const) {
+test("both homepages describe one Person and one WebSite, with no job title", async ({ page }) => {
+  const graphs: unknown[] = [];
+  for (const path of ["/", "/el"]) {
     await page.goto(path);
     const scripts = page.locator('script[type="application/ld+json"]');
     await expect(scripts).toHaveCount(1);
-    const person = JSON.parse((await scripts.textContent()) ?? "{}");
-    expect(person["@type"]).toBe("Person");
-    expect(person.name).toBe(name);
-    expect(person.url).toBe(siteOrigin);
-    expect(person.address).toEqual({
-      "@type": "PostalAddress",
-      addressLocality: city,
-      addressCountry: "GR",
+    const data = JSON.parse((await scripts.textContent()) ?? "{}");
+    graphs.push(data);
+    const nodes: Record<string, unknown>[] = data["@graph"];
+    const person = nodes.find((node) => node["@type"] === "Person");
+    expect(person).toEqual({
+      "@type": "Person",
+      "@id": `${siteOrigin}/#person`,
+      name: "Konstantinos Papadogiannis",
+      alternateName: "Κωνσταντίνος Παπαδογιάννης",
+      url: `${siteOrigin}/`,
+      image: `${siteOrigin}/images/portrait.jpg`,
+      address: { "@type": "PostalAddress", addressLocality: "Athens", addressCountry: "GR" },
+      alumniOf: {
+        "@type": "CollegeOrUniversity",
+        name: "Harokopio University of Athens",
+        alternateName: "Χαροκόπειο Πανεπιστήμιο",
+      },
+      sameAs: [
+        "https://github.com/KonstantinosPapadogiannis",
+        "https://www.linkedin.com/in/konstantinos-papadogiannis/",
+        "https://orcid.org/0009-0008-9445-2484",
+      ],
     });
-    expect(person.alumniOf.name).toBe(university);
-    expect(person.sameAs).toEqual([
-      "https://github.com/KonstantinosPapadogiannis",
-      "https://www.linkedin.com/in/konstantinos-papadogiannis/",
-      "https://orcid.org/0009-0008-9445-2484",
-    ]);
-    expect(person).not.toHaveProperty("jobTitle");
-    expect(person).not.toHaveProperty("worksFor");
+    expect(nodes.find((node) => node["@type"] === "WebSite")).toEqual({
+      "@type": "WebSite",
+      "@id": `${siteOrigin}/#website`,
+      url: `${siteOrigin}/`,
+      name: "Konstantinos Papadogiannis",
+      alternateName: "Κωνσταντίνος Παπαδογιάννης",
+      inLanguage: ["en", "el"],
+      publisher: { "@id": `${siteOrigin}/#person` },
+    });
+    expect(nodes).toHaveLength(2);
   }
+  // The same identity whichever homepage a search engine reads.
+  expect(graphs[1]).toEqual(graphs[0]);
 });
 
 test("theme toggle switches data-theme and reports its state", async ({ page }) => {

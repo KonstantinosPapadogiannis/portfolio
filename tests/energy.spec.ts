@@ -145,8 +145,15 @@ for (const locale of locales) {
         name: locale.metaTitle,
         url: `${siteOrigin}${locale.path}`,
         inLanguage: locale.lang,
-        author: { "@type": "Person", name: locale.author },
+        author: {
+          "@type": "Person",
+          "@id": `${siteOrigin}/#person`,
+          name: "Konstantinos Papadogiannis",
+          url: `${siteOrigin}/`,
+        },
       });
+      // The second member is not named on this page, nor in its data.
+      expect(ld).not.toHaveProperty("contributor");
 
       const duplicates = await page.evaluate(() => {
         const ids = [...document.querySelectorAll("[id]")].map((el) => el.id);

@@ -3,6 +3,7 @@ import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPathname } from "@/i18n/navigation";
 import { pageMetadata } from "@/lib/metadata";
+import { personReference } from "@/lib/structured-data";
 import { routing } from "@/i18n/routing";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
@@ -55,7 +56,6 @@ export default async function ComputerVisionPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "visionPage" });
-  const tSite = await getTranslations({ locale, namespace: "site" });
 
   // The case study as a piece of writing by its author, as for the others.
   const jsonLd = {
@@ -66,11 +66,7 @@ export default async function ComputerVisionPage({
     description: t("description"),
     url: `${siteConfig.url}${getPathname({ href, locale })}`,
     inLanguage: locale,
-    author: {
-      "@type": "Person",
-      name: tSite("name"),
-      url: siteConfig.url,
-    },
+    author: personReference,
   };
 
   return (

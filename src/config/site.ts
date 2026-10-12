@@ -4,7 +4,12 @@ const orcidId = "0009-0008-9445-2484";
 
 export const siteConfig = {
   name: "Konstantinos Papadogiannis",
+  // The same name in Greek, as the Greek pages write it.
+  greekName: "Κωνσταντίνος Παπαδογιάννης",
   location: "Athens, Greece",
+  // The real photograph shown under About, unedited; structured data points
+  // at this file as the person's image.
+  portrait: "/images/portrait.jpg",
   email: "konstantinospapadogiannis.dev@gmail.com",
   github: "https://github.com/KonstantinosPapadogiannis",
   linkedin: "https://www.linkedin.com/in/konstantinos-papadogiannis/",
@@ -24,6 +29,7 @@ export type SiteConfig = typeof siteConfig;
 
 export const collaboratorConfig = {
   anastasiaZerva: {
+    name: "Anastasia Zerva",
     linkedin: "https://www.linkedin.com/in/anastasia-zervas/",
   },
 } as const;

@@ -6,6 +6,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { SectionLabel } from "@/components/home/section-label";
 import { sectionIds } from "@/config/navigation";
 import { education } from "@/config/education";
+import { siteConfig } from "@/config/site";
 
 // Text in the first two columns of the three-column grid used by the
 // projects below, with the degree under it; the portrait at the start of
@@ -72,7 +73,7 @@ export function About() {
 
           <figure data-reveal className="mt-12 max-w-[390px] lg:col-start-3 lg:row-start-2 lg:mt-[37px]">
             <Image
-              src="/images/portrait.jpg"
+              src={siteConfig.portrait}
               alt={t("portraitAlt")}
               width={1003}
               height={1254}
