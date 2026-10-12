@@ -62,30 +62,28 @@ export async function Footer() {
   return (
     // Focus outlines switch to a light ring on the navy band.
     <footer className="bg-footer text-footer-text [--focus-ring:var(--footer-focus)]">
-      <Container className="pt-10 pb-4 md:pt-12 md:pb-5 lg:pt-14 lg:pb-6">
+      <Container className="pt-8 pb-3 md:pt-12 md:pb-5 lg:pt-14 lg:pb-6">
         <div className="lg:grid lg:grid-cols-[minmax(0,634fr)_minmax(0,638fr)] lg:items-baseline lg:gap-x-14">
           <div>
-            {/* One word per line below 480px, where the name no longer fits
-                on one line at this size. With a larger default text size on
-                a phone, the size stops at 11vw, where the longer word still
-                fits the column. */}
-            <p className="font-brand text-[length:min(1.75rem,11vw)] leading-[1.05] font-bold tracking-tight text-footer-ink max-[30rem]:w-min md:text-[1.875rem]">
+            {/* Fluid on phones: one restrained line where the viewport allows
+                it, with a natural two-line wrap on the narrowest screens. */}
+            <p className="font-brand text-[length:clamp(1.375rem,6.2vw,1.75rem)] leading-[1.05] font-bold tracking-tight text-footer-ink md:text-[1.875rem]">
               {siteConfig.name}
             </p>
-            <p className="mt-4 text-[1rem] leading-6 text-balance text-footer-text lg:text-[1.125rem] lg:leading-[1.6875rem]">
+            <p className="mt-2.5 text-[1rem] leading-6 text-balance text-footer-text md:mt-4 lg:text-[1.125rem] lg:leading-[1.6875rem]">
               {t.rich("tagline", { br })}
             </p>
-            <p className="mt-3 font-label text-[0.6875rem] leading-4 text-footer-muted">
+            <p className="mt-2 font-label text-[0.6875rem] leading-4 text-footer-muted md:mt-3">
               {t("location")}
             </p>
           </div>
 
-          <div className="mt-7 grid gap-y-3 md:mt-6 md:gap-y-0 lg:mt-0 lg:gap-y-3">
+          <div className="mt-5 grid gap-y-2 md:mt-6 md:gap-y-0 lg:mt-0 lg:gap-y-3">
             <nav aria-labelledby="footer-navigate" className={rowClass}>
               <h2 id="footer-navigate" className={labelClass}>
                 {t("navigate")}
               </h2>
-              <ul className="flex flex-wrap gap-x-5 text-[0.9375rem] leading-[1.625rem]">
+              <ul className="flex flex-wrap gap-x-4 text-[0.9375rem] leading-[1.625rem] min-[390px]:gap-x-5">
                 {primaryNav.map((item) => (
                   <li key={item.key}>
                     <NavLink item={item} className={`${linkClass} ${targetClass}`}>
@@ -102,12 +100,11 @@ export async function Footer() {
               <h2 id="footer-elsewhere" className={`${labelClass} md:self-center`}>
                 {t("elsewhere")}
               </h2>
-              {/* The same gap as the links above, so the three profiles fit
-                  one line from 390px phones up, and beside the narrower label
-                  column at 1024px. */}
+              {/* A slightly tighter phone gap keeps all three profiles on one
+                  line from 360px; the approved spacing returns at 390px. */}
               <ul
                 aria-labelledby="footer-elsewhere"
-                className="flex flex-wrap gap-x-5 text-[0.9375rem] leading-[1.625rem]"
+                className="flex flex-wrap gap-x-3 text-[0.9375rem] leading-[1.625rem] min-[390px]:gap-x-5"
               >
                 {profiles.map(({ key, href, Icon }) => (
                   <li key={key} className="flex">
@@ -153,7 +150,7 @@ export async function Footer() {
           </div>
         </div>
 
-        <div className="mt-7 flex flex-col gap-y-1 border-t border-footer-rule pt-4 font-label text-[0.625rem] leading-4 text-footer-muted md:mt-10 md:flex-row md:items-center md:justify-between md:gap-x-8 md:pt-3 lg:mt-12 lg:pt-4">
+        <div className="mt-5 flex items-center justify-between border-t border-footer-rule pt-2 font-label text-[0.625rem] leading-4 text-footer-muted md:mt-10 md:gap-x-8 md:pt-3 lg:mt-12 lg:pt-4">
           <p>© {year}</p>
           <div className="flex items-center justify-between gap-x-8 md:justify-end">
             <LanguageSwitcher tone="footer" showIcon={false} />
