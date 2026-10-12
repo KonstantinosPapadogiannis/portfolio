@@ -667,7 +667,7 @@ for (const locale of locales) {
       for (const [i, [name, href]] of [
         ["GitHub", site.github],
         ["LinkedIn", site.linkedin],
-        ["ORCID 0009-0008-9445-2484", site.orcid],
+        ["ORCID profile — 0009-0008-9445-2484", site.orcid],
       ].entries()) {
         const link = profileLinks.nth(i);
         await expect(link).toHaveAccessibleName(name);
@@ -684,13 +684,13 @@ for (const locale of locales) {
         .poll(() => orcid.locator("img").evaluate((img: HTMLImageElement) => img.naturalWidth))
         .toBeGreaterThan(0);
       expect(await page.content()).not.toContain("my-orcid");
-      // One mail link, the address itself, and the address shown once.
+      // One mail link with a short visible label and the approved address as its target.
       const mail = footer.locator('a[href^="mailto:"]');
       await expect(mail).toHaveCount(1);
-      await expect(mail).toHaveAccessibleName(site.email);
+      await expect(mail).toHaveAccessibleName("Email");
       await expect(mail).toHaveAttribute("href", `mailto:${site.email}`);
+      await expect(footer).not.toContainText(site.email);
       await expect(mail).not.toHaveAttribute("rel", /.+/);
-      expect((await footer.innerText()).split(site.email).length - 1).toBe(1);
       await expect(footer).not.toContainText("Navigate");
       await expect(footer).not.toContainText("Back to top");
       await expect(footer).not.toContainText("Open to graduate and junior roles");
@@ -1263,8 +1263,8 @@ test("keyboard order follows the page and every stop shows a focus ring", async 
     "Read case study: Energy data mining",
     "GitHub",
     "LinkedIn",
-    "ORCID 0009-0008-9445-2484",
-    site.email,
+    "ORCID profile — 0009-0008-9445-2484",
+    "Email",
   ];
 
   const stops: string[] = [];

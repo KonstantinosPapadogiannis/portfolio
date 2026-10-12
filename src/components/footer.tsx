@@ -12,6 +12,7 @@ const labelUnderline =
 
 type ProfileLink = {
   label: string;
+  accessibleLabel?: string;
   href: string;
   Icon: ComponentType<{ size?: number; className?: string }>;
 };
@@ -19,7 +20,12 @@ type ProfileLink = {
 const profiles: ProfileLink[] = [
   { label: "GitHub", href: siteConfig.github, Icon: GitHubIcon },
   { label: "LinkedIn", href: siteConfig.linkedin, Icon: LinkedInIcon },
-  { label: `ORCID ${siteConfig.orcidId}`, href: siteConfig.orcid, Icon: OrcidIdIcon },
+  {
+    label: "ORCID",
+    accessibleLabel: `ORCID profile — ${siteConfig.orcidId}`,
+    href: siteConfig.orcid,
+    Icon: OrcidIdIcon,
+  },
 ];
 
 export function Footer() {
@@ -29,18 +35,16 @@ export function Footer() {
       id={sectionIds.contact}
       className="bg-footer text-footer-text [--focus-ring:var(--footer-focus)]"
     >
-      <Container className="py-4 lg:py-9">
+      <Container className="py-4 lg:py-7">
         <ul
           aria-label="Professional profiles and contact"
-          className="grid grid-cols-2 items-center gap-x-4 md:grid-cols-2 md:gap-x-10 lg:flex lg:justify-center lg:gap-x-6 xl:gap-x-12"
+          className="grid grid-cols-2 items-center gap-x-4 md:gap-x-10 lg:flex lg:justify-center lg:gap-x-8"
         >
-          {profiles.map(({ label, href, Icon }, index) => (
-            <li
-              key={href}
-              className={index === 2 ? "col-span-2 flex min-w-0 md:col-span-1" : "flex"}
-            >
+          {profiles.map(({ label, accessibleLabel, href, Icon }) => (
+            <li key={href} className="flex min-w-0">
               <a
                 href={href}
+                aria-label={accessibleLabel}
                 rel="me"
                 className={`${textLinkClass} group inline-flex min-h-11 max-w-full min-w-0 items-center gap-2.5 text-[0.8125rem] leading-5 wrap-anywhere text-footer-ink min-[360px]:text-[0.875rem] md:text-[0.9375rem] lg:min-h-8`}
               >
@@ -52,12 +56,12 @@ export function Footer() {
               </a>
             </li>
           ))}
-          <li className="col-span-2 flex min-w-0 md:col-span-1 md:justify-self-end">
+          <li className="flex min-w-0">
             <a
               href={`mailto:${siteConfig.email}`}
               className={`${textLinkClass} inline-flex min-h-11 max-w-full min-w-0 items-center text-[0.8125rem] leading-5 wrap-anywhere text-footer-ink min-[360px]:text-[0.875rem] md:text-[0.9375rem] lg:min-h-8`}
             >
-              {siteConfig.email}
+              Email
             </a>
           </li>
         </ul>

@@ -20,19 +20,27 @@ const desktopViewports = [
 ] as const;
 
 const links = [
-  { name: "GitHub", href: "https://github.com/KonstantinosPapadogiannis", rel: "me" },
+  {
+    name: "GitHub",
+    visibleLabel: "GitHub",
+    href: "https://github.com/KonstantinosPapadogiannis",
+    rel: "me",
+  },
   {
     name: "LinkedIn",
+    visibleLabel: "LinkedIn",
     href: "https://www.linkedin.com/in/konstantinos-papadogiannis/",
     rel: "me",
   },
   {
-    name: "ORCID 0009-0008-9445-2484",
+    name: "ORCID profile — 0009-0008-9445-2484",
+    visibleLabel: "ORCID",
     href: "https://orcid.org/0009-0008-9445-2484",
     rel: "me",
   },
   {
-    name: "konstantinospapadogiannis.dev@gmail.com",
+    name: "Email",
+    visibleLabel: "Email",
     href: "mailto:konstantinospapadogiannis.dev@gmail.com",
   },
 ] as const;
@@ -61,6 +69,8 @@ type FooterMetrics = {
   clippedLink: boolean;
   overlappingLinks: boolean;
   rowCount: number;
+  groupCenterOffset: number;
+  maximumHorizontalGap: number;
 };
 
 async function footerMetrics(page: Page): Promise<FooterMetrics> {
@@ -77,6 +87,9 @@ async function footerMetrics(page: Page): Promise<FooterMetrics> {
       };
     });
     const rows = new Set(anchors.map((anchor) => Math.round(anchor.top)));
+    const left = Math.min(...anchors.map((anchor) => anchor.left));
+    const right = Math.max(...anchors.map((anchor) => anchor.right));
+    const orderedAnchors = [...anchors].sort((first, second) => first.left - second.left);
     const overlappingLinks = anchors.some((first, firstIndex) =>
       anchors.slice(firstIndex + 1).some(
         (second) =>
@@ -95,6 +108,10 @@ async function footerMetrics(page: Page): Promise<FooterMetrics> {
       ),
       overlappingLinks,
       rowCount: rows.size,
+      groupCenterOffset: Math.abs((left + right) / 2 - viewportWidth / 2),
+      maximumHorizontalGap: Math.max(
+        ...orderedAnchors.slice(1).map((anchor, index) => anchor.left - orderedAnchors[index].right),
+      ),
     };
   });
 }
@@ -114,8 +131,9 @@ for (const locale of [
       expect(metrics.clippedLink).toBe(false);
       expect(metrics.overlappingLinks).toBe(false);
       expect(metrics.minimumTargetHeight).toBeGreaterThanOrEqual(44);
-      expect(metrics.footerHeight).toBeLessThanOrEqual(175);
-      expect(metrics.rowCount).toBe(3);
+      expect(metrics.footerHeight).toBeGreaterThanOrEqual(120);
+      expect(metrics.footerHeight).toBeLessThanOrEqual(150);
+      expect(metrics.rowCount).toBe(2);
     });
   }
 }
@@ -133,8 +151,10 @@ for (const viewport of desktopViewports) {
     if (viewport.width === 768) {
       expect(metrics.footerHeight, `${viewport.width}px footer height`).toBeLessThanOrEqual(130);
     } else {
-      expect(metrics.footerHeight, `${viewport.width}px footer height`).toBeGreaterThanOrEqual(100);
-      expect(metrics.footerHeight, `${viewport.width}px footer height`).toBeLessThanOrEqual(120);
+      expect(metrics.footerHeight, `${viewport.width}px footer height`).toBeGreaterThanOrEqual(80);
+      expect(metrics.footerHeight, `${viewport.width}px footer height`).toBeLessThanOrEqual(96);
+      expect(metrics.groupCenterOffset, `${viewport.width}px group centering`).toBeLessThanOrEqual(1);
+      expect(metrics.maximumHorizontalGap, `${viewport.width}px maximum gap`).toBeLessThanOrEqual(40);
     }
     expect(metrics.rowCount, `${viewport.width}px rows`).toBe(viewport.width === 768 ? 2 : 1);
   });
@@ -154,12 +174,15 @@ test("the footer exposes exactly four accessible professional links", async ({ p
       await expect(footer.getByRole("link")).toHaveCount(4);
       for (const item of links) {
         const link = footer.getByRole("link", { name: item.name, exact: true });
+        await expect(link).toHaveText(item.visibleLabel);
         await expect(link).toHaveAttribute("href", item.href);
         if ("rel" in item) await expect(link).toHaveAttribute("rel", item.rel);
         else await expect(link).not.toHaveAttribute("rel", /.+/);
         await link.focus();
         await expect(link).toBeFocused();
       }
+      await expect(footer).not.toContainText("0009-0008-9445-2484");
+      await expect(footer).not.toContainText("konstantinospapadogiannis.dev@gmail.com");
       for (const copy of removedCopy) await expect(footer).not.toContainText(copy);
       await expect(footer).not.toContainText("©");
       await expect(footer.getByText("EN", { exact: true })).toHaveCount(0);
@@ -186,7 +209,8 @@ test("390px footer geometry is independent of DPR", async ({ browser, browserNam
     expect(metrics.documentOverflow).toBe(0);
     expect(metrics.footerOverflow).toBe(0);
     expect(metrics.minimumTargetHeight).toBeGreaterThanOrEqual(44);
-    expect(metrics.footerHeight).toBeLessThanOrEqual(175);
+    expect(metrics.footerHeight).toBeGreaterThanOrEqual(120);
+    expect(metrics.footerHeight).toBeLessThanOrEqual(150);
 
     await context.close();
   }
