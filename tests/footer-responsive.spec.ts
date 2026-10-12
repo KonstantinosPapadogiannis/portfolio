@@ -130,9 +130,12 @@ for (const viewport of desktopViewports) {
     expect(metrics.footerOverflow, `${viewport.width}px footer overflow`).toBe(0);
     expect(metrics.clippedLink, `${viewport.width}px clipped link`).toBe(false);
     expect(metrics.overlappingLinks, `${viewport.width}px overlapping links`).toBe(false);
-    expect(metrics.footerHeight, `${viewport.width}px footer height`).toBeLessThanOrEqual(
-      viewport.width === 768 ? 130 : 80,
-    );
+    if (viewport.width === 768) {
+      expect(metrics.footerHeight, `${viewport.width}px footer height`).toBeLessThanOrEqual(130);
+    } else {
+      expect(metrics.footerHeight, `${viewport.width}px footer height`).toBeGreaterThanOrEqual(100);
+      expect(metrics.footerHeight, `${viewport.width}px footer height`).toBeLessThanOrEqual(120);
+    }
     expect(metrics.rowCount, `${viewport.width}px rows`).toBe(viewport.width === 768 ? 2 : 1);
   });
 }

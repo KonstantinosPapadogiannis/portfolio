@@ -29,10 +29,10 @@ export function Footer() {
       id={sectionIds.contact}
       className="bg-footer text-footer-text [--focus-ring:var(--footer-focus)]"
     >
-      <Container className="py-4 lg:py-5">
+      <Container className="py-4 lg:py-9">
         <ul
           aria-label="Professional profiles and contact"
-          className="grid grid-cols-2 items-center gap-x-4 md:grid-cols-2 md:gap-x-10 lg:grid-cols-[auto_auto_auto_minmax(0,auto)] lg:justify-between lg:gap-x-6"
+          className="grid grid-cols-2 items-center gap-x-4 md:grid-cols-2 md:gap-x-10 lg:flex lg:justify-center lg:gap-x-6 xl:gap-x-12"
         >
           {profiles.map(({ label, href, Icon }, index) => (
             <li
