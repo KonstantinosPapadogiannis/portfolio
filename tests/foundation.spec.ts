@@ -344,9 +344,43 @@ test("sitemap lists each language version with the canonical URLs", async ({
   page,
   request,
 }) => {
-  const xml = await (await request.get("/sitemap.xml")).text();
-  const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
-  expect(locs).toEqual([
+  const response = await request.get("/sitemap.xml");
+  expect(response.status()).toBe(200);
+  expect(response.headers()["content-type"]).toContain("application/xml");
+
+  const xml = await response.text();
+  expect(xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>')).toBe(true);
+  expect(xml).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"');
+  expect(xml).toContain('xmlns:xhtml="http://www.w3.org/1999/xhtml"');
+
+  const parsed = await page.evaluate((source) => {
+    const sitemapNamespace = "http://www.sitemaps.org/schemas/sitemap/0.9";
+    const xhtmlNamespace = "http://www.w3.org/1999/xhtml";
+    const document = new DOMParser().parseFromString(source, "application/xml");
+
+    return {
+      parserErrors: [...document.querySelectorAll("parsererror")].map(
+        (error) => error.textContent,
+      ),
+      rootName: document.documentElement.localName,
+      rootNamespace: document.documentElement.namespaceURI,
+      xhtmlNamespace: document.documentElement.getAttribute("xmlns:xhtml"),
+      urls: [...document.getElementsByTagNameNS(sitemapNamespace, "url")].map((url) => ({
+        location: url.getElementsByTagNameNS(sitemapNamespace, "loc")[0]?.textContent ?? "",
+        alternates: [...url.getElementsByTagNameNS(xhtmlNamespace, "link")].map((link) => ({
+          language: link.getAttribute("hreflang"),
+          href: link.getAttribute("href"),
+        })),
+      })),
+    };
+  }, xml);
+
+  expect(parsed.parserErrors).toEqual([]);
+  expect(parsed.rootName).toBe("urlset");
+  expect(parsed.rootNamespace).toBe("http://www.sitemaps.org/schemas/sitemap/0.9");
+  expect(parsed.xhtmlNamespace).toBe("http://www.w3.org/1999/xhtml");
+
+  const expectedPaths = [
     "/",
     "/el",
     "/resume",
@@ -363,9 +397,25 @@ test("sitemap lists each language version with the canonical URLs", async ({
     "/el/work/computer-vision",
     "/work/energy-data-mining",
     "/el/work/energy-data-mining",
-  ]);
+  ];
+  expect(parsed.urls.map(({ location }) => new URL(location).pathname)).toEqual(expectedPaths);
+
+  for (const { location, alternates } of parsed.urls) {
+    const pathname = new URL(location).pathname;
+    const englishPath = pathname === "/el" ? "/" : pathname.replace(/^\/el\//, "/");
+    const greekPath = englishPath === "/" ? "/el" : `/el${englishPath}`;
+
+    expect(Object.fromEntries(alternates.map(({ language, href }) => [language, href]))).toEqual({
+      en: `${siteOrigin}${englishPath}`,
+      el: `${siteOrigin}${greekPath}`,
+      "x-default": `${siteOrigin}${englishPath}`,
+    });
+  }
+
   expect(xml).not.toContain("/qa/");
-  expect(xml).not.toMatch(/href="[^"]*\/el\/"/);
+  expect(xml).not.toContain("vercel.app");
+  expect(xml).not.toContain("localhost");
+  expect(xml).not.toMatch(/https:\/\/kpapadogiannis\.dev\/en(?:[\/<"]|$)/);
   expect(xml.match(/hreflang="x-default"/g)).toHaveLength(16);
 
   for (const path of [
