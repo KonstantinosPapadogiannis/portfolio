@@ -68,11 +68,11 @@ for (const locale of locales) {
 
         await expect(page).toHaveURL(new RegExp(`${locale.home === "/" ? "/" : "/el"}#${id}$`));
         const section = page.locator(`#${id}`);
-        const heading = section.getByRole("heading", {
-          level: 2,
-          name: locale.headings[id],
-        });
-        await expectSectionShown(section, heading);
+        const visibleTarget =
+          id === "contact"
+            ? section.getByRole("link").first()
+            : section.getByRole("heading", { level: 2, name: locale.headings[id] });
+        await expectSectionShown(section, visibleTarget);
       });
     }
 
@@ -89,7 +89,11 @@ for (const locale of locales) {
         await page.keyboard.press("Enter");
 
         await expect(page).toHaveURL(new RegExp(`#${id}$`));
-        await expect(page.locator(`#${id} h2`)).toBeInViewport();
+        const visibleTarget =
+          id === "contact"
+            ? page.locator("#contact").getByRole("link").first()
+            : page.locator(`#${id} h2`);
+        await expect(visibleTarget).toBeInViewport();
         await page.keyboard.press("Tab");
         expect(await focusFollows(page, id)).toBe(true);
       }
@@ -103,7 +107,7 @@ for (const locale of locales) {
         .click();
 
       await expect(page).toHaveURL(new RegExp(`${locale.home === "/" ? "/" : "/el"}#contact$`));
-      await expect(page.locator("#contact h2")).toBeInViewport();
+      await expect(page.locator("#contact").getByRole("link").first()).toBeInViewport();
     });
   });
 

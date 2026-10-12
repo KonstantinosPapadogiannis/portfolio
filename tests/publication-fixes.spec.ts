@@ -63,7 +63,7 @@ const profileUrls = [
 ] as const;
 
 for (const path of footerRoutes) {
-  test(`${path}: the footer omits the technology line without losing its content`, async ({ page }) => {
+  test(`${path}: the footer contains only the four professional contact items`, async ({ page }) => {
     for (const width of [390, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       for (const theme of ["light", "dark"] as const) {
@@ -76,11 +76,16 @@ for (const path of footerRoutes) {
         await expect(footer).toBeVisible();
         await expect(footer).not.toContainText("Built with Next.js + TypeScript");
         await expect(footer).not.toContainText("Deployed on Vercel");
-        await expect(footer).toContainText("Konstantinos Papadogiannis");
+        await expect(footer).not.toContainText("Konstantinos Papadogiannis");
+        await expect(footer).not.toContainText("Open to graduate and junior roles");
+        await expect(footer).not.toContainText("Athens, Greece");
+        await expect(footer.getByRole("link")).toHaveCount(4);
         for (const href of profileUrls) {
           await expect(footer.locator(`a[href="${href}"]`)).toHaveCount(1);
         }
-        await expect(footer.locator('a[href="#top"]')).toHaveCount(1);
+        await expect(
+          footer.locator('a[href="mailto:konstantinospapadogiannis.dev@gmail.com"]'),
+        ).toHaveCount(1);
       }
     }
   });

@@ -39,9 +39,9 @@ test("language switcher is a labelled group marking the current language", async
   page,
 }) => {
   await page.goto("/");
-  // One switcher in the header, one in the footer, built the same way.
+  // The compact footer deliberately does not duplicate this header control.
   const groups = page.getByRole("group", { name: "Language" });
-  await expect(groups).toHaveCount(2);
+  await expect(groups).toHaveCount(1);
 
   for (const group of await groups.all()) {
     const english = group.getByRole("link", { name: "English" });

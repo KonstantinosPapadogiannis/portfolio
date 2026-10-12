@@ -139,17 +139,6 @@ test("language links are keyboard operable", async ({ page }) => {
   await expect(html(page)).toHaveAttribute("lang", "el");
 });
 
-test("the footer language switcher keeps the route", async ({ page }) => {
-  await page.goto("/resume");
-  await page
-    .getByRole("contentinfo")
-    .getByRole("group", { name: "Language" })
-    .getByRole("link", { name: "Ελληνικά" })
-    .click();
-  await expect(page).toHaveURL(/\/el\/resume$/);
-  await expect(html(page)).toHaveAttribute("lang", "el");
-});
-
 for (const theme of ["light", "dark"] as const) {
   for (const path of ["/", "/el"]) {
     test(`${path} in ${theme} loads without console or network problems`, async ({

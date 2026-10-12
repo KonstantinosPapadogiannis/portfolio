@@ -1,6 +1,7 @@
+import type { Page } from "@playwright/test";
 import { test, expect, html } from "./fixtures";
 
-const portraitViewports = [
+const mobileViewports = [
   { width: 320, height: 568 },
   { width: 360, height: 800 },
   { width: 375, height: 667 },
@@ -10,25 +11,59 @@ const portraitViewports = [
   { width: 430, height: 932 },
 ] as const;
 
-const landscapeViewports = [
-  { width: 568, height: 320 },
-  { width: 667, height: 375 },
-  { width: 844, height: 390 },
-  { width: 932, height: 430 },
+const desktopViewports = [
+  { width: 768, height: 1024 },
+  { width: 1024, height: 768 },
+  { width: 1366, height: 768 },
+  { width: 1440, height: 900 },
+  { width: 1920, height: 1080 },
+] as const;
+
+const links = [
+  { name: "GitHub", href: "https://github.com/KonstantinosPapadogiannis", rel: "me" },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/konstantinos-papadogiannis/",
+    rel: "me",
+  },
+  {
+    name: "ORCID 0009-0008-9445-2484",
+    href: "https://orcid.org/0009-0008-9445-2484",
+    rel: "me",
+  },
+  {
+    name: "konstantinospapadogiannis.dev@gmail.com",
+    href: "mailto:konstantinospapadogiannis.dev@gmail.com",
+  },
+] as const;
+
+const removedCopy = [
+  "Konstantinos Papadogiannis",
+  "Backend systems, distributed software, and cloud infrastructure.",
+  "Athens, Greece",
+  "Navigate",
+  "Work",
+  "About",
+  "Résumé",
+  "Contact",
+  "Elsewhere",
+  "Open to graduate and junior roles.",
+  "Back to top",
+  "Built with Next.js + TypeScript",
+  "Deployed on Vercel",
 ] as const;
 
 type FooterMetrics = {
   documentOverflow: number;
   footerOverflow: number;
   footerHeight: number;
-  nameLines: number;
   minimumTargetHeight: number;
   clippedLink: boolean;
   overlappingLinks: boolean;
-  bottomRowMisalignment: number;
+  rowCount: number;
 };
 
-async function footerMetrics(page: import("@playwright/test").Page): Promise<FooterMetrics> {
+async function footerMetrics(page: Page): Promise<FooterMetrics> {
   return page.getByRole("contentinfo").evaluate((footer) => {
     const viewportWidth = document.documentElement.clientWidth;
     const anchors = [...footer.querySelectorAll("a")].map((anchor) => {
@@ -41,15 +76,7 @@ async function footerMetrics(page: import("@playwright/test").Page): Promise<Foo
         height: rect.height,
       };
     });
-    const name = footer.querySelector("p.font-brand");
-    const range = document.createRange();
-    if (name) range.selectNodeContents(name);
-    const lineTops = name
-      ? [...range.getClientRects()]
-          .map((rect) => rect.top)
-          .filter((top, index, values) => index === 0 || Math.abs(top - values[index - 1]) > 0.5)
-      : [];
-
+    const rows = new Set(anchors.map((anchor) => Math.round(anchor.top)));
     const overlappingLinks = anchors.some((first, firstIndex) =>
       anchors.slice(firstIndex + 1).some(
         (second) =>
@@ -58,25 +85,16 @@ async function footerMetrics(page: import("@playwright/test").Page): Promise<Foo
       ),
     );
 
-    const bottomRow = footer.querySelector(":scope > div > div:last-child");
-    const bottomChildren = bottomRow ? [...bottomRow.children] : [];
-    const bottomCenters = bottomChildren.map((element) => {
-      const rect = element.getBoundingClientRect();
-      return rect.top + rect.height / 2;
-    });
-
     return {
       documentOverflow: document.documentElement.scrollWidth - viewportWidth,
       footerOverflow: footer.scrollWidth - footer.clientWidth,
       footerHeight: footer.getBoundingClientRect().height,
-      nameLines: lineTops.length,
       minimumTargetHeight: Math.min(...anchors.map((anchor) => anchor.height)),
       clippedLink: anchors.some(
         (anchor) => anchor.left < -0.5 || anchor.right > viewportWidth + 0.5,
       ),
       overlappingLinks,
-      bottomRowMisalignment:
-        bottomCenters.length > 1 ? Math.max(...bottomCenters) - Math.min(...bottomCenters) : 0,
+      rowCount: rows.size,
     };
   });
 }
@@ -85,55 +103,42 @@ for (const locale of [
   { label: "English", path: "/" },
   { label: "Greek", path: "/el" },
 ] as const) {
-  for (const viewport of portraitViewports) {
-    test(`${locale.label}: footer remains compact and usable at ${viewport.width}px`, async ({
-      page,
-    }) => {
+  for (const viewport of mobileViewports) {
+    test(`${locale.label}: compact footer fits ${viewport.width}px`, async ({ page }) => {
       await page.setViewportSize(viewport);
       await page.goto(locale.path);
       const metrics = await footerMetrics(page);
 
-      expect(metrics.documentOverflow, `${viewport.width}px document overflow`).toBe(0);
-      expect(metrics.footerOverflow, `${viewport.width}px footer overflow`).toBe(0);
-      expect(metrics.clippedLink, `${viewport.width}px clipped link`).toBe(false);
-      expect(metrics.overlappingLinks, `${viewport.width}px overlapping links`).toBe(false);
-      expect(metrics.minimumTargetHeight, `${viewport.width}px touch targets`).toBeGreaterThanOrEqual(
-        44,
-      );
-      expect(metrics.nameLines, `${viewport.width}px name wrapping`).toBe(
-        viewport.width === 320 ? 2 : 1,
-      );
-      expect(metrics.bottomRowMisalignment, `${viewport.width}px bottom-row alignment`).toBeLessThan(
-        1,
-      );
-
-      const maximumHeight = viewport.width === 320 ? 630 : viewport.width === 360 ? 520 : 480;
-      expect(metrics.footerHeight, `${viewport.width}px footer height`).toBeLessThanOrEqual(
-        maximumHeight,
-      );
+      expect(metrics.documentOverflow).toBe(0);
+      expect(metrics.footerOverflow).toBe(0);
+      expect(metrics.clippedLink).toBe(false);
+      expect(metrics.overlappingLinks).toBe(false);
+      expect(metrics.minimumTargetHeight).toBeGreaterThanOrEqual(44);
+      expect(metrics.footerHeight).toBeLessThanOrEqual(175);
+      expect(metrics.rowCount).toBe(3);
     });
   }
 }
 
-test("the footer remains robust in representative phone landscape layouts", async ({ page }) => {
-  for (const viewport of landscapeViewports) {
+for (const viewport of desktopViewports) {
+  test(`tablet and desktop use a compact contact band at ${viewport.width}px`, async ({ page }) => {
     await page.setViewportSize(viewport);
-    await page.goto("/el");
+    await page.goto("/");
     const metrics = await footerMetrics(page);
 
-    expect(metrics.documentOverflow, `${viewport.width}x${viewport.height} document overflow`).toBe(0);
-    expect(metrics.footerOverflow, `${viewport.width}x${viewport.height} footer overflow`).toBe(0);
-    expect(metrics.clippedLink, `${viewport.width}x${viewport.height} clipped link`).toBe(false);
-    expect(metrics.overlappingLinks, `${viewport.width}x${viewport.height} overlapping links`).toBe(
-      false,
+    expect(metrics.documentOverflow, `${viewport.width}px document overflow`).toBe(0);
+    expect(metrics.footerOverflow, `${viewport.width}px footer overflow`).toBe(0);
+    expect(metrics.clippedLink, `${viewport.width}px clipped link`).toBe(false);
+    expect(metrics.overlappingLinks, `${viewport.width}px overlapping links`).toBe(false);
+    expect(metrics.footerHeight, `${viewport.width}px footer height`).toBeLessThanOrEqual(
+      viewport.width === 768 ? 130 : 80,
     );
-    expect(metrics.minimumTargetHeight).toBeGreaterThanOrEqual(44);
-  }
-});
+    expect(metrics.rowCount, `${viewport.width}px rows`).toBe(viewport.width === 768 ? 2 : 1);
+  });
+}
 
-test("mobile footer controls keep their behavior, focus, links and themes", async ({ page }) => {
+test("the footer exposes exactly four accessible professional links", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.emulateMedia({ reducedMotion: "reduce" });
 
   for (const path of ["/", "/el"] as const) {
     for (const theme of ["light", "dark"] as const) {
@@ -143,50 +148,22 @@ test("mobile footer controls keep their behavior, focus, links and themes", asyn
       await expect(html(page)).toHaveAttribute("data-theme", theme);
 
       const footer = page.getByRole("contentinfo");
-      await expect(footer).toBeVisible();
-      await expect(footer.locator('a[href="https://github.com/KonstantinosPapadogiannis"]')).toHaveCount(1);
-      await expect(
-        footer.locator('a[href="https://www.linkedin.com/in/konstantinos-papadogiannis/"]'),
-      ).toHaveCount(1);
-      await expect(footer.locator('a[href="https://orcid.org/0009-0008-9445-2484"]')).toHaveCount(1);
-      await expect(
-        footer.locator('a[href="mailto:konstantinospapadogiannis.dev@gmail.com"]'),
-      ).toHaveCount(1);
-
-      for (const link of await footer.getByRole("link").all()) {
+      await expect(footer.getByRole("link")).toHaveCount(4);
+      for (const item of links) {
+        const link = footer.getByRole("link", { name: item.name, exact: true });
+        await expect(link).toHaveAttribute("href", item.href);
+        if ("rel" in item) await expect(link).toHaveAttribute("rel", item.rel);
+        else await expect(link).not.toHaveAttribute("rel", /.+/);
         await link.focus();
         await expect(link).toBeFocused();
       }
+      for (const copy of removedCopy) await expect(footer).not.toContainText(copy);
+      await expect(footer).not.toContainText("©");
+      await expect(footer.getByText("EN", { exact: true })).toHaveCount(0);
+      await expect(footer.getByText("ΕΛ", { exact: true })).toHaveCount(0);
+      await expect(footer.getByRole("group", { name: /Language|Γλώσσα/ })).toHaveCount(0);
+      await expect(footer.getByRole("navigation")).toHaveCount(0);
     }
-  }
-
-  await page.goto("/");
-  const footer = page.getByRole("contentinfo");
-  await footer.scrollIntoViewIfNeeded();
-  await footer.getByRole("group", { name: "Language" }).getByRole("link", { name: "ΕΛ" }).click();
-  await expect(page).toHaveURL(/\/el$/);
-
-  await page.getByRole("contentinfo").scrollIntoViewIfNeeded();
-  expect(await page.evaluate(() => scrollY)).toBeGreaterThan(0);
-  await page.getByRole("contentinfo").locator('a[href="#top"]').click();
-  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
-});
-
-test("tablet and desktop footer composition remains stable", async ({ page }) => {
-  for (const viewport of [
-    { width: 768, height: 1024 },
-    { width: 1440, height: 900 },
-  ]) {
-    await page.setViewportSize(viewport);
-    await page.goto("/");
-    const metrics = await footerMetrics(page);
-
-    expect(metrics.documentOverflow).toBe(0);
-    expect(metrics.footerOverflow).toBe(0);
-    expect(metrics.clippedLink).toBe(false);
-    expect(metrics.overlappingLinks).toBe(false);
-    expect(metrics.nameLines).toBe(1);
-    expect(metrics.footerHeight).toBeLessThanOrEqual(viewport.width === 768 ? 467 : 310);
   }
 });
 
@@ -205,8 +182,8 @@ test("390px footer geometry is independent of DPR", async ({ browser, browserNam
     const metrics = await footerMetrics(page);
     expect(metrics.documentOverflow).toBe(0);
     expect(metrics.footerOverflow).toBe(0);
-    expect(metrics.nameLines).toBe(1);
     expect(metrics.minimumTargetHeight).toBeGreaterThanOrEqual(44);
+    expect(metrics.footerHeight).toBeLessThanOrEqual(175);
 
     await context.close();
   }

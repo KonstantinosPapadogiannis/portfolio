@@ -381,28 +381,24 @@ for (const locale of locales) {
     });
 
     // The header carries the short form. The full name appears once on the
-    // page itself, in the hero, and once more as the footer's signature.
-    test("the full name is in the hero and the footer, not the header", async ({ page }) => {
+    // page itself, in the hero, and is not repeated in the compact footer.
+    test("the full name is in the hero, not the header or footer", async ({ page }) => {
       await page.goto(locale.home);
       const count = (text: string, name: string) => fold(text).split(fold(name)).length - 1;
       expect(count(await page.getByRole("banner").innerText(), locale.name)).toBe(0);
       expect(count(await page.getByRole("main").innerText(), locale.name)).toBe(1);
       expect(count(await hero(page).innerText(), locale.name)).toBe(1);
-      expect(count(await page.getByRole("contentinfo").innerText(), site.name)).toBe(1);
+      expect(count(await page.getByRole("contentinfo").innerText(), site.name)).toBe(0);
     });
 
-    // "K. Papadogiannis" in the header, the full name in Latin as the footer's
-    // signature and in the metadata. The earlier "KP" mark is gone.
-    test("brand: short form in the header, full name in the footer and metadata", async ({
-      page,
-    }) => {
+    // "K. Papadogiannis" in the header and the full name in metadata. The
+    // compact footer does not duplicate either brand treatment.
+    test("brand: short form in the header and full name in metadata", async ({ page }) => {
       await page.goto(locale.home);
       await expect(
         page.getByRole("banner").getByRole("link", { name: locale.homeLink, exact: true }),
       ).toHaveText("K. Papadogiannis");
-      await expect(
-        page.getByRole("contentinfo").getByText(site.name, { exact: true }),
-      ).toBeVisible();
+      await expect(page.getByRole("contentinfo")).not.toContainText(site.name);
 
       await expect(page).toHaveTitle(new RegExp(`^${locale.name} — `));
       await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute(
@@ -658,29 +654,22 @@ for (const locale of locales) {
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(locale.energy.caseTitle);
     });
 
-    test("footer links and back to top", async ({ page }) => {
+    test("footer contains only the four professional contact links", async ({ page }) => {
       await page.goto(locale.home);
       const footer = page.getByRole("contentinfo");
 
-      // The footer's navigation leads where the header's does.
-      const header = page.getByRole("banner");
-      const nav = footer.getByRole("navigation");
-      await expect(nav.getByRole("link")).toHaveText([...locale.nav]);
-      for (const name of locale.nav) {
-        const href = await header.getByRole("link", { name, exact: true }).getAttribute("href");
-        await expect(nav.getByRole("link", { name, exact: true })).toHaveAttribute("href", href!);
-      }
-
-      // The three profiles, in one group under Elsewhere, all in the same
-      // tab. ORCID is named with the iD as well.
-      const profiles = footer.getByRole("list", { name: locale.elsewhere }).getByRole("link");
-      await expect(profiles).toHaveCount(3);
+      const profiles = footer
+        .getByRole("list", { name: "Professional profiles and contact" })
+        .getByRole("link");
+      await expect(profiles).toHaveCount(4);
+      const profileLinks = footer.locator('a[rel="me"]');
+      await expect(profileLinks).toHaveCount(3);
       for (const [i, [name, href]] of [
         ["GitHub", site.github],
         ["LinkedIn", site.linkedin],
-        [locale.orcid, site.orcid],
+        ["ORCID 0009-0008-9445-2484", site.orcid],
       ].entries()) {
-        const link = profiles.nth(i);
+        const link = profileLinks.nth(i);
         await expect(link).toHaveAccessibleName(name);
         await expect(link).toHaveAttribute("href", href);
         await expect(link).toHaveAttribute("rel", "me");
@@ -702,15 +691,9 @@ for (const locale of locales) {
       await expect(mail).toHaveAttribute("href", `mailto:${site.email}`);
       await expect(mail).not.toHaveAttribute("rel", /.+/);
       expect((await footer.innerText()).split(site.email).length - 1).toBe(1);
-      await expect(footer.getByText(`© ${new Date().getFullYear()}`)).toBeVisible();
-
-      const top = footer.getByRole("link", { name: locale.backToTop });
-      await top.scrollIntoViewIfNeeded();
-      await top.click();
-      await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
-
-      await nav.getByRole("link", { name: locale.nav[2], exact: true }).click();
-      await expect(page).toHaveURL(new RegExp(`${locale.prefix}/resume$`));
+      await expect(footer).not.toContainText("Navigate");
+      await expect(footer).not.toContainText("Back to top");
+      await expect(footer).not.toContainText("Open to graduate and junior roles");
     });
 
     test("education: the average and the thesis grade, in the reader's number format", async ({
@@ -831,24 +814,6 @@ for (const locale of locales) {
         }
       });
     }
-
-    // ORCID does not add a line to the footer: from a 390px phone up, the
-    // three profiles share one. Narrower phones take a second line.
-    test("the profiles share one line from 390px up", async ({ page }) => {
-      for (const width of [390, 768, 1024, 1440]) {
-        await page.setViewportSize({ width, height: 900 });
-        await page.goto(locale.home);
-        const links = page
-          .getByRole("contentinfo")
-          .getByRole("list", { name: locale.elsewhere })
-          .getByRole("link");
-        const tops = await links.evaluateAll((els) =>
-          els.map((el) => Math.round(el.getBoundingClientRect().top)),
-        );
-        expect(tops, `${width}px`).toHaveLength(3);
-        expect(new Set(tops).size, `${width}px`).toBe(1);
-      }
-    });
 
     test("the light canvas is the reference off-white, with no white surfaces", async ({
       page,
@@ -1296,17 +1261,10 @@ test("keyboard order follows the page and every stop shows a focus ring", async 
     "Read case study: CUDA",
     "Read case study: Computer vision",
     "Read case study: Energy data mining",
-    "Work",
-    "About",
-    "Résumé",
-    "Contact",
     "GitHub",
     "LinkedIn",
-    "ORCID profile — 0009-0008-9445-2484",
+    "ORCID 0009-0008-9445-2484",
     site.email,
-    "English",
-    "Ελληνικά",
-    "Back to top",
   ];
 
   const stops: string[] = [];

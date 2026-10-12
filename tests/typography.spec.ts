@@ -11,8 +11,8 @@ type RenderedText = {
 };
 
 const GREEK = /[Ͱ-Ͽἀ-῿]/;
-// The name in the header and footer, set in Latin in both languages.
-const BRAND = ["K. Papadogiannis", "Konstantinos Papadogiannis"];
+// The name in the header is set in Latin in both languages.
+const BRAND = ["K. Papadogiannis"];
 
 // Asks Chromium which font files actually drew each visible text node, so a
 // silent fallback to a system font cannot pass unnoticed.
@@ -83,7 +83,7 @@ function expectLanguageFonts(rows: RenderedText[]) {
     }
     if (row.lang === "el") {
       // Greek prose is Inter; code tags stay in Plex Mono, the Latin name in
-      // the header and footer in Geist.
+      // the header in Geist.
       const allowed = BRAND.includes(row.text) ? ["Geist"] : ["Inter", "IBM Plex Mono"];
       expect(allowed, where).toContain(row.declared);
     }
