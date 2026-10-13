@@ -1,6 +1,6 @@
 import { test, expect, html, siteOrigin } from "./fixtures";
 
-const anastasiaLinkedin = "https://www.linkedin.com/in/anastasia-zervas/";
+const anastasiaLinkedin = "https://www.linkedin.com/in/anastasiazervas";
 
 const sections = [
   "overview",
@@ -160,7 +160,7 @@ for (const locale of locales) {
         contributor: {
           "@type": "Person",
           name: "Anastasia Zerva",
-          sameAs: "https://www.linkedin.com/in/anastasia-zervas/",
+          sameAs: "https://www.linkedin.com/in/anastasiazervas",
         },
       });
 

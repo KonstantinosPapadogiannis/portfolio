@@ -30,6 +30,6 @@ export type SiteConfig = typeof siteConfig;
 export const collaboratorConfig = {
   anastasiaZerva: {
     name: "Anastasia Zerva",
-    linkedin: "https://www.linkedin.com/in/anastasia-zervas/",
+    linkedin: "https://www.linkedin.com/in/anastasiazervas",
   },
 } as const;

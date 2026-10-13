@@ -6,7 +6,7 @@ const site = {
   pdf: "/downloads/konstantinos-papadogiannis-cv.pdf",
   github: "https://github.com/KonstantinosPapadogiannis",
   linkedin: "https://www.linkedin.com/in/konstantinos-papadogiannis/",
-  anastasiaLinkedin: "https://www.linkedin.com/in/anastasia-zervas/",
+  anastasiaLinkedin: "https://www.linkedin.com/in/anastasiazervas",
   // The public record, never the my-orcid?orcid= address.
   orcid: "https://orcid.org/0009-0008-9445-2484",
   email: "konstantinospapadogiannis.dev@gmail.com",

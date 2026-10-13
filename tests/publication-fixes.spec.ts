@@ -1,6 +1,6 @@
 import { test, expect, html } from "./fixtures";
 
-const anastasiaLinkedin = "https://www.linkedin.com/in/anastasia-zervas/";
+const anastasiaLinkedin = "https://www.linkedin.com/in/anastasiazervas";
 
 const collaboratorLocations = [
   { label: "My Story EN", path: "/", scope: "section#story", name: "Anastasia Zerva" },
