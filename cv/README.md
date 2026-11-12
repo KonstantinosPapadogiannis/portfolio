@@ -14,12 +14,13 @@ The source of the PDF the website serves at
 ## What the public version leaves out
 
 It is a separate copy of the personal CV, which stays outside this
-repository. The public one:
+repository. Its content is the same as the printed version, which also
+carries a phone number and a QR code that opens `/resume`. The public one:
 
 - shows only the contact details the website already shows: city, email,
   LinkedIn and GitHub. No phone number.
-- links no project repository. The ErgoHub and energy entries describe the
-  work without a link until those repositories are cleaned up and checked.
+- links no project repository. The project entries describe the work
+  without a link to its repository.
 - keeps the PDF free of build details (no TeX banner, no file names, no local
   paths) and writes plain objects, so its links and document information can
   be read in the file.

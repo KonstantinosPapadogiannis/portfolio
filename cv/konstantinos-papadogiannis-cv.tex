@@ -1,8 +1,11 @@
 % Curriculum vitae, public English version: the PDF the website serves at
 % /downloads/konstantinos-papadogiannis-cv.pdf. Build with ./build.sh.
 %
-% It carries only the contact details the website already shows (city, email,
-% LinkedIn, GitHub) and links no project repository. See README.md.
+% The same content as the printed CV handed out in person, whose QR code opens
+% the website's résumé page, so whoever scans it downloads what they hold.
+% Unlike the printed one it carries only the contact details the website
+% already shows (city, email, LinkedIn, GitHub), no QR code and no link to a
+% project repository. See README.md.
 \documentclass[english]{kpcv}
 
 % Keep the PDF free of build details: no TeX banner, no source file name and
@@ -16,26 +19,70 @@
   pdftitle    = {Konstantinos Papadogiannis, Curriculum Vitae},
   pdfauthor   = {Konstantinos Papadogiannis},
   pdfsubject  = {Curriculum Vitae},
-  pdfkeywords = {Konstantinos Papadogiannis, CV, software engineer, backend,
-                 distributed systems, Hyperledger Fabric, Go, TypeScript, React,
-                 Kubernetes, DevOps, Harokopio University},
+  pdfkeywords = {Konstantinos Papadogiannis, CV, junior software engineer, backend, full-stack,
+                 Go, Java, Spring Boot, Python, TypeScript, React, Kubernetes, Docker, DevOps, cloud,
+                 Hyperledger Fabric, machine learning, NLP, Harokopio University},
   pdflang     = {en-GB},
 }
 
+% Darker than the class defaults, as on the printed version
+\definecolor{kpmuted}{HTML}{444B55}
+\definecolor{kprule}{HTML}{A3ABB6}
+
+% One contact item in the header: icon, then the detail
+\newcommand*{\cvcontact}[2]{\mbox{\cvicon{#1}\enspace#2}}
+\newcommand*{\cvgap}{\hspace{1.3em}}
+
 \name{Konstantinos}{Papadogiannis}
-\headline{Informatics \& Telematics Graduate\sep Backend\sep Distributed Systems\sep Cloud \& DevOps}
-\contact{Athens, Greece\sep
-  \cvicon{envelope}\,\href{mailto:konstantinospapadogiannis.dev@gmail.com}{konstantinospapadogiannis.dev@gmail.com}\\[2pt]
-  \cvicon{linkedin-in}\,\href{https://www.linkedin.com/in/konstantinos-papadogiannis/}{in/konstantinos-papadogiannis}\sep
-  \cvicon{github}\,\href{https://github.com/KonstantinosPapadogiannis}{KonstantinosPapadogiannis}}
+\headline{Junior Software Engineer\sep Backend\sep Cloud \& DevOps\sep Machine Learning}
+\contact{%
+  \cvcontact{map-marker-alt}{Athens, Greece}\cvgap
+  \cvcontact{envelope}{\href{mailto:konstantinospapadogiannis.dev@gmail.com}{konstantinospapadogiannis.dev@gmail.com}}\\
+  \cvcontact{linkedin-in}{\href{https://www.linkedin.com/in/konstantinos-papadogiannis/}{in/konstantinos-papadogiannis}}\cvgap
+  \cvcontact{github}{\href{https://github.com/KonstantinosPapadogiannis}{github.com/KonstantinosPapadogiannis}}}
+
+% Header aligned left, as on the printed version, which has its QR code on the right
+\makeatletter
+\renewcommand*{\makecvheader}{%
+  \begingroup
+  \noindent\raggedright
+  {\fontsize{24}{27}\selectfont
+    {\kp@boldfont\kp@firstname\ \kp@lastname}\par}%
+  \vspace{4pt}%
+  {\fontsize{9.4}{12.5}\selectfont\bfseries\color{kpaccent}%
+    \addfontfeatures{LetterSpace=5}\kp@headline\par}%
+  \vspace{6pt}%
+  {\fontsize{9.4}{14}\selectfont\color{kpmuted}\kp@contact\par}%
+  \endgroup
+  \vspace{2pt}}
+\makeatother
+
+% A little more air between sections, entries and bullets than kpcv.cls gives, as in cv-en-census.tex
+\makeatletter
+\renewcommand*{\cvsection}[1]{%
+  \par\addvspace{10pt}%
+  {\fontsize{10.2}{12}\selectfont\bfseries\color{kpaccent}%
+    \addfontfeatures{LetterSpace=5}#1\par}%
+  \nopagebreak\nointerlineskip\vspace{2.5pt}%
+  {\color{kprule}\hrule height 0.5pt}%
+  \nopagebreak\nointerlineskip\vspace{5pt}}
+\makeatother
+\setlist*[cvitems]{itemsep=1.6pt, topsep=2pt}
+\let\kpcventry\cventry
+\renewcommand*{\cventry}{\par\addvspace{7pt}\kpcventry}
+
+% Skills as one run-in line each ("Programming: Go, ..."), so text extraction keeps label and values together
+\renewcommand*{\cvskill}[2]{%
+  \par\noindent\hangindent=1.2em\hangafter=1
+  {\bfseries #1:}\enspace#2\par\addvspace{1.2pt}}
 
 \begin{document}
 \makecvheader
 
-\cvsummary{Informatics and Telematics graduate focused on backend engineering, distributed
-systems and cloud technologies. Hands-on experience through academic projects with Go,
-Java/Spring Boot, React, Kubernetes and Hyperledger Fabric, including a blockchain thesis
-project with secure browser-side transaction signing.}
+\cvsummary{Informatics and Telematics graduate (B.Sc.\ 2026) who builds backend services, web
+applications and their cloud deployment in Go, Java/Spring Boot, Python, React/TypeScript and
+Kubernetes. Thesis: a Hyperledger Fabric system whose browser wallet signs on the user's own device;
+also machine learning and NLP projects measured against baselines.}
 
 \cvsection{EDUCATION}
 \cventry{B.Sc.\ in Informatics and Telematics}{2022 -- 2026}
@@ -53,23 +100,25 @@ project with secure browser-side transaction signing.}
   {Written alongside a companion thesis on the network infrastructure; supervisor:
   Asst.~Prof.~Anargyros Tsadimas}{}
 \begin{cvitems}
-  \item Built the application layer of a seven-organisation Hyperledger Fabric 3.0 network for
-        EU farm subsidies: Go chaincodes, backend services and React/TypeScript portals
-  \item Developed a Manifest V3 browser wallet that generates and encrypts each farmer's key and
-        signs transactions locally, with proposal checks that block blind signing
-  \item Modelled the subsidy policy as a versioned on-chain document, enforced roles and
-        application states in the chaincode, and isolated sensitive data in private collections
-  \item Covered the system with role, transition, unit and end-to-end tests across chaincode and
-        portals
+  \item Built the application layer of a seven-organisation Hyperledger Fabric network for EU farm
+        subsidies: Go chaincode, backend APIs and React/TypeScript portals
+  \item Developed a Manifest V3 browser wallet that generates each farmer's ECDSA P-256 key with the
+        Web Crypto API, encrypts it with AES-GCM under a PBKDF2-derived key and signs transactions
+        locally, with proposal checks that block blind signing
+  \item Enforced a versioned subsidy policy with role-based access control (Keycloak OIDC) and private
+        data collections
+  \item Tested roles, state transitions and end-to-end flows, and benchmarked wallet signing on 2011
+        and 2022 hardware
 \end{cvitems}
 
-\cvsection{ACADEMIC PROJECTS}
-\cventry{ErgoHub: freelance marketplace on Azure Kubernetes}{Feb 2025 -- Jul 2025}
-  {DevOps Concepts and Tools, team of two}{}
+\cvsection{SELECTED TECHNICAL PROJECTS}
+\cventry{TradingAgent: ML decision-support system for crypto markets}{Oct 2026 -- Present}
+  {Independent research project, team of two}{}
 \begin{cvitems}
-  \item Built Jenkins pipelines and Ansible playbooks to test, containerise and deploy the app
-  \item Deployed Spring Boot and React/Redux to AKS behind NGINX Ingress with TLS, PostgreSQL
-        and MinIO
+  \item Co-design a system in which a custom ML model issues calibrated probabilistic forecasts and a
+        separate decision agent turns them into recommendations within cost and risk limits
+  \item Evaluate gradient boosting, LSTM and transformer models with walk-forward backtesting on
+        point-in-time data, pre-registered hypotheses and a locked hold-out period
 \end{cvitems}
 
 \cventry{OpenStack private cloud on Google Cloud}{Jun 2026}
@@ -79,37 +128,33 @@ project with secure browser-side transaction signing.}
         floating-IP and routing restrictions
 \end{cvitems}
 
-\cventry{GPU matrix multiplication in CUDA}{Jun 2026}
-  {Modern Parallel Architectures and High-Performance Programming, individual}{}
+\cventry{Social Media Monitoring Agent: search, NLP and summaries over tweets}{Apr 2026}
+  {Natural Language Processing and Information Retrieval, team of two}{}
 \begin{cvitems}
-  \item Sped up a 4096~×~4096 matrix multiplication on an NVIDIA T4 by 3.6× with tiling and
-        register blocking
+  \item Built hybrid BM25 and sentence-transformer search over 10,896 tweets in FAISS, evaluated with
+        Precision@k and nDCG@k
+  \item Classified emotions with a pre-trained Twitter-RoBERTa model (micro F1 0.71 against 0.63 for
+        a TF-IDF baseline) and served RAG summaries with DistilBART through FastAPI
 \end{cvitems}
 
-\cventry{Deep learning for image classification, segmentation and detection}{Feb 2026}
-  {Computer Vision and Graphics, individual}{}
+\cventry{ErgoHub: freelance marketplace on Azure Kubernetes}{Feb 2025 -- Jul 2025}
+  {DevOps Concepts and Tools, team of two}{}
 \begin{cvitems}
-  \item Fine-tuned and compared CNN and transformer models (ResNet18, ViT, VGG16) and trained
-        U-Net and Faster R-CNN in PyTorch
-\end{cvitems}
-
-\cventry{Household energy data mining}{Jan 2026}
-  {Data Mining, team of two}{}
-\begin{cvitems}
-  \item Predicted high-consumption days and next-day energy use with Gradient Boosting, Random
-        Forest and LSTM models
+  \item Built Jenkins pipelines and Ansible playbooks to test, containerise and deploy the app
+  \item Deployed Spring Boot and React/Redux to AKS behind NGINX Ingress with TLS, PostgreSQL
+        and MinIO
 \end{cvitems}
 
 \cvsection{SKILLS}
-\cvskill{Programming}{Go, TypeScript, JavaScript, Java, Python, SQL, C, CUDA, Bash}
-\cvskill{Backend}{Hyperledger Fabric (chaincode, private data, Gateway), Spring Boot, REST,
-  gRPC, Keycloak (OIDC), JWT}
-\cvskill{Frontend}{React, Redux, Tailwind CSS, Vite, browser extensions (Manifest V3), Web
-  Crypto API}
-\cvskill{Cloud and DevOps}{Docker, Kubernetes (AKS), Jenkins, Ansible, OpenStack, Google Cloud,
-  Azure, Nginx, Linux, Git}
-\cvskill{Data and ML}{PostgreSQL, PyTorch, TensorFlow/Keras, scikit-learn, pandas}
+\cvskill{Programming}{Go, Java, Python, TypeScript, JavaScript, SQL, C, CUDA, Bash}
+\cvskill{Backend}{Spring Boot, REST, gRPC, FastAPI, Hyperledger Fabric (chaincode, private data,
+  Gateway), Keycloak (OIDC), JWT}
+\cvskill{Frontend}{React, Redux, Tailwind CSS, Vite, browser extensions (Manifest V3), Web Crypto API}
+\cvskill{Cloud and DevOps}{Docker, Kubernetes (AKS), Jenkins, Ansible, OpenStack, Google Cloud, Azure,
+  NGINX, Linux, Git}
+\cvskill{Data and ML}{PostgreSQL, PyTorch, Hugging Face Transformers, scikit-learn, pandas, FAISS}
 \cvskill{Testing}{Go testing, Vitest, Playwright, JUnit, Jest}
+\cvskill{AI tools}{Claude Code in daily development, with a custom code-review subagent}
 \cvskill{Languages}{Greek (native), English (professional working proficiency)}
 
 \end{document}

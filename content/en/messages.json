@@ -1419,8 +1419,8 @@
   },
   "resume": {
     "title": "Résumé",
-    "description": "Résumé of Konstantinos Papadogiannis, Informatics and Telematics graduate in Athens: education, thesis, academic projects and skills, as a one-page PDF.",
-    "body": "A one-page PDF in English: education, bachelor’s thesis, academic projects and skills.",
+    "description": "Résumé of Konstantinos Papadogiannis, Informatics and Telematics graduate in Athens: education, thesis, projects and skills, as a one-page PDF.",
+    "body": "A one-page PDF in English: education, bachelor’s thesis, projects and skills.",
     "view": "View PDF",
     "download": "Download PDF"
   },
